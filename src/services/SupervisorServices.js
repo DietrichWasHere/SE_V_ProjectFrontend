@@ -11,7 +11,7 @@ export default {
     return apiClient.get("/tutors/" + userID + "/" + orgID);
   },
   deleteTutor(userID, orgID) {
-    return apiClient.delete("/tutors/" + + userID + "/" + orgID);
+    return apiClient.delete("/tutors/" + userID + "/" + orgID);
   },
   addTutor(tutor) {
     return apiClient.post("/tutors/", tutor);

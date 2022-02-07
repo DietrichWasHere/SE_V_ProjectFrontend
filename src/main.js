@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import vuetify from './plugins/vuetify'
 
 import GoogleAuth from '@/config/google_oAuth.js'
 const gauthOption = {
@@ -11,5 +12,6 @@ Vue.use(GoogleAuth, gauthOption)
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
+  vuetify,
+  render: h => h(App)
 }).$mount('#app')

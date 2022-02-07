@@ -65,6 +65,7 @@
          <br> <h>Email: </h>
          <br> <h>Phone Number: </h>
 
+       <social_login/>
         </v-container>
 
         
@@ -110,12 +111,13 @@
 
 <script>
 //import Profile from './components/Profile';
+import social_login from './components/SocialLogin.vue'
 
 export default {
   name: 'App',
 
   components: {
- 
+    social_login
   },
 
   data: () => ({

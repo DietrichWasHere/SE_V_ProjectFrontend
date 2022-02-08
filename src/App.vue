@@ -19,7 +19,7 @@
           ></v-img>
         </template>-->
   
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <drop-down-menu/>
   
    
         <v-app-bar-title >Profile</v-app-bar-title>
@@ -58,50 +58,15 @@
 
           <br><br><br><br><br><br><br>
           <br><br>
-          
-         <h>User: </h>
-         <br> <h>First Name: </h>
-         <br><h>Last Name: </h>
-         <br> <h>Email: </h>
-         <br> <h>Phone Number: </h>
 
-       <social_login/>
+          <h>User: </h>
+          <br> <h>First Name: </h>
+          <br><h>Last Name: </h>
+          <br> <h>Email: </h>
+          <br> <h>Phone Number: </h>
+
+          <social_login/>
         </v-container>
-
-        
-   <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      bottom
-      temporary
-    
-    >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <v-list-item>
-            <v-list-item-title>Tab</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Tab</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Tab</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Tab</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
 
       </v-sheet>
     </v-card>
@@ -112,12 +77,14 @@
 <script>
 //import Profile from './components/Profile';
 import social_login from './components/SocialLogin.vue'
+import DropDownMenu from './components/DropDownMenu.vue'
 
 export default {
   name: 'App',
 
   components: {
-    social_login
+    social_login,
+    DropDownMenu
   },
 
   data: () => ({

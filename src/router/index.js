@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import testpage from '../views/adminmenu.vue'
+import testPage from '../views/testPage.vue'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
 
@@ -7,9 +7,9 @@ import testpage from '../views/adminmenu.vue'
 
 const routes = [
   {
-    path: '/courseAdd',
-    name: 'courseAdd',
-    component: courseEditEntry
+    path: '/testPage',
+    name: 'testPage',
+    component: testPage
   }
 ]
 

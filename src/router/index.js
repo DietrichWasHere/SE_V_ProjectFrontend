@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
-//import adminmenu from '../views/adminmenu.vue'
+import testpage from '../views/adminmenu.vue'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
 

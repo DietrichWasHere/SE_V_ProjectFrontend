@@ -19,7 +19,7 @@
           ></v-img>
         </template>-->
   
-        <drop-down-menu/>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
   
    
         <v-app-bar-title >Profile</v-app-bar-title>
@@ -35,9 +35,9 @@
         </v-btn>
 
 
+        <drop-down-menu v-model="drawer"/>
 
-  
-
+    
 
 
 
@@ -67,6 +67,8 @@
 
           <social_login/>
         </v-container>
+
+        
 
       </v-sheet>
     </v-card>

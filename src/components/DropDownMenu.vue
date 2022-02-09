@@ -1,7 +1,7 @@
 <template>
-    <v-container>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <!--https://www.digitalocean.com/community/tutorials/how-to-add-v-model-support-to-custom-vue-js-components-->
         <v-navigation-drawer
+            @input="handleDrawer"
             v-model="drawer"
             absolute
             bottom
@@ -11,20 +11,19 @@
             <v-list
                 nav
                 dense
-            >
-                <v-list-item-group
-                v-model="group"
-                active-class="deep-purple--text text--accent-4"
                 >
+                <v-list-item-group
+                    v-model="group"
+                    active-class="deep-purple--text text--accent-4"
+                    >
                     <v-list-item>baaaaaaaaaaaaa</v-list-item>
                     <v-list-item v-for="link in links" :key="link.link">>
-                        <v-list-item-title><a :key="testPage"><router-link :to="{ name: link.link, params: link.params }">
+                        <v-list-item-title><a ><router-link :to="{ name: link.link, params: link.params }">
                             {{link.displayText}}</router-link></a></v-list-item-title>
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
         </v-navigation-drawer>
-    </v-container>
 </template>
 
 <script>
@@ -33,7 +32,7 @@
 export default {
     name: 'DropDownMenu',
     props: {
-    pageName: String
+        pageName: String
         //pageType: String? Might be needed later
     },
     data () {
@@ -44,6 +43,11 @@ export default {
                 displayText: 'Test'
                 //roles: ['admin', 'advisor', 'student', 'none']
             }]
+        }
+    },
+    methods: {
+        handleDrawer (e) {
+            this.$emit('drawer', this.content)
         }
     }
 }

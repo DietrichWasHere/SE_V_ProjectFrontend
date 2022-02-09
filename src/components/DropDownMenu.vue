@@ -1,8 +1,10 @@
 <template>
-        <!--https://www.digitalocean.com/community/tutorials/how-to-add-v-model-support-to-custom-vue-js-components-->
+        <!--
+            https://www.digitalocean.com/community/tutorials/how-to-add-v-model-support-to-custom-vue-js-components
+            https://stackoverflow.com/questions/46258763/vuejs-v-model-in-custom-component
+        -->
         <v-navigation-drawer
             @input="handleDrawer"
-            v-model="drawer"
             absolute
             bottom
             temporary

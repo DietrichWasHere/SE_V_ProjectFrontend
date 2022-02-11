@@ -1,15 +1,27 @@
+
+
 import {createRouter, createWebHistory} from 'vue-router'
 import testPage from '../views/testPage.vue'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
+import AdminCrudMenu from '../views/AdminCrudMenu.vue';
+
+
+
 
 
 
 const routes = [
   {
-    path: '/testPage',
-    name: 'testPage',
-    component: testPage
+//<<<<<<< dv-ui-general1
+  //  path: '/testPage',
+  //  name: 'testPage',
+  //  component: testPage
+//=======
+    path: '/',
+    name: 'admincrudmenu',
+    component: AdminCrudMenu
+
   }
 ]
 

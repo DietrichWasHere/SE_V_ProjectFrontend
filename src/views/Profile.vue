@@ -1,9 +1,12 @@
-<template>
-    <v-app>  
-      <v-card-title>
-        <h1>Profile</h1>
-      </v-card-title>
-   </v-app>
+<template >
+  
+  <v-container>
+    
+     <h1>Profile</h1>
+ 
+  </v-container>
+
+   
  
 </template>
 

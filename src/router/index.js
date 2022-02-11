@@ -1,15 +1,21 @@
+
+
 import {createRouter, createWebHistory} from 'vue-router'
 //import adminmenu from '../views/adminmenu.vue'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
+import AdminCrudMenu from '../views/AdminCrudMenu.vue';
+
+
+
 
 
 
 const routes = [
   {
-    path: '/courseAdd',
-    name: 'courseAdd',
-    component: courseEditEntry
+    path: '/',
+    name: 'admincrudmenu',
+    component: AdminCrudMenu
   }
 ]
 

@@ -1,14 +1,20 @@
 <template>
+
   <div >
   <admin-crud-menu/>
  <router-view/>
 </div>
+
 </template>
 
 <script>
 import AdminCrudMenu from './views/AdminCrudMenu.vue';
 //import Profile from './components/Profile';
+
+//import DropDownMenu from './components/DropDownMenu.vue'
+
 //import social_login from './components/SocialLogin.vue'
+
 
 
 
@@ -16,10 +22,14 @@ export default {
   name: 'App',
 
   components: {
+
+   // social_login,
+  //  DropDownMenu
+
   //  social_login,
     //Profile,
     AdminCrudMenu
-  
+
   },
 
   data: () => ({

@@ -1,15 +1,22 @@
 import {createRouter, createWebHistory} from 'vue-router'
-//import adminmenu from '../views/adminmenu.vue'
+import helloWorld from '../components/HelloWorld.vue'
+import helloWorld2 from '../components/HelloWorld2.vue'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
 
 
 
+// https://router.vuejs.org/guide/
 const routes = [
   {
-    path: '/courseAdd',
-    name: 'courseAdd',
-    component: courseEditEntry
+    path: '/',
+    name: 'default',
+    component: helloWorld
+  },
+  {
+    path: '/hi',
+    name: 'hi',
+    component: helloWorld2
   }
 ]
 

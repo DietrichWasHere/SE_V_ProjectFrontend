@@ -1,4 +1,5 @@
 //import {createRouter, createWebHistory} from 'vue-router'
+import Vue from 'vue'
 import Router from 'vue-router'
 import helloWorld from '../components/HelloWorld.vue'
 import helloWorld2 from '../components/HelloWorld2.vue'
@@ -24,7 +25,7 @@ const routes = [
 
 // https://stackoverflow.com/questions/47591679/multiple-routers-with-vue
 
-const router = new Router({
+export default  new Router({
   mode: 'history',
   base:
     process.env.NODE_ENV === 'development'
@@ -33,4 +34,3 @@ const router = new Router({
   routes: routes
 })
 
-export default router

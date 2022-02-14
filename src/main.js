@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/index'
+import router from './router'
 
 // https://v3.router.vuejs.org/installation.html#direct-download-cdn
 // createApp(App).use(router).mount('#app')

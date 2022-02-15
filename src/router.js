@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import helloWorld from './components/HelloWorld.vue'
-// import helloWorld2 from './components/HelloWorld2.vue'
+import helloWorld2 from './components/HelloWorld2.vue'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
 
@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/hi',
     name: 'hi',
-    component: helloWorld
+    component: helloWorld2
   }
 ]
 

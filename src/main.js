@@ -1,10 +1,13 @@
 //import { BootstrapVue } from 'bootstrap-vue'
 import  Vue  from 'vue'
 //import VueRouter from 'vue-router';
-//import routes from './router'
+
 import vuetify from './plugins/vuetify'
 import App from './App.vue';
 import GoogleAuth from '@/config/google_oAuth.js'
+import router from './router'
+
+Vue.config.productionTip = false
 
 const gauthOption = {
   clientId: '263273650927-8hg4d3stccism1g1jq5372e0g03ni6du.apps.googleusercontent.com',
@@ -28,6 +31,6 @@ Vue.config.productionTip = false
 
 new Vue({
   vuetify,
- // router,
+  router,
   render: h => h(App)
 }).$mount('#app')

@@ -1,10 +1,13 @@
 //import {createRouter, createWebHistory} from 'vue-router'
 import Vue from 'vue'
 import Router from 'vue-router'
-import helloWorld from './components/HelloWorld.vue'
-import helloWorld2 from './components/HelloWorld2.vue'
+//import helloWorldnpm  from './components/HelloWorld.vue'
+//import helloWorld2 from './components/HelloWorld2.vue'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
+import AdminCrudMenu from './views/AdminCrudMenu.vue'
+import Profile from './views/Profile.vue'
+
 
 Vue.use(Router)
 
@@ -12,13 +15,13 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'default',
-    component: helloWorld
+    name: 'admincrudmenu',
+    component: AdminCrudMenu
   },
   {
-    path: '/hi',
-    name: 'hi',
-    component: helloWorld2
+    path: '/profile',
+    name: 'profile',
+    component: Profile
   }
 ]
 

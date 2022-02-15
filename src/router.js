@@ -7,6 +7,7 @@ import Router from 'vue-router'
 //import viewName from '../views/viewName.vue'
 import AdminCrudMenu from './views/AdminCrudMenu.vue'
 import Profile from './views/Profile.vue'
+import LoginPage from './views/LoginPage.vue'
 
 
 Vue.use(Router)
@@ -22,6 +23,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: Profile
+  },
+  {
+    path: '/loginpage',
+    name: 'loginpage',
+    component: LoginPage
   }
 ]
 

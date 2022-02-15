@@ -13,7 +13,7 @@
                     prepend-icon="mdi-lock"
                     append-icon="showPassword ? 'mdi-eye': mdi-eye-off'"
                     @click:append="showPassword = !showPassword"/>
-
+                </v-form>
             </v-card-text>
             <v-divider>
             </v-divider>
@@ -27,14 +27,12 @@
     </v-app>
 </template>
 <script>
-import HelloWorld from './components/HelloWorld';
+
 
 export default {
     name: 'login_page',
 
-    components: {
-        HelloWorld,
-    },
+    
 
     data: () => ({
         showPasswowrd: false

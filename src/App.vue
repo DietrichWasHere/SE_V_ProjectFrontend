@@ -1,123 +1,22 @@
 <template>
-  <!--<div id="app">-->
-  <v-app >
-    <v-card class="overflow-hidden">
-      <v-app-bar
-        absolute
-        color="#6A76AB"
-        dark
-        shrink-on-scroll
-        prominent
-        elevation="4"
-        fade-img-on-scroll
-        scroll-target="#scrolling-techniques-3"
-      >
-        <!--<template v-slot:img="{ props }">
-          <v-img
-            v-bind="props"
-            gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"
-          ></v-img>
-        </template>-->
-  
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-  
-   
-        <v-app-bar-title >Profile</v-app-bar-title>
-  
-        <v-spacer></v-spacer>    <v-spacer></v-spacer>
-  
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-  
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
+<div>
 
+  <login-page/>
 
-
-  
-
-
-
-
-        <template v-slot:extension>
-          <v-tabs align-with-title>
-            <v-tab>Edit</v-tab>
-            <v-tab>Appointments</v-tab>
-            <v-tab>Messages</v-tab>
-          </v-tabs>
-        </template>
-      </v-app-bar>
-      <v-sheet
-        id="scrolling-techniques-3"
-        class="overflow-y-auto"
-        max-height="80%"
-      >
-        <v-container class = "description">
-
-          <br><br><br><br><br><br><br>
-          <br><br>
-          
-         <h>User: </h>
-         <br> <h>First Name: </h>
-         <br><h>Last Name: </h>
-         <br> <h>Email: </h>
-         <br> <h>Phone Number: </h>
-
-       <social_login/>
-        </v-container>
-
-        
-   <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      bottom
-      temporary
-    
-    >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <v-list-item>
-            <v-list-item-title>Tab</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Tab</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Tab</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Tab</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
-
-      </v-sheet>
-    </v-card>
-  </v-app>
-<!--</div>-->
+</div>
 </template>
 
 <script>
 //import Profile from './components/Profile';
-import social_login from './components/SocialLogin.vue'
+//import social_login from './components/SocialLogin.vue'
+import LoginPage from './views/LoginPage.vue'
 
 export default {
   name: 'App',
 
   components: {
-    social_login
+    
+    LoginPage,
   },
 
   data: () => ({

@@ -34,7 +34,9 @@ export default {
               }
             }
           }
-          this.$store.commit('setLoginUser', userInfo)
+          window.localStorage.setItem('token', JSON.stringify({token: userInfo.google.auth.id_token}))
+          window.localStorage.setItem('user', JSON.stringify(userInfo))
+          //this.$store.commit('setLoginUser', userInfo)
           //router.push('/home')
         })
         .catch(error => {

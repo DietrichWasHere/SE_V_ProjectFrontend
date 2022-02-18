@@ -1,34 +1,31 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <v-app class="grey lighten-4">
+    
+    <SideBar></Sidebar>
+
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+    
+  </v-app>
 </template>
 
 <script>
-
+import SideBar from './components/sidebar'
 
 export default {
-  name: 'App'
+  masterTitle: 'Title',
+  components: { SideBar 
+  
+  },
+  name: 'App',
+    props: {
+  
+  },
+  data () {
+    return {
+      
+    }
+  }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 0px;
-}
-html {
-  overflow: hidden !important;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-html::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-</style>

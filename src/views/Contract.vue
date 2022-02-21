@@ -126,7 +126,7 @@
 <style scoped>
 
 .setsize{
-    width : 50%;
+    width : 70%;
 
 }
 

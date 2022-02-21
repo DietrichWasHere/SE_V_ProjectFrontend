@@ -88,6 +88,10 @@
             </v-col>
         </v-row>
     </v-container>
+   
+    <v-btn color="primary" elevation="3" plain rounded x-large>
+        Next
+    </v-btn>
 </v-container>
 </template>
 

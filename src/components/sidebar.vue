@@ -1,11 +1,7 @@
 <template>
-  <div 
-  >
-    <v-system-bar color="deep-purple darken-3"></v-system-bar>
-
+  <div >
     <v-app-bar color="deep-purple accent-4"  dark prominent>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
       <v-app-bar-title > {{ $route.meta.title }} </v-app-bar-title>
 
       <v-spacer></v-spacer>

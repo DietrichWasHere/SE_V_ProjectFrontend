@@ -7,6 +7,7 @@ import Router from 'vue-router'
 //import viewName from '../views/viewName.vue'
 
 import Admin from './views/Admin.vue'
+import Calendar from './views/Calendar.vue'
 import Profile from './views/Profile.vue'
 import LoginPage from './views/LoginPage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
@@ -22,8 +23,6 @@ const routes = [
     path: '/',
     name: 'profile',
     component: Profile,
-
-    
   },
   {
     path: '/loginpage',
@@ -39,6 +38,11 @@ const routes = [
     path: '/createAdmin',
     name: 'createadmin',
     component: CreateAdmin
+  },
+  {
+    path: '/calendar',
+    name: 'calendar',
+    component: Calendar
   }
 ]
 

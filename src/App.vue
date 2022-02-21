@@ -29,3 +29,10 @@ export default {
   }
 }
 </script>
+<style>
+
+.setstyle{
+  
+  margin-left: 50%;
+}
+</style>

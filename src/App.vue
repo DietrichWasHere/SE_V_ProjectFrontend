@@ -1,7 +1,8 @@
 <template>
   <v-app class="grey lighten-4">
-    
-    <SideBar></Sidebar>
+    <SideBar>
+
+    </Sidebar>
 
     <v-content>
       <router-view></router-view>
@@ -31,8 +32,10 @@ export default {
 </script>
 <style>
 
-.setstyle{
-  
-  margin-left: 50%;
+
+.v-app-bar-title__content{
+  width: 500px !important;
 }
+
+
 </style>

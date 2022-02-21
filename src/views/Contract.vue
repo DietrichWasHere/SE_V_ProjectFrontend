@@ -1,6 +1,5 @@
 <template>
 <v-container class = "setsize"> 
-    <h1>Tutoring Agreement Contract</h1><br>
     <h2>Student Responsibilities:</h2>
     <ul>
         <li>I will be on time, if I am 15 minutes late, the tutor is not obliged to wait for me and

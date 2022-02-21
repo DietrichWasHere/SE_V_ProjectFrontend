@@ -24,33 +24,40 @@ const routes = [
     path: '/',
     name: 'profile',
     component: Profile,
+    meta: { title: 'Profile' }
   },
   {
     path: '/loginpage',
     name: 'loginpage',
-    component: LoginPage
+    component: LoginPage,
+    meta: { title: 'Log In' }
   },
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: Admin,
+    meta: { title: 'Admin' }
   },
   {
     path: '/createAdmin',
     name: 'createadmin',
-    component: CreateAdmin
+    component: CreateAdmin,
+    meta: { title: 'Create Admin' }
   },
   {
     path: '/calendar',
     name: 'calendar',
-    component: Calendar
+    component: Calendar,
+    meta: { title: 'Calendar' }
   },
   {
     path: '/contract',
     name: 'cotract',
-    component: Contract
+    component: Contract,
+    meta: { title: 'Tutoring Agreement Contract' }
   }
 ]
+
 
 
 // https://stackoverflow.com/questions/47591679/multiple-routers-with-vue

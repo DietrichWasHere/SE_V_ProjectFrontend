@@ -1,15 +1,22 @@
 <template>
     <v-app>  
       <v-card-title>
-        <h1>Joe Shmoe Goe Noe Oho!</h1>
+        <h1>Login Page</h1>
+        <social-login/>
       </v-card-title>
    </v-app>
  
 </template>
 
 <script>
+import SocialLogin from '@/components/SocialLogin.vue'
+
+
+
 export default {
-  name: 'Profile',
+  components: { SocialLogin },
+  name: 'testPage',
+  component: SocialLogin,
   props: {
     msg: String
   }

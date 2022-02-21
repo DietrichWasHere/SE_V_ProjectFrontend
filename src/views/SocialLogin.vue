@@ -9,7 +9,7 @@
 </template>
 
 <script>
-//import router from '@/router/router'
+
 export default {
   name: 'social_login',
   methods: {

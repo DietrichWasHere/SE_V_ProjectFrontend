@@ -9,7 +9,7 @@
 </template>
 
 <script>
-//import router from '@/router/router'
+
 export default {
   name: 'social_login',
   methods: {
@@ -42,6 +42,8 @@ export default {
         .catch(error => {
           console.log('error', error)
         })
+
+        this.$router.push({ name: "profile"});
     }
   }
 }

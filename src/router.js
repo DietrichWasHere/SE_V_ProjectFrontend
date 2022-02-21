@@ -5,9 +5,10 @@ import Router from 'vue-router'
 //import helloWorld2 from './components/HelloWorld2.vue'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
-import AdminCrudMenu from './views/AdminCrudMenu.vue'
+import btTestPage from './views/btTestPage.vue'
 import Profile from './views/Profile.vue'
-import LoginPage from './views/LoginPage.vue'
+
+
 
 
 Vue.use(Router)
@@ -16,19 +17,20 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'admincrudmenu',
-    component: AdminCrudMenu
+    name: 'btTestPage',
+    component: btTestPage
   },
   {
     path: '/profile',
     name: 'profile',
     component: Profile
   },
-  {
-    path: '/loginpage',
-    name: 'loginpage',
-    component: LoginPage
-  }
+
+  //{
+  //  path: '/',
+  //  name: 'social_login',
+   // component: SocialLogin
+  // },
 ]
 
 

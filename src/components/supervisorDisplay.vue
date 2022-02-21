@@ -1,0 +1,79 @@
+<template>
+  <div class="listDisp">
+    <!-- -->
+    <v-container>
+        <v-row>
+            <v-col cols="12" sm="6" md="4">
+                <v-text-field
+                    v-model="editedItem.firstname"
+                    label="First name"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+            <v-text-field
+                v-model="editedItem.lastname"
+                label="Last Name"
+            ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+            <v-text-field
+                v-model="editedItem.email"
+                label="Email"
+            ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+            <v-text-field
+                v-model="editedItem.phonenumber"
+                label="Phone number"
+            ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
+            <v-text-field
+                v-model="editedItem.organization"
+                label="Organization"
+            ></v-text-field>
+            </v-col>
+        </v-row>
+    </v-container>
+
+    <router-link v-if="permissions" :to="{ name: 'editCourse' , params: { courseNo: course.courseNo }}">
+      <button>edit</button>
+    </router-link> 
+
+    <button v-if="permissions" v-on:click="deleteCourse()"><span>delete</span></button>
+    <br>
+    <br>
+  </div>
+    
+
+
+
+</template>
+
+<script>
+import SuperviosrServices from "@/services/SupervisorServices.js"
+
+export default {
+  name: 'ListEntry',
+  props: {
+    supervisor: Object,
+    permissions: Boolean
+  },
+  methods: {
+    deleteCourse(){
+      // from https://www.vuemastery.com/courses/touring-vue-router/in-component-route-guards
+      // fix this, make it look like the rest of the page
+      const answer = window.confirm(
+        'Sure you wanna delete ' + this.course.name + '? It\'ll be gone forever!'
+      )
+      if (answer) {
+        CourseServices.deleteCourse(this.course.courseNo); // <-- Confirm delete
+        // https://stackoverflow.com/questions/40445125/how-can-component-delete-itself-in-vue-2-0
+        this.$delete;
+        this.$el.parentNode.removeChild(this.$el);
+      } 
+    }
+    
+  }
+}
+</script>

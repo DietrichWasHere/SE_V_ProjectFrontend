@@ -48,7 +48,7 @@
                       v-model="editedItem.firstname"
                       label="First name"
                     ></v-text-field>
-                  </v-col>
+                </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="editedItem.lastname"
@@ -122,7 +122,7 @@
 </template>
 
 <script>
-
+  import SuperviosrServices from "@/services/SupervisorServices.js"
 
   export default {
     data: () => ({

@@ -7,6 +7,7 @@ import Router from 'vue-router'
 //import viewName from '../views/viewName.vue'
 
 import Admin from './views/Admin.vue'
+import Contract from './views/Contract.vue'
 import Calendar from './views/Calendar.vue'
 import Profile from './views/Profile.vue'
 import LoginPage from './views/LoginPage.vue'
@@ -43,6 +44,11 @@ const routes = [
     path: '/calendar',
     name: 'calendar',
     component: Calendar
+  },
+  {
+    path: '/contract',
+    name: 'cotract',
+    component: Contract
   }
 ]
 

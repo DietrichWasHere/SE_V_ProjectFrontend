@@ -4,23 +4,20 @@ import settings from "./config"
 const apiClient = axios.create(settings);
 
 export default {
-  getCourses() {
-    return apiClient.get("/courses/");
+  getUsers() {
+    return apiClient.get("/users/");
   },
-  getCourse(courseNo) {
-    return apiClient.get("/courses/" + courseNo);
+  getUser(userID) {
+    return apiClient.get("/users/" + userID);
   },
-  getCoursesBySemester(term) {
-    return apiClient.get("/courses/semester/" + term);
+  deleteUser(userID) {
+    return apiClient.delete("/users/" + userID);
   },
-  deleteCourse(courseNo) {
-    return apiClient.delete("/courses/" + courseNo);
+  addUser(user) {
+    console.log(user);
+    return apiClient.post("/users/", user);
   },
-  addCourse(course) {
-    console.log(course);
-    return apiClient.post("/courses/", course);
-  },
-  updateCourse(courseNo, course) {
-    return apiClient.put("/courses/" + courseNo, course);
+  updateUser(userID, user) {
+    return apiClient.put("/users/" + userID, user);
   }
 };

@@ -7,6 +7,8 @@ import Router from 'vue-router'
 //import viewName from '../views/viewName.vue'
 
 import Admin from './views/Admin.vue'
+import Contract from './views/Contract.vue'
+import Calendar from './views/Calendar.vue'
 import Profile from './views/Profile.vue'
 import LoginPage from './views/LoginPage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
@@ -22,25 +24,40 @@ const routes = [
     path: '/',
     name: 'profile',
     component: Profile,
-
-    
+    meta: { title: 'Profile' }
   },
   {
     path: '/loginpage',
     name: 'loginpage',
-    component: LoginPage
+    component: LoginPage,
+    meta: { title: 'Log In' }
   },
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: Admin,
+    meta: { title: 'Admin' }
   },
   {
     path: '/createAdmin',
     name: 'createadmin',
-    component: CreateAdmin
+    component: CreateAdmin,
+    meta: { title: 'Create Admin' }
+  },
+  {
+    path: '/calendar',
+    name: 'calendar',
+    component: Calendar,
+    meta: { title: 'Calendar' }
+  },
+  {
+    path: '/contract',
+    name: 'cotract',
+    component: Contract,
+    meta: { title: 'Tutoring Agreement Contract' }
   }
 ]
+
 
 
 // https://stackoverflow.com/questions/47591679/multiple-routers-with-vue

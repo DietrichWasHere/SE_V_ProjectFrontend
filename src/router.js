@@ -6,7 +6,8 @@ import Router from 'vue-router'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
 
-import Admin from './views/Admin.vue'
+import ListUsers from './views/ListUsers.vue'
+import ListAdmin from './views/ListAdmin.vue'
 import Profile from './views/Profile.vue'
 import LoginPage from './views/LoginPage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
@@ -17,13 +18,15 @@ Vue.use(Router)
 
 // https://router.vuejs.org/guide/
 const routes = [
-
+  {
+    path: '/users',
+    name: 'users',
+    component: ListUsers
+  },
   {
     path: '/',
     name: 'profile',
     component: Profile,
-
-    
   },
   {
     path: '/loginpage',
@@ -33,7 +36,7 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: ListAdmin
   },
   {
     path: '/createAdmin',

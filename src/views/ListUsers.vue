@@ -1,10 +1,9 @@
 <template>
 <v-container>
 
-<h1>Organization</h1>
+<h1>Users</h1>
 
-<v-btn elevation="2 ">Organizations List </v-btn>
-<v-btn elevation="2" to="/createOrg">Add an Organization</v-btn>
+<v-btn elevation="2 ">Users List </v-btn>
 
 <!--<input  class = "search" type = "text" v-model= "search" placeholder="Filter by advisor name &#x1F50E;&#xFE0E;	"/>
     <br>
@@ -21,8 +20,8 @@
     </v-card-title>
   <v-data-table
     :headers="headers"
-    :items="org"
-    sort-by="firstname"
+    :items="user"
+    sort-by="fName"
     class="elevation-1"
       :search="search">
     <template v-slot:top>
@@ -42,13 +41,13 @@
                 <v-row>
                 <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.firstname"
+                      v-model="editedItem.fName"
                       label="First name"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.lastname"
+                      v-model="editedItem.lName"
                       label="Last Name"
                     ></v-text-field>
                   </v-col>
@@ -60,15 +59,11 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.phonenumber"
+                      v-model="editedItem.phone"
                       label="Phone number"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.organization"
-                      label="Organization"
-                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -86,6 +81,7 @@
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
+            <p v-if="message">{{this.message}}</p>
             <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -119,7 +115,7 @@
 </template>
 
 <script>
-  import OrgServices from './services/OrgServices.js';
+  import UserServices from '@/services/UserServices.js';
 
   export default {
     data: () => ({
@@ -127,33 +123,32 @@
       dialog: false,
       dialogDelete: false,
       headers: [
-        { text: 'Organization', align: 'start', sortable: false, value: 'orgName'},
-        { text: 'Last Name', value: 'lastname'},
+        { text: 'First Name', value: 'fName'},
+        { text: 'Last Name', value: 'lName'},
         { text: 'Email', value: 'email'  },
-        { text: 'Phone Number', value: 'phonenumber' },
-        { text: 'Organization', value: 'organization' },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'Phone Number', value: 'phone' },
       ],
-      org: [],
+      message: null,
+      users: [],
       editedIndex: -1,
       editedItem: {
-        firstname: '',
-        lastname: '',
+        userID: '',
+        fName: '',
+        lName: '',
         email: '',
-        phonenumber: '',
-        organization: '',
+        phone: '',
       },
       defaultItem: {
-        firstname: '',
-        lastname: '',
+        userID: '',
+        fName: '',
+        lName: '',
         email: '@gmail.com',
-        phonenumber: '',
-        organization: '',
+        phone: '',
       },
     }),
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'New User' : 'Edit User'
       },
     },
     watch: {
@@ -165,70 +160,35 @@
       },
     },
     created () {
-      this.initialize()
+      UserServices.getUsers()
+        .then(response => {
+          this.users = response.data
+        })
+        .catch(error => {
+          console.log('There was an error:', error.response)
+        })
     },
     methods: {
-      initialize () {
-        this.orgs = [
-          {
-            orgID: '',
-            orgName: 'Eddie',
-            lastname: 'Gomez',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'David',
-            lastname: 'North',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'Timothy',
-            lastname: 'White',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'Deitrich',
-            lastname: 'Versaw',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'Braden',
-            lastname: 'Thompson',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'Jelly bean',
-            lastname: 375,
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-         
-        ]
-      },
-      editItem (item) {
-        this.editedIndex = this.orgs.indexOf(item)
+      editItemDialog(item) {
+        this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
-      deleteItem (item) {
-        this.editedIndex = this.orgs.indexOf(item)
+      deleteItemDialog(item) {
+        this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
-      deleteItemConfirm () {
-        this.orgs.splice(this.editedIndex, 1)
-        this.closeDelete()
+      deleteItemConfirm() {
+        UserServices.deleteUser(this.editedItem.userID)
+          .then(() => {
+            this.users.splice(this.editedIndex, 1)
+            this.closeDelete()
+          })
+          .catch(error => {
+            //console.log("failure");
+            this.message = error.message;
+          })
       },
       close () {
         this.dialog = false
@@ -244,13 +204,23 @@
           this.editedIndex = -1
         })
       },
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.orgs[this.editedIndex], this.editedItem)
-        } else {
-          this.orgs.push(this.editedItem)
-        }
-        this.close()
+      saveEdit () {
+        UserServices.updateUser(this.edtitedItem.userID, this.editedItem)
+          .then(() => {
+            //console.log("success");
+            // this.$router.push({ name: 'coursePlan', params: {studentID: this.studentID} })
+            if (this.editedIndex > -1) {
+              Object.assign(this.users[this.editedIndex], this.editedItem)
+            } else {
+              this.users.push(this.editedItem)
+            }
+            this.message = null;
+            this.close()
+          })
+          .catch(error => {
+            //console.log("failure");
+            this.message = error.message;
+          })
       },
     },
   }

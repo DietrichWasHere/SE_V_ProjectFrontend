@@ -3,8 +3,6 @@
 
 <h1>Users</h1>
 
-<v-btn elevation="2 ">Users List </v-btn>
-
 <!--<input  class = "search" type = "text" v-model= "search" placeholder="Filter by advisor name &#x1F50E;&#xFE0E;	"/>
     <br>
 <admin-display class = "listDisp"  v-for="admin in filteredAdmins" :key="admin.adminID" :admin="admin" :permissions="permissions"/> 
@@ -20,7 +18,7 @@
     </v-card-title>
   <v-data-table
     :headers="headers"
-    :items="user"
+    :items="users"
     sort-by="fName"
     class="elevation-1"
       :search="search">
@@ -162,7 +160,9 @@
     created () {
       UserServices.getUsers()
         .then(response => {
+          console.log(response);
           this.users = response.data
+          console.log(this.users);
         })
         .catch(error => {
           console.log('There was an error:', error.response)

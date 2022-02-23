@@ -71,7 +71,7 @@
               <v-btn color="blue darken-1" text @click="close">
                 Cancel
               </v-btn>
-              <v-btn color="blue darken-1" text @click="save">
+              <v-btn color="blue darken-1" text @click="saveEdit">
                 Save
               </v-btn>
             </v-card-actions>
@@ -93,10 +93,10 @@
     </template>
 
     <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">
+      <v-icon small class="mr-2" @click="editItemDialog(item)">
         mdi-pencil
       </v-icon>
-      <v-icon small @click="deleteItem(item)">
+      <v-icon small @click="deleteItemDialog(item)">
         mdi-delete
       </v-icon>
     </template>

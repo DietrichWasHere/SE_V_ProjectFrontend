@@ -29,11 +29,6 @@ const routes = [
     component: ListUsers
   },
   {
-    path: '/users',
-    name: 'users',
-    component: ListUsers
-  },
-  {
     path: '/profile',
     name: 'profile',
     component: Profile,

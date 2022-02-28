@@ -6,7 +6,7 @@ import Router from 'vue-router'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
 
-import Admin from './views/Admin.vue'
+// import Admin from './views/Admin.vue'
 import Contract from './views/Contract.vue'
 import Calendar from './views/Calendar.vue'
 
@@ -45,8 +45,9 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
+    component: ListAdmin,
     meta: { title: 'Admin' }
-   component: ListAdmin
+
   },
   {
     path: '/createAdmin',

@@ -17,43 +17,59 @@
           <v-card>
               <v-container>
                 <v-row>
-                <v-col cols="12" sm="6" md="4">
+                  <!-- <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="appointment.tutorID"
                       label="Tutor ID"
                     ></v-text-field>
-                  </v-col>
+                  </v-col> 
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="appointment.orgID"
-                      label="Organization ID"
+                      label="Organization"
                     ></v-text-field>
+                  </v-col> -->
+                  <v-col cols="12" sm="6" md="4">
+                    <v-container fill-width fluid>
+                      <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field v-model="appointment.startDateTime"  hint="MM/DD/YYYY format" persistent-hint prepend-icon="mdi-calendar" 
+                          v-bind="attrs" @blur="date = parseDate(appointment.startDateTime)" v-on="on" >
+                            
+                          </v-text-field>
+                        </template>
+                          <v-date-picker v-model="date" no-title  @input="menu1 = false" >
+                        </v-date-picker>
+                      </v-menu>
+                    </v-container>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.startDateTime"
-                      label="Start Date Time"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.endDateTime"                     
-                      label="End Date Time"
-                    ></v-text-field>
+                    <v-container fill-width fluid>
+                      <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field v-model="appointment.startDateTime"  hint="MM/DD/YYYY format" persistent-hint prepend-icon="mdi-calendar" 
+                          v-bind="attrs" @blur="date = parseDate(appointment.startDateTime)" v-on="on" >
+                            
+                          </v-text-field>
+                        </template>
+                          <v-date-picker v-model="date" no-title  @input="menu2 = false" >
+                        </v-date-picker>
+                      </v-menu>
+                    </v-container>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="appointment.locationID"                    
-                      label="Location ID"
+                      label="Location"
                     ></v-text-field>
                   </v-col>
                    <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="appointment.studentID"
-                      label="Student ID"
+                      label="Student"
                     ></v-text-field>
                   </v-col>
-                   <v-col cols="12" sm="6" md="4">
+                   <!--<v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="appointment.tutorRating"                   
                       label="Tutor Rating"
@@ -76,7 +92,7 @@
                       v-model="appointment.studentComments"                    
                       label="Student Comments"
                     ></v-text-field>
-                  </v-col>
+                  </v-col>-->
                 </v-row>
               </v-container>
             <v-card-actions>
@@ -223,7 +239,11 @@
 import AppointmentServices from "@/services/AppointmentServices.js";
 
   export default {
-    data: () => ({
+    data: vm=> ({
+      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+     // dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
+      menu1: false,
+      menu2: false,
       dialog: false,
       focus: '',
       type: 'month',
@@ -236,7 +256,7 @@ import AppointmentServices from "@/services/AppointmentServices.js";
       appointment: {
         tutorID: "",      
         orgID: "",
-        startDateTime: "",
+        startDateTime: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
         endDateTime: "",
         locationID: "",
         studentID: "",
@@ -252,6 +272,11 @@ import AppointmentServices from "@/services/AppointmentServices.js";
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
+        computed: {
+      computedDateFormatted () {
+        return this.formatDate(this.date)
+      },
+    },
        watch: {
       dialog (val) {
         val || this.close()
@@ -260,6 +285,16 @@ import AppointmentServices from "@/services/AppointmentServices.js";
       this.$refs.calendar.checkChange()
     },
     methods: {
+            formatDate (date) {
+        if (!date) return null
+        const [year, month, day] = date.split('-')
+        return `${month}/${day}/${year}`
+      },
+      parseDate (date) {
+        if (!date) return null
+        const [month, day, year] = date.split('/')
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+      },
       viewDay ({ date }) {
         this.focus = date
         this.type = 'day'
@@ -284,16 +319,16 @@ import AppointmentServices from "@/services/AppointmentServices.js";
         this.add ()
       },
       add (){
-       /* this.appointment.tutorID = 5,      
+        this.appointment.tutorID = 5,      
         this.appointment.orgID = 10,
-        this.appointment.startDateTime = "2021-02-22 02:22:22",
-        this.appointment.endDateTime = "2021-02-22 03:22:22",
+        //this.appointment.startDateTime = "2021-02-22 02:22:22",
+        //this.appointment.endDateTime = "2021-02-22 03:22:22",
         this.appointment.locationID = 5,
         this.appointment.studentID = 1,
         this.appointment.tutorRating = 5,
         this.appointment.tutorComments = "she did well",
         this.appointment.studentRating = 5,
-        this.appointment.studentComments = "she did not do well",*/
+        this.appointment.studentComments = "she did not do well",
         AppointmentServices.addAppointment(this.appointment);
       },
       prev () {

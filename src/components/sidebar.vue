@@ -1,6 +1,5 @@
 <template>
-  <div 
-  >
+  <div>
     <v-system-bar color="deep-purple darken-3"></v-system-bar>
 
     <v-app-bar

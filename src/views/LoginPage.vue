@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+   <!-- <v-app>
         <v-card width="400" class="mx-auto mt-5">
             <v-card-title>
                  <h1 class="display-1">Login</h1>
@@ -24,14 +24,19 @@
                 </v-card-actions>
            
         </v-card>
-    </v-app>
+    </v-app>-->
+    <v-container>
+<social-login/>
+    </v-container>
 </template>
 <script>
-
+import SocialLogin from '../components/SocialLogin'
 
 export default {
     name: 'login_page',
-
+components: { SocialLogin
+  
+  },
     
 
     data: () => ({

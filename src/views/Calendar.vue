@@ -3,7 +3,102 @@
   <v-row >
     <v-col>
       <v-sheet>
-        <v-toolbar flat >
+        <v-toolbar flat>
+          
+          <v-btn 
+          outlined
+            class="mr-4"
+            color="grey darken-2"
+            @click="addItem()">
+            Add
+          </v-btn>
+          
+          <v-dialog v-model="dialog" max-width="500px">
+          <v-card>
+              <v-container>
+                <v-row>
+                <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.tutorID"
+                      label="Tutor ID"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.orgID"
+                      label="Organization ID"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.startDateTime"
+                      label="Start Date Time"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.endDateTime"                     
+                      label="End Date Time"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.locationID"                    
+                      label="Location ID"
+                    ></v-text-field>
+                  </v-col>
+                   <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.studentID"
+                      label="Student ID"
+                    ></v-text-field>
+                  </v-col>
+                   <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.tutorRating"                   
+                      label="Tutor Rating"
+                    ></v-text-field>
+                  </v-col>
+                   <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.tutorComments"                    
+                      label="Tutor Comments"
+                    ></v-text-field>
+                  </v-col>
+                   <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.studentRating"                    
+                      label="Student Rating"
+                    ></v-text-field>
+                  </v-col>
+                   <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="appointment.studentComments"                    
+                      label="Student Comments"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">
+                Cancel
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="save">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+          <!--n<v-btn
+            outlined
+            class="mr-4"
+            color="grey darken-2"
+            @click="add"
+          >
+            Add
+          </v-btn>-->
+
           <v-btn
             outlined
             class="mr-4"
@@ -28,6 +123,8 @@
               mdi-chevron-right
             </v-icon>
           </v-btn>
+
+
           <v-toolbar-title v-if="$refs.calendar">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
@@ -123,8 +220,11 @@
 </template>
 
 <script>
+import AppointmentServices from "@/services/AppointmentServices.js";
+
   export default {
     data: () => ({
+      dialog: false,
       focus: '',
       type: 'month',
       typeToLabel: {
@@ -133,6 +233,18 @@
         day: 'Day',
         '4day': '4 Days',
       },
+      appointment: {
+        tutorID: "",      
+        orgID: "",
+        startDateTime: "",
+        endDateTime: "",
+        locationID: "",
+        studentID: "",
+        tutorRating: "",
+        tutorComments: "",
+        studentRating: "",
+        studentComments: "",
+      },
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
@@ -140,6 +252,10 @@
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
+       watch: {
+      dialog (val) {
+        val || this.close()
+       }},
     mounted () {
       this.$refs.calendar.checkChange()
     },
@@ -153,6 +269,32 @@
       },
       setToday () {
         this.focus = ''
+      },
+       addItem () {
+      //  this.editedIndex = this.admins.indexOf(item)
+      //  this.editedItem = Object.assign({}, item)
+        this.dialog = true
+      },
+        close () {
+      
+        this.dialog = false
+ 
+      },
+      save () {
+        this.add ()
+      },
+      add (){
+       /* this.appointment.tutorID = 5,      
+        this.appointment.orgID = 10,
+        this.appointment.startDateTime = "2021-02-22 02:22:22",
+        this.appointment.endDateTime = "2021-02-22 03:22:22",
+        this.appointment.locationID = 5,
+        this.appointment.studentID = 1,
+        this.appointment.tutorRating = 5,
+        this.appointment.tutorComments = "she did well",
+        this.appointment.studentRating = 5,
+        this.appointment.studentComments = "she did not do well",*/
+        AppointmentServices.addAppointment(this.appointment);
       },
       prev () {
         this.$refs.calendar.prev()

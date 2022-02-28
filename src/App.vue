@@ -1,21 +1,20 @@
 <template>
   <v-app class="grey lighten-4">
     
-    <SideBar></Sidebar>
-
-    <v-content>
-      <router-view></router-view>
-    </v-content>
+   
+   <my-profile/>
     
   </v-app>
 </template>
 
 <script>
-import SideBar from './components/sidebar'
+
+import MyProfile from './views/ProfilePage.vue'
 
 export default {
   masterTitle: 'Title',
-  components: { SideBar 
+  components: { 
+                MyProfile,
   
   },
   name: 'App',
@@ -28,4 +27,6 @@ export default {
     }
   }
 }
+
+// bring back later <mssgInbox/>, mssgInbox, import mssgInbox from './views/Inbox.vue'
 </script>

@@ -9,17 +9,17 @@ import Router from 'vue-router'
 import Admin from './views/Admin.vue'
 import Contract from './views/Contract.vue'
 import Calendar from './views/Calendar.vue'
-import Profile from './views/Profile.vue'
+
 import LoginPage from './views/LoginPage.vue'
+import ListUsers from './views/ListUsers.vue'
+import ListAdmin from './views/ListAdmin.vue'
+import Profile from './views/Profile.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
-
-
 
 Vue.use(Router)
 
 // https://router.vuejs.org/guide/
 const routes = [
-
   {
     path: '/',
     name: 'profile',
@@ -33,10 +33,20 @@ const routes = [
     meta: { title: 'Log In' }
   },
   {
+    path: '/users',
+    name: 'users',
+    component: ListUsers
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+  },
+  {
     path: '/admin',
     name: 'admin',
-    component: Admin,
     meta: { title: 'Admin' }
+   component: ListAdmin
   },
   {
     path: '/createAdmin',

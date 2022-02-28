@@ -14,7 +14,6 @@ export default {
     return apiClient.delete("/users/" + userID);
   },
   addUser(user) {
-    console.log(user);
     return apiClient.post("/users/", user);
   },
   updateUser(userID, user) {

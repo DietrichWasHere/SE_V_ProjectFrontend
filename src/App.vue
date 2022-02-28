@@ -1,21 +1,17 @@
 <template>
   <v-app class="grey lighten-4">
     
-    <SideBar></Sidebar>
-
-    <v-content>
-      <router-view></router-view>
-    </v-content>
+   <mssgInbox/>
     
   </v-app>
 </template>
 
 <script>
-import SideBar from './components/sidebar'
+import mssgInbox from './views/Inbox.vue'
 
 export default {
   masterTitle: 'Title',
-  components: { SideBar 
+  components: { mssgInbox 
   
   },
   name: 'App',

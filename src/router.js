@@ -10,7 +10,7 @@ import Admin from './views/Admin.vue'
 import Profile from './views/Profile.vue'
 import LoginPage from './views/LoginPage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
-
+import mssgInbox from './views/Inbox.vue'
 
 
 Vue.use(Router)
@@ -39,7 +39,13 @@ const routes = [
     path: '/createAdmin',
     name: 'createadmin',
     component: CreateAdmin
-  }
+  },
+
+  {
+    path: '/mssgInbox',
+    name: mssgInbox,
+    component: mssgInbox
+  },
 ]
 
 

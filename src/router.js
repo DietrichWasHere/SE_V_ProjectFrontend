@@ -6,9 +6,10 @@ import Router from 'vue-router'
 //import studentMenu from '../views/studentMenu.vue'
 //import viewName from '../views/viewName.vue'
 
-import Admin from './views/Admin.vue'
-import Profile from './views/Profile.vue'
 import LoginPage from './views/LoginPage.vue'
+import ListUsers from './views/ListUsers.vue'
+import ListAdmin from './views/ListAdmin.vue'
+import Profile from './views/Profile.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
 import mssgInbox from './views/Inbox.vue'
 
@@ -17,23 +18,25 @@ Vue.use(Router)
 
 // https://router.vuejs.org/guide/
 const routes = [
-
   {
     path: '/',
-    name: 'profile',
-    component: Profile,
-
-    
+    name: 'loginPage',
+    component: LoginPage
   },
   {
-    path: '/loginpage',
-    name: 'loginpage',
-    component: LoginPage
+    path: '/users',
+    name: 'users',
+    component: ListUsers
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
   },
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: ListAdmin
   },
   {
     path: '/createAdmin',

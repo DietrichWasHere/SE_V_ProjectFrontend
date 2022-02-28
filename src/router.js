@@ -12,8 +12,6 @@ import ListAdmin from './views/ListAdmin.vue'
 import Profile from './views/Profile.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
 
-
-
 Vue.use(Router)
 
 // https://router.vuejs.org/guide/

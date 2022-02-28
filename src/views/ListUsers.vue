@@ -31,11 +31,12 @@
         ></v-divider>
         <v-spacer></v-spacer>
         <v-dialog
-          v-model="dialog"
+          v-model="dialogEdit"
           max-width="500px"
         >
           <v-card>
               <v-container>
+                <p v-if="message">{{this.message}}</p>
                 <v-row>
                 <v-col cols="12" sm="6" md="4">
                     <v-text-field
@@ -68,7 +69,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">
+              <v-btn color="blue darken-1" text @click="closeEdit">
                 Cancel
               </v-btn>
               <v-btn color="blue darken-1" text @click="saveEdit">
@@ -118,15 +119,16 @@
   export default {
     data: () => ({
       search: '',
-      dialog: false,
+      dialogEdit: false,
       dialogDelete: false,
       headers: [
         { text: 'First Name', value: 'fName'},
         { text: 'Last Name', value: 'lName'},
         { text: 'Email', value: 'email'  },
         { text: 'Phone Number', value: 'phone' },
+        { text: 'Actions', value: 'actions', sortable: false },
       ],
-      message: null,
+      message: '',
       users: [],
       editedIndex: -1,
       editedItem: {
@@ -150,8 +152,8 @@
       },
     },
     watch: {
-      dialog (val) {
-        val || this.close()
+      dialogEdit(val) {
+        val || this.closeEdit()
       },
       dialogDelete (val) {
         val || this.closeDelete()
@@ -169,10 +171,21 @@
         })
     },
     methods: {
+      initialize() {
+        UserServices.getUsers()
+        .then(response => {
+          console.log(response);
+          this.users = response.data
+          console.log(this.users);
+        })
+        .catch(error => {
+          console.log('There was an error:', error.response)
+        })
+      },
       editItemDialog(item) {
         this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)
-        this.dialog = true
+        this.dialogEdit= true
       },
       deleteItemDialog(item) {
         this.editedIndex = this.users.indexOf(item)
@@ -186,12 +199,12 @@
             this.closeDelete()
           })
           .catch(error => {
-            //console.log("failure");
-            this.message = error.message;
+            console.log("ERR: " + error.message);
+            //this.message = error.message;
           })
       },
-      close () {
-        this.dialog = false
+      closeEdit () {
+        this.dialogEdit= false
         this.$nextTick(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
@@ -205,26 +218,28 @@
         })
       },
       saveEdit () {
-        UserServices.updateUser(this.edtitedItem.userID, this.editedItem)
+        UserServices.updateUser(this.editedItem.userID, this.editedItem)
           .then(() => {
             //console.log("success");
             // this.$router.push({ name: 'coursePlan', params: {studentID: this.studentID} })
             if (this.editedIndex > -1) {
+              console.log("index 1+");
               Object.assign(this.users[this.editedIndex], this.editedItem)
             } else {
+              console.log("index -1");
               this.users.push(this.editedItem)
             }
-            this.message = null;
-            this.close()
+            // this.message = null;
+            // this.close()
+            this.closeEdit();
           })
           .catch(error => {
-            //console.log("failure");
-            this.message = error.message;
+            console.log("ERR: " + error.message);
+            // this.message = error.message;
           })
       },
     },
   }
- 
 </script>
 
 <!-- Add "scoped" at

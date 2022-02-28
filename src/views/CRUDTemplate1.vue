@@ -94,6 +94,9 @@
     </template>
 
     <template v-slot:item.actions="{ item }">
+      <v-icon small class="mr-2" @click="editItemDialog(item)">
+        mdi-pencil
+      </v-icon>
       <v-icon small @click="deleteItemDialog(item)">
         mdi-delete
       </v-icon>
@@ -149,6 +152,9 @@
       },
     },
     watch: {
+      dialogEdit(val) {
+        val || this.closeEdit()
+      },
       dialogDelete (val) {
         val || this.closeDelete()
       },
@@ -176,6 +182,11 @@
           console.log('There was an error:', error.response)
         })
       },
+      editItemDialog(item) {
+        this.editedIndex = this.users.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogEdit= true
+      },
       deleteItemDialog(item) {
         this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)
@@ -192,14 +203,42 @@
             //this.message = error.message;
           })
       },
+      closeEdit () {
+        this.dialogEdit= false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
       closeDelete () {
         this.dialogDelete = false
         this.$nextTick(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
         })
-      }
-    }
+      },
+      saveEdit () {
+        UserServices.updateUser(this.editedItem.userID, this.editedItem)
+          .then(() => {
+            //console.log("success");
+            // this.$router.push({ name: 'coursePlan', params: {studentID: this.studentID} })
+            if (this.editedIndex > -1) {
+              console.log("index 1+");
+              Object.assign(this.users[this.editedIndex], this.editedItem)
+            } else {
+              console.log("index -1");
+              this.users.push(this.editedItem)
+            }
+            // this.message = null;
+            // this.close()
+            this.closeEdit();
+          })
+          .catch(error => {
+            console.log("ERR: " + error.message);
+            // this.message = error.message;
+          })
+      },
+    },
   }
 </script>
 

@@ -1,21 +1,29 @@
 <template>
   <v-app class="grey lighten-4">
     
-   
-   <my-profile/>
+    <SideBar></Sidebar>
+
+    <v-content>
+      <router-view></router-view>
+     
+      <my-profile/>
+    </v-content>
     
   </v-app>
 </template>
 
 <script>
+import SideBar from './components/sidebar'
 
 import MyProfile from './views/ProfilePage.vue'
 
+
 export default {
   masterTitle: 'Title',
-  components: { 
+  components: { SideBar,
+                
                 MyProfile,
-  
+
   },
   name: 'App',
     props: {
@@ -28,5 +36,6 @@ export default {
   }
 }
 
-// bring back later <mssgInbox/>, mssgInbox, import mssgInbox from './views/Inbox.vue'
+// bring back later   import mssgInbox from './views/Inbox.vue'   mssgInbox,     <mssgInbox/>
+
 </script>

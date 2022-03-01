@@ -1,7 +1,6 @@
 <template>
 <v-container>
 
-<h1>Admin</h1>
 
 <v-btn elevation="2 ">Admin List </v-btn>
 <v-btn elevation="2" to="/createadmin">Add an Admin </v-btn>

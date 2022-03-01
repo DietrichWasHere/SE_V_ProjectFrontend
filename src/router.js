@@ -9,9 +9,15 @@ import Router from 'vue-router'
 // import Admin from './views/Admin.vue'
 import Contract from './views/Contract.vue'
 import Calendar from './views/Calendar.vue'
+import CalendarStudent from './views/CalendarStudent.vue'
+import ContractStudent from './views/ContractStudent.vue'
+import AppointmentRequest from './views/AppointmentRequest.vue'
+
 
 import LoginPage from './views/LoginPage.vue'
-import Profile from './views/Profile.vue'
+import Profile from './views/ProfilePage.vue'
+import ProfileStudent from './views/ProfileStudent.vue'
+
 import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
 import ListAdmin from './views/ListAdmin.vue'
@@ -25,7 +31,13 @@ const routes = [
     path: '/',
     name: 'profile',
     component: Profile,
-    meta: { title: 'Profile' }
+    meta: { title: 'User Profile' }
+  },
+  {
+    path: '/student',
+    name: 'profilestudent',
+    component: ProfileStudent,
+    meta: { title: 'User Profile' }
   },
   {
     path: '/loginpage',
@@ -43,11 +55,7 @@ const routes = [
     name: 'inbox',
     component: Inbox
   },
-  {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
-  },
+
   {
     path: '/admin',
     name: 'admin',
@@ -68,10 +76,28 @@ const routes = [
     meta: { title: 'Calendar' }
   },
   {
+    path: '/calendarstudent',
+    name: 'calendarstudent',
+    component: CalendarStudent,
+    meta: { title: 'Calendar' }
+  },
+  {
     path: '/contract',
     name: 'cotract',
     component: Contract,
     meta: { title: 'Tutoring Agreement Contract' }
+  },
+  {
+    path: '/contractstudent',
+    name: 'cotractstudent',
+    component: ContractStudent,
+    meta: { title: 'Tutoring Agreement Contract' }
+  },
+  {
+    path: '/appointmentrequest',
+    name: 'appointmentrequest',
+    component: AppointmentRequest,
+    meta: { title: 'Appointment Request' }
   }
 ]
 

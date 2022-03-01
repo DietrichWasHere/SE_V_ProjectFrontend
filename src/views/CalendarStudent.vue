@@ -207,22 +207,21 @@
               :color="selectedEvent.color"
               dark
             >
-       
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+             
+            <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-  
-
-    
+          
+          
             </v-toolbar>
             <v-card-text>
               <span v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
-              <v-btn text color="red" @click="selectedOpen = false">
-                Cancel Appointment
+                <v-btn to='/appointmentrequest'>
+                Make Appointment
               </v-btn>
-              <v-btn text color="secondary" @click="selectedOpen = false">
-                Exit
+              <v-btn  @click="selectedOpen = false">
+                Cancel
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -373,36 +372,53 @@ import AppointmentServices from "@/services/AppointmentServices.js";
           open()
         }
 
-      //  nativeEvent.stopPropagation()
+      // nativeEvent.stopPropagation()
       },
-      updateRange () {
+      updateRange ({ start, end }) {
         const events = []
 
-        //const min = new Date(`${start.date}T00:00:00`)
-       // const max = new Date(`${end.date}T23:59:59`)
-      //  const days = (max.getTime() - min.getTime()) / 86400000
-       // const eventCount = this.rnd(days, days + 20)
+        const min = new Date(`${start.date}T00:00:00`)
+        const max = new Date(`${end.date}T23:59:59`)
+        const days = (max.getTime() - min.getTime()) / 86400000
+        const eventCount = this.rnd(days, days + 20)
 
-        for (let i = 0; i < 1; i++) {
-          const allDay = this.rnd(0, 3) === 0
+        for (let i = 0; i < eventCount; i++) {
+
+          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
+          const second = new Date(first.getTime() + 45)
+
+          events.push({
+            name: 'Available Slot',
+            start: first,
+            end: second,
+            color: this.colors[this.rnd(0, this.colors.length - 1)],
+          })
+        }
+
+        this.events = events
+
+
          // const firstTimestamp = this.rnd(min.getTime(), max.getTime())
           const first = '2022-03-02 14:30:00';
          // const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
           const second = '2022-03-02 15:30:00';
 
           events.push({
-            name: 'Appointment  Calculus 1  Eddie Gomez',
+            name: 'Appointment Calculus',
             start: first,
             end: second,
             color: 'orange',
-            timed: !allDay,
           })
-        }
+        
         this.events = events
+      },
+      specificDay (){
+
       },
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
-     },
+      },
     },
   }
 </script>

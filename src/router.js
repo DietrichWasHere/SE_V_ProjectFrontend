@@ -48,7 +48,9 @@ const routes = [
   {
     path: '/users',
     name: 'users',
-    component: ListUsers
+    component: ListUsers,
+    meta: { title: 'User' }
+
   },
   {
     path: '/inbox',

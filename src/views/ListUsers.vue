@@ -1,7 +1,6 @@
 <template>
 <v-container>
 
-<h1>Users</h1>
 
 <!--<input  class = "search" type = "text" v-model= "search" placeholder="Filter by advisor name &#x1F50E;&#xFE0E;	"/>
     <br>

@@ -57,7 +57,13 @@
                   <v-list-item
                     :key="n"
                   >
-                    <v-list-item-avatar color="grey darken-1">
+                    <v-list-item-avatar >
+                        <v-avatar
+                        class="ma-2"
+                        color="grey darken-1"
+                        size="40">     
+                        <img src="@/assets/eddiegomez.jpg" alt="">
+                      </v-avatar>
                     </v-list-item-avatar>
 
                     <v-list-item-content>
@@ -154,7 +160,7 @@ export default {
   },
 
     data: () => ({
-      cards: ['Today', 'Yesterday'],
+      cards: ['Today'/*, 'Yesterday'*/],
       drawer: null,
       links: [
         ['mdi-inbox-arrow-down', 'Inbox'],

@@ -34,7 +34,7 @@
           active-class="deep-purple--text text--accent-4"
         >
           <v-list-item  to="/">
-            <v-list-item-title  >Profile</v-list-item-title>
+            <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 
           <v-list-item  to="/inbox">
@@ -49,8 +49,8 @@
             <v-list-item-title>Contract</v-list-item-title>
           </v-list-item>
           
-          <v-list-item  to="/admin">
-            <v-list-item-title>Admin</v-list-item-title>
+          <v-list-item  to="/users">
+            <v-list-item-title>Users</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>

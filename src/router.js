@@ -7,9 +7,10 @@ import Router from 'vue-router'
 //import viewName from '../views/viewName.vue'
 
 import LoginPage from './views/LoginPage.vue'
+import Profile from './views/Profile.vue'
+import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
 import ListAdmin from './views/ListAdmin.vue'
-import Profile from './views/Profile.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
 
 Vue.use(Router)
@@ -25,6 +26,11 @@ const routes = [
     path: '/users',
     name: 'users',
     component: ListUsers
+  },
+  {
+    path: '/inbox',
+    name: 'inbox',
+    component: Inbox
   },
   {
     path: '/profile',

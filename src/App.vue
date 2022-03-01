@@ -13,11 +13,10 @@
 <script>
 import SideBar from './components/sidebar'
 
+
 export default {
   masterTitle: 'Title',
-  components: { SideBar 
-  
-  },
+  components: { SideBar },
   name: 'App',
     props: {
   
@@ -28,4 +27,7 @@ export default {
     }
   }
 }
+
+// bring back later   import mssgInbox from './views/Inbox.vue'   mssgInbox,     <mssgInbox/>
+
 </script>

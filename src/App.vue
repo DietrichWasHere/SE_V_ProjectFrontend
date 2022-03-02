@@ -5,8 +5,6 @@
 
     <v-content>
       <router-view></router-view>
-     
-      <my-profile/>
     </v-content>
     
   </v-app>
@@ -15,16 +13,10 @@
 <script>
 import SideBar from './components/sidebar'
 
-import MyProfile from './views/ProfilePage.vue'
-
 
 export default {
   masterTitle: 'Title',
-  components: { SideBar,
-                
-                MyProfile,
-
-  },
+  components: { SideBar },
   name: 'App',
     props: {
   

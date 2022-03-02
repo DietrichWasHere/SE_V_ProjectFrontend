@@ -9,7 +9,7 @@ import Router from 'vue-router'
 import LoginPage from './views/LoginPage.vue'
 import ListUsers from './views/ListUsers.vue'
 import ListAdmin from './views/ListAdmin.vue'
-import Profile from './views/Profile.vue'
+import Profile from './views/ProfilePage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
 
 Vue.use(Router)

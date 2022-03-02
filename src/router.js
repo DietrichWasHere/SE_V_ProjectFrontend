@@ -15,6 +15,7 @@ import Profile from './views/Profile.vue'
 import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
 import ListAdmin from './views/ListAdmin.vue'
+import Profile from './views/ProfilePage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
 
 Vue.use(Router)

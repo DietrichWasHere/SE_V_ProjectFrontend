@@ -1,7 +1,8 @@
 <template>
   <v-app class="grey lighten-4">
-    
-    <SideBar></Sidebar>
+    <SideBar>
+
+    </Sidebar>
 
     <v-content>
       <router-view></router-view>
@@ -28,6 +29,16 @@ export default {
   }
 }
 
+
 // bring back later   import mssgInbox from './views/Inbox.vue'   mssgInbox,     <mssgInbox/>
 
 </script>
+<style>
+
+
+.v-app-bar-title__content{
+  width: 500px !important;
+}
+
+
+</style>

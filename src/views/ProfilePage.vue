@@ -8,24 +8,21 @@
             <v-card>
                 <v-card-text>
                     <v-flex class="mb-4">
-                        <v-avatar size="96" class="mb-4" icon = circle color="grey darken-1">
-                             
+                        <v-avatar size="96" class="mb-4" icon = circle color="grey darken-1">     
                         </v-avatar>
-                        
                     </v-flex>
                     <v-text-field
-                        v-model="form.firstName"
+                        v-model="user.firstName"
                         label="FirstName"></v-text-field>
                     <v-text-field
-                        v-model="form.lastName"
+                        v-model="user.lastName"
                         label="Last Name"></v-text-field>
                     <v-text-field
-                        v-model="form.contactEmail"
+                        v-model="user.contactEmail"
                         label="Email Address"></v-text-field>
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary" :loading="loading" @click.native="update">
-                        
                         Save Changes
                     </v-btn>
                 </v-card-actions>
@@ -36,19 +33,31 @@
 </template>
 
 <script>
+    import UserServices from '@/services/UserServices.js';
 
     export default {
         pageTitle: 'MyProfile',
         data () {
             return {
                 loading: false,
-                form: {
-                    firstName: 'Student',
-                    lastName: 'OC',
-                    contactEmail: 'Student@OC.edu',
-                    avatar: 'MALE_CAUCASIAN_BLACK_BEARD'
-                },
+                user: {
+                    firstName: '',
+                    lastName: '',
+                    contactEmail: ''
+                }
+                // avatar: image
             }
+        },
+        created () {
+            UserServices.getUser()
+                .then(response => {
+                    console.log(response);
+                    this.user = response.data
+                    console.log(this.user);
+                })
+                .catch(error => {
+                    console.log('There was an error:', error.response)
+                })
         }
     }
 </script>

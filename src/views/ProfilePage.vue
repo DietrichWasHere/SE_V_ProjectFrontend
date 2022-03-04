@@ -49,6 +49,8 @@
             }
         },
         created () {
+            //var userData = window.localStorage.getItem('user').user;
+            //console.log(userData);
             UserServices.getUser()
                 .then(response => {
                     console.log(response);

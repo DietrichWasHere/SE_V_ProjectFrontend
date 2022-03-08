@@ -33,8 +33,8 @@ export default {
     newApptTest() {
       console.log("test");
       ApptServices.addAppointment({
-        tutorID: '1',
-        orgID: '1',
+        tutorID: 4,
+        orgID: 4,
         startDateTime: '2022-01-04 13:40',
         endDateTime: '2022-01-04 13:45',
         locationID: '1',

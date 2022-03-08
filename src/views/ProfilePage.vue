@@ -1,8 +1,5 @@
 <template>
 <div>
-    <v-system-bar color="deep-purple darken-3" height="55">
-        <p style="color:white; font-size:30px; top: 50px">User Profile</p>
-    </v-system-bar>
     <v-container fluid>
         <v-layout column>
             <v-card>
@@ -18,6 +15,7 @@
                         v-model="userData.lName"
                         label="Last Name"></v-text-field>
                     <v-text-field
+                        disabled
                         v-model="userData.email"
                         label="Email Address"></v-text-field>
                     <v-text-field
@@ -25,7 +23,7 @@
                         label="Phone Number"></v-text-field>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn color="primary" :loading="loading" @click.native="update">
+                    <v-btn color="primary" :loading="loading" @click.native="editUser">
                         Save Changes
                     </v-btn>
                 </v-card-actions>
@@ -55,26 +53,35 @@
             // console.log(userData);
             UserServices.getCurrentUser()
                 .then(response => {
-                    //console.log("!")
-                    //console.log(response);
-                    this.user = response.data.user
-                    //console.log(this.user.id); 
-                UserServices.getUser(this.user.id)
-                    .then(response => {
-                        console.log(response);
-                        this.userData = response.data[0]
-                        console.log(this.userData);
-                        console.log("!" + this.userData.fName);
+                        //console.log("!")
+                        //console.log(response);
+                        this.user = response.data.user
+                        //console.log(this.user.id); 
+                        UserServices.getUser(this.user.id)
+                            .then(response => {
+                                this.userData = response.data[0]
+                            })
+                            .catch(error => {
+                                console.log('There was an error:', error.response)
+                            })
                     })
-                    .catch(error => {
-                        console.log('There was an error:', error.response)
-                    })
-                })
                 .catch(error => {
                     console.log('There was an error:', error.response)
                 })
-
-            
+        },
+        methods: {
+            editUser() {
+                UserServices.updateUser(this.user.id, this.userData)
+                    /*.then(response => {
+                        console.log("!")
+                        //console.log(response);
+                        this.user = response.data.user
+                        //console.log(this.user.id);
+                    })*/
+                    .catch(error => {
+                        console.log('There was an error:', error.response)
+                    }) 
+            }         
         }
     }
 </script>

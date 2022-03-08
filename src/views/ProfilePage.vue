@@ -12,14 +12,17 @@
                         </v-avatar>
                     </v-flex>
                     <v-text-field
-                        v-model="user.firstName"
+                        v-model="userData.fName"
                         label="FirstName"></v-text-field>
                     <v-text-field
-                        v-model="user.lastName"
+                        v-model="userData.lName"
                         label="Last Name"></v-text-field>
                     <v-text-field
-                        v-model="user.contactEmail"
+                        v-model="userData.email"
                         label="Email Address"></v-text-field>
+                    <v-text-field
+                        v-model="userData.phone"
+                        label="Phone Number"></v-text-field>
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary" :loading="loading" @click.native="update">
@@ -47,28 +50,31 @@
                 // avatar: image
             }
         },
-        async created () {
+        created () {
             // var userData = window.localStorage.getItem('user').user;
             // console.log(userData);
-            await UserServices.getCurrentUser()
+            UserServices.getCurrentUser()
                 .then(response => {
-                    console.log("!")
-                    console.log(response);
+                    //console.log("!")
+                    //console.log(response);
                     this.user = response.data.user
-                    console.log(this.user.id);
+                    //console.log(this.user.id); 
+                UserServices.getUser(this.user.id)
+                    .then(response => {
+                        console.log(response);
+                        this.userData = response.data[0]
+                        console.log(this.userData);
+                        console.log("!" + this.userData.fName);
+                    })
+                    .catch(error => {
+                        console.log('There was an error:', error.response)
+                    })
                 })
                 .catch(error => {
                     console.log('There was an error:', error.response)
                 })
-            await UserServices.getUser(this.user.id)
-                .then(response => {
-                    console.log(response);
-                    this.userData = response.data
-                    console.log(this.userData);
-                })
-                .catch(error => {
-                    console.log('There was an error:', error.response)
-                })
+
+            
         }
     }
 </script>

@@ -41,21 +41,30 @@
             return {
                 loading: false,
                 user: {
-                    firstName: '',
-                    lastName: '',
-                    contactEmail: ''
+                },
+                userData: {
                 }
                 // avatar: image
             }
         },
-        created () {
+        async created () {
             // var userData = window.localStorage.getItem('user').user;
             // console.log(userData);
-            UserServices.getUser()
+            await UserServices.getCurrentUser()
+                .then(response => {
+                    console.log("!")
+                    console.log(response);
+                    this.user = response.data.user
+                    console.log(this.user.id);
+                })
+                .catch(error => {
+                    console.log('There was an error:', error.response)
+                })
+            await UserServices.getUser(this.user.id)
                 .then(response => {
                     console.log(response);
-                    this.user = response.data
-                    console.log(this.user);
+                    this.userData = response.data
+                    console.log(this.userData);
                 })
                 .catch(error => {
                     console.log('There was an error:', error.response)

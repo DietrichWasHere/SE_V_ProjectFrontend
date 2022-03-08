@@ -36,6 +36,7 @@ export default {
           }
           window.localStorage.setItem('token', JSON.stringify({token: userInfo.google.auth.id_token}))
           window.localStorage.setItem('user', JSON.stringify(userInfo))
+          console.log(window.localStorage.getItem('user'))
           //this.$store.commit('setLoginUser', userInfo)
           //router.push('/home')
         })

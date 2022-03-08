@@ -56,7 +56,7 @@
                         //console.log("!")
                         //console.log(response);
                         this.user = response.data.user
-                        //console.log(this.user.id); 
+                        console.log(this.user); 
                         UserServices.getUser(this.user.id)
                             .then(response => {
                                 this.userData = response.data[0]

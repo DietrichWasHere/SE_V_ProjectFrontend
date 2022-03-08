@@ -34,11 +34,9 @@ export default {
       console.log("test");
       ApptServices.addAppointment({
         tutorID: 4,
-        orgID: 4,
+        orgID: 1,
         startDateTime: '2022-01-04 13:40',
         endDateTime: '2022-01-04 13:45',
-        locationID: '1',
-        studentID: '1',
         tutorRating: null,
         tutorComments: null,
         studentRating: null,

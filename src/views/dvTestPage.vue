@@ -1,7 +1,7 @@
 <template>
     <v-app>  
       <p>{{this.appointments}}</p>
-      <v-btn color="primary" :loading="loading" @click.native="newApptTest">New Appt Test</v-btn>
+      <v-btn color="primary"  @click.native="newApptTest">New Appt Test</v-btn>
    </v-app>
 </template>
 
@@ -21,8 +21,9 @@ export default {
   },
   created() {
     console.log("test");
-    ApptServices.getAppointments()
+    ApptServices.getAppointments(1)
     .then(response => {
+      console.log(response.data);
       this.appoinments = response.data
     })
     .catch(error => {
@@ -37,6 +38,8 @@ export default {
         orgID: 1,
         startDateTime: '2022-01-04 13:40',
         endDateTime: '2022-01-04 13:45',
+        locationID: 1,
+        studentID: 1,
         tutorRating: null,
         tutorComments: null,
         studentRating: null,

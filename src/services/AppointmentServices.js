@@ -4,8 +4,8 @@ import settings from "./config"
 const apiClient = axios.create(settings);
 
 export default {
-  getAppointments() {
-    return apiClient.get("/appointments/");
+  getAppointments(orgID) {
+    return apiClient.get("/appointments/" + orgID);
   },
   getAppointment(tutorID, startDateTime) {
     return apiClient.get("/appointments/" + tutorID + "/" + startDateTime);

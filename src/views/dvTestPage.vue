@@ -24,7 +24,7 @@ export default {
     ApptServices.getAppointments(1)
     .then(response => {
       console.log(response.data);
-      this.appoinments = response.data
+      this.appointments = response.data
     })
     .catch(error => {
       console.log('There was an error:', error.response)

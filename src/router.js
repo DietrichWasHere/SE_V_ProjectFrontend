@@ -16,21 +16,23 @@ import ListAdmin from './views/ListAdmin.vue'
 import Profile from './views/ProfilePage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
 
+import dvTestPage from './views/dvTestPage.vue'
+
 Vue.use(Router)
 
 // https://router.vuejs.org/guide/
 const routes = [
   {
     path: '/',
-    name: 'profile',
-    component: Profile,
-    meta: { title: 'Profile' }
-  },
-  {
-    path: '/loginpage',
     name: 'loginpage',
     component: LoginPage,
     meta: { title: 'Log In' }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: { title: 'Profile' }
   },
   {
     path: '/users',
@@ -43,16 +45,15 @@ const routes = [
     component: Inbox
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
+    path: '/dvTest',
+    name: 'dvTest',
+    component: dvTestPage,
   },
   {
     path: '/admin',
     name: 'admin',
     component: ListAdmin,
     meta: { title: 'Admin' }
-
   },
   {
     path: '/createAdmin',

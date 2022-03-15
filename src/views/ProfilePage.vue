@@ -2,6 +2,14 @@
 <div>
     <v-system-bar color="deep-purple darken-3" height="55">
         <p style="color:white; font-size:30px; top: 50px">User Profile</p>
+        <button
+        style="color:white; font-size: 10px; left:500px"
+    id="logout-button"
+    @click.prevent="handleLogout"
+    :disabled="isLoggedOut"
+  >
+    Log out
+  </button>
     </v-system-bar>
     <v-container fluid>
         <v-layout column>

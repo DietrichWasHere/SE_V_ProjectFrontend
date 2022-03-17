@@ -11,13 +11,13 @@
                         </v-avatar>
                     </v-flex>
                     <v-text-field
-                        v-model="form.firstName"
+                        v-model="user.fName"
                         label="FirstName"></v-text-field>
                     <v-text-field
-                        v-model="form.lastName"
+                        v-model="user.lName"
                         label="Last Name"></v-text-field>
                     <v-text-field
-                        v-model="form.contactEmail"
+                        v-model="user.email"
                         label="Email Address"></v-text-field>
                 </v-card-text>
                 <v-card-actions>
@@ -33,20 +33,35 @@
 </template>
 
 <script>
+  import UserServices from '@/services/UserServices.js';
 
     export default {
         pageTitle: 'MyProfile',
         data () {
             return {
+                user:[]
+                ,
                 loading: false,
-                form: {
+             /*   form: {
                     firstName: 'Dietrich',
                     lastName: 'Veres',
                     contactEmail: 'Tutor@OC.edu',
-                    
                     avatar: <img src="@/assets/eddiegomez.jpg" alt=""></img>
-                },
+                },*/
             }
         }
+        ,
+        created () {
+        UserServices.getUser(5)
+        .then(response => {
+          console.log(response);
+          
+          this.user = response.data
+          console.log(this.user.fName);
+        })
+        .catch(error => {
+          console.log('There was an error:', error.response)
+        })
+    },
     }
 </script>

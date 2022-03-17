@@ -164,7 +164,7 @@
         })
     },
     methods: {
-      initialize() {
+      /*initialize() {
         UserServices.getUsers()
         .then(response => {
           console.log(response);
@@ -174,7 +174,7 @@
         .catch(error => {
           console.log('There was an error:', error.response)
         })
-      },
+      },*/
       deleteItemDialog(item) {
         this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)

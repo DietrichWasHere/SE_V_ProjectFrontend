@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <v-app-bar color="deep-purple accent-4"  dark prominent>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-app-bar-title > {{ $route.meta.title }} </v-app-bar-title>

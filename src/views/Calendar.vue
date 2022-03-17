@@ -13,6 +13,10 @@
             Add
           </v-btn>
           
+      <v-btn color="primary" @click="initialize">
+        Reset
+      </v-btn>
+    
           <v-dialog v-model="dialog" max-width="500px">
           <v-card>
               <v-container>
@@ -235,6 +239,8 @@
 
 <script>
 import AppointmentServices from "@/services/AppointmentServices.js";
+  import UserServices from '@/services/UserServices.js';
+
 
   export default {
     data: vm=> ({
@@ -267,6 +273,8 @@ import AppointmentServices from "@/services/AppointmentServices.js";
       selectedElement: null,
       selectedOpen: false,
       events: [],
+      rawEvents: [],
+
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
@@ -282,29 +290,72 @@ import AppointmentServices from "@/services/AppointmentServices.js";
     mounted () {
       this.$refs.calendar.checkChange()
     },
-    /*created () {
-      AppointmentServices.getAppointments()
+    created () {
+          
+          this.appointment.tutorID = 5,      
+          this.appointment.orgID = 10,
+          this.appointment.startDateTime = "2022-03-20 02:22:22",
+          this.appointmentendDateTime = "2022-03-20 03:22:22",
+          this.appointment.locationID = 5,
+          this.appointment.studentID = 1,
+          this.appointment.tutorRating = 5,
+          this.appointment.tutorComments = "she did well",
+          this.appointment.studentRating = 5,
+          this.appointment.studentComments = "she did not do well"
+          
+          const events = []
+            events.push({
+            name: 'Appointment Eddie Gomez',
+            start: this.appointment.startDateTime,
+            end: this.appointment.endDateTime,
+            color: 'blue',
+          })
+        
+
+        AppointmentServices.getAppointments(10)
         .then(response => {
           console.log(response);
-          this.events = response.data
-          console.log(this.events);
+          this.rawEvents = response.data
+          console.log(this.rawEvents);
+
+          for (let x = 0; x < this.rawEvents.length; x++)
+         {
+          var startDate = new Date(this.rawEvents[x].startDateTime);
+          var hrs = ((startDate.getHours() > 12) ? startDate.getHours()-12 : startDate.getHours());
+          var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes());
+          var endDate = new Date(this.rawEvents[x].endDateTime);
+          hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
+          var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes());
+
+         // console.log('HI', formattedStartDate, formattedEndDate)
+
+            events.push({
+            name: String(UserServices.getUser(this.rawEvents[x].studentID)),
+            start: formattedStartDate,
+            end: formattedEndDate,
+            color: 'blue',
+            })
+          }
+           this.events = events;
         })
         .catch(error => {
           console.log('There was an error:', error.response)
         })
-    },*/
+
+    },
     methods: {
-     /*  initialize() {
+      
+       initialize() {
         AppointmentServices.getAppointments()
         .then(response => {
           console.log(response);
-          this.events = response.data
-          console.log(this.events);
+          this.rawEvents = response.data
+          console.log(this.rawEvents);
         })
         .catch(error => {
           console.log('There was an error:', error.response)
         })
-      },*/
+      },
             formatDate (date) {
         if (!date) return null
         const [year, month, day] = date.split('-')
@@ -339,19 +390,31 @@ import AppointmentServices from "@/services/AppointmentServices.js";
         this.add ()
       },
       add (){
-        this.appointment.tutorID = 5,      
-        this.appointment.orgID = 10,
-        this.appointment.startDateTime = "2022-03-22 02:22:22",
-        this.appointment.endDateTime = "2022-03-22 03:22:22",
-        this.appointment.locationID = 5,
-        this.appointment.studentID = 1,
-        this.appointment.tutorRating = 5,
-        this.appointment.tutorComments = "she did well",
-        this.appointment.studentRating = 5,
-        this.appointment.studentComments = "she did not do well",
+          this.appointment.tutorID = 5,      
+          this.appointment.orgID = 10,
+          this.appointment.startDateTime = "2022-03-22 02:22:22",
+          this.appointmentendDateTime = "2022-03-22 03:22:22",
+          this.appointment.locationID = 5,
+          this.appointment.studentID = 1,
+          this.appointment.tutorRating = 5,
+          this.appointment.tutorComments = "she did well",
+          this.appointment.studentRating =5,
+          this.appointment.studentComments = "she did not do well"
+          
+          const allDay = this.rnd(0, 3) === 0
+          const events = []
+
+            events.push({
+            name: 'Appointment  Calculus 1  Eddie Gomez',
+            start: '2022-03-22 02:22:22',
+            end: '2022-03-22 03:22:22',
+            color: 'orange',
+           timed: !allDay,
+          })
+        
+        this.events = events;
+
         AppointmentServices.addAppointment(this.appointment);
-
-
       },
       prev () {
         this.$refs.calendar.prev()
@@ -375,7 +438,7 @@ import AppointmentServices from "@/services/AppointmentServices.js";
 
       //  nativeEvent.stopPropagation()
       },
-      updateRange () {
+      /*updateRange () {
         const events = []
 
         //const min = new Date(`${start.date}T00:00:00`)
@@ -399,7 +462,7 @@ import AppointmentServices from "@/services/AppointmentServices.js";
           })
         }
         this.events = events
-      },
+      },*/
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
      },

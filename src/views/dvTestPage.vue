@@ -1,7 +1,7 @@
 <template>
     <v-app>  
       <p>{{this.appointments}}</p>
-      <v-btn color="primary"  @click.native="newApptTest">New Appt Test</v-btn>
+      <v-btn color="primary"  @click.native="newApptTest">New Appt Test hi</v-btn>
    </v-app>
 </template>
 

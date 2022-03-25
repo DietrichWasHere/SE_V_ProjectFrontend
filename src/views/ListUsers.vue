@@ -1,7 +1,6 @@
 <template>
 <v-container>
 
-<h1>Users</h1>
 
 <!--<input  class = "search" type = "text" v-model= "search" placeholder="Filter by advisor name &#x1F50E;&#xFE0E;	"/>
     <br>
@@ -165,7 +164,7 @@
         })
     },
     methods: {
-      initialize() {
+      /*initialize() {
         UserServices.getUsers()
         .then(response => {
           console.log(response);
@@ -175,7 +174,7 @@
         .catch(error => {
           console.log('There was an error:', error.response)
         })
-      },
+      },*/
       deleteItemDialog(item) {
         this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)

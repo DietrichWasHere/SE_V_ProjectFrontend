@@ -1,35 +1,52 @@
 <template>
     <v-app>  
-      <h1>Joe Shmoe Goe Noe Oho!</h1>
-      <social-login/>
-      <p>{{this.orgs}}</p>
+      <p>{{this.appointments}}</p>
+      <v-btn color="primary"  @click.native="newApptTest">New Appt Test hi</v-btn>
    </v-app>
 </template>
 
 <script>
-import SocialLogin from '../components/SocialLogin.vue'
-import OrgServices from '@/services/OrgServices.js';
+import ApptServices from '@/services/AppointmentServices.js';
 
 export default {
-  components: { SocialLogin },
-  name: 'Profile',
+  name: 'Test',
   props: {
     msg: String
   },
   data() {
     return {
-      orgs: []
+      appointments: [],
+      apptEdit: null
     };
   },
   created() {
-    OrgServices.getOrgs()
+    console.log("test");
+    ApptServices.getAppointments(1)
     .then(response => {
-      this.orgs = response.data
+      console.log(response.data);
+      this.appointments = response.data
     })
     .catch(error => {
       console.log('There was an error:', error.response)
     })
   },
+  methods: {
+    newApptTest() {
+      console.log("test");
+      ApptServices.addAppointment({
+        tutorID: 4,
+        orgID: 1,
+        startDateTime: '2022-01-04 13:40',
+        endDateTime: '2022-01-04 13:45',
+        locationID: 1,
+        studentID: 1,
+        tutorRating: null,
+        tutorComments: null,
+        studentRating: null,
+        studentComments: null
+      });
+    },
+  }
 }
 </script>
 

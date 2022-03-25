@@ -9,14 +9,12 @@ import Router from 'vue-router'
 // import Admin from './views/Admin.vue'
 import Contract from './views/Contract.vue'
 import Calendar from './views/Calendar.vue'
-import CalendarStudent from './views/CalendarStudent.vue'
 import ContractStudent from './views/ContractStudent.vue'
 import AppointmentRequest from './views/AppointmentRequest.vue'
 
 
 import LoginPage from './views/LoginPage.vue'
 import Profile from './views/ProfilePage.vue'
-import ProfileStudent from './views/ProfileStudent.vue'
 
 import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
@@ -34,12 +32,6 @@ const routes = [
     meta: { title: 'User Profile' }
   },
   {
-    path: '/student',
-    name: 'profilestudent',
-    component: ProfileStudent,
-    meta: { title: 'User Profile' }
-  },
-  {
     path: '/loginpage',
     name: 'loginpage',
     component: LoginPage,
@@ -50,7 +42,6 @@ const routes = [
     name: 'users',
     component: ListUsers,
     meta: { title: 'User' }
-
   },
   {
     path: '/inbox',
@@ -75,12 +66,6 @@ const routes = [
     path: '/calendar',
     name: 'calendar',
     component: Calendar,
-    meta: { title: 'Calendar' }
-  },
-  {
-    path: '/calendarstudent',
-    name: 'calendarstudent',
-    component: CalendarStudent,
     meta: { title: 'Calendar' }
   },
   {

@@ -261,17 +261,17 @@
               :color="selectedEvent.color"
               dark
             >
-       
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-  
-
     
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <span v-html="selectedEvent.start"></span>
             </v-card-text>
             <v-card-actions>
+              <v-btn  text color="blue" @click="sendRequest()">
+               Request Appointment
+              </v-btn>
               <v-btn text color="red" @click="selectedOpen = false">
                 Cancel Appointment
               </v-btn>
@@ -290,6 +290,7 @@
 <script>
 import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
+import RequestServices from '@/services/RequestServices.js';
 
 
   export default {
@@ -298,6 +299,7 @@ import UserServices from '@/services/UserServices.js';
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
       menu1: false,
       menu2: false,
+            user: 0,
       timepicker: false,
       time : "12:30",
       dialog: false,
@@ -311,13 +313,20 @@ import UserServices from '@/services/UserServices.js';
         day: 'Day',
         '4day': '4 Days',
       },
+      request: {
+        studentID: "",
+        orgID: "",
+        subjectID: "",
+        reqDate: "",
+        reqStatus: ""
+      },
       appointment: {
         tutorID: "",      
         orgID: "",
         startDateTime: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
         endDateTime: "",
         locationID: "",
-        studentID: "",
+        studentID: null,
         tutorRating: "",
         tutorComments: "",
         studentRating: "",
@@ -328,6 +337,7 @@ import UserServices from '@/services/UserServices.js';
       selectedOpen: false,
       events: [],
       rawEvents: [],
+
 
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
@@ -345,26 +355,17 @@ import UserServices from '@/services/UserServices.js';
       this.$refs.calendar.checkChange()
     },
     created () {
-          
-         /* this.appointment.tutorID = 5,      
-          this.appointment.orgID = 10,
-          this.appointment.startDateTime = "2022-03-20 02:22:22",
-          this.appointment.endDateTime = "2022-03-20 03:22:22",
-          this.appointment.locationID = 5,
-          this.appointment.studentID = 2,
-          this.appointment.tutorRating = 5,
-          this.appointment.tutorComments = "she did well",
-          this.appointment.studentRating = 5,
-          this.appointment.studentComments = "she did not do well"
-          */
-          const events = []
-           /* events.push({
-            name: 'Appointment Eddie Gomez',
-            start: this.appointment.startDateTime,
-            end: this.appointment.endDateTime,
-            color: 'blue',
-          })*/
-        
+           UserServices.getCurrentUser() 
+              .then(response => {
+            this.user =  response.data.user.id;
+
+            console.log(response);
+          })
+          .catch(error => {
+            console.log('There was an error:', error.response)
+          })
+
+        const events = []
 
         AppointmentServices.getAppointments(10)
         .then(response => {
@@ -374,35 +375,45 @@ import UserServices from '@/services/UserServices.js';
 
           for (let x = 0; x < this.rawEvents.length; x++)
          {
+           console.log(this.rawEvents[x]);
           var startDate = new Date(this.rawEvents[x].startDateTime);
-          var hrs = ((startDate.getHours() > 12) ? startDate.getHours()-12 : startDate.getHours());
-          var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes());
+          var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
+          var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
           var endDate = new Date(this.rawEvents[x].endDateTime);
           hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
-          var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes());
-
+          var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
+         
+         
+         
+         // console.log(this.rawEvents[x].startDateTime, startDate, endDate)
          // console.log('HI', formattedStartDate, formattedEndDate)
          // UserServices.getUser(1)
           //  .then(response => {
+          var tutorID = this.rawEvents[x].tutorID;
+
+        //  console.log(this.rawEvents[x].title, '  ', this.rawEvents[x].color);
+
+          if (this.user == tutorID)
+           {
             events.push({
-            name: "placeholder",
+            name: this.rawEvents[x].title,
             start: formattedStartDate,
             end: formattedEndDate,
-            color: 'blue',
-            });
-                   
-           //     })
-          //    .catch(error => {
-           //                 console.log('Oh no its broken', error.response)
-            //            })
-
+            startFormat: this.rawEvents[x].startDateTime,
+            endFormat: this.rawEvents[x].endDateTime,
+            color: this.rawEvents[x].color,
+            appointmentID: this.rawEvents[x].appointmentID,
+            tutorID: this.rawEvents[x].tutorID,
+            orgID: this.rawEvents[x].orgID,
+            })
+          }
        }
            this.events = events;
         })
         .catch(error => {
           console.log('There was an error:', error.response)
         })
-
+    
     },
     methods: {
       
@@ -450,30 +461,85 @@ import UserServices from '@/services/UserServices.js';
       save () {
         this.add ()
       },
+      sendRequest()
+      {
+          var today = new Date();
+
+          var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+          var dateTime = date+' '+time;
+
+          this.request.orgID = 10;
+          this.request.studentID = this.user;
+          this.request.tutorID = this.selectedEvent.tutorID;
+          this.request.reqDate = dateTime;
+          this.request.reqStatus = 'Requested';
+
+          var currentAppointment;
+          
+          AppointmentServices.getAppointment(this.selectedEvent.orgID, this.selectedEvent.appointmentID) 
+          .then(response => {      
+            currentAppointment = response.data[0];
+            currentAppointment.color = 'green';      
+            console.log(response);
+            AppointmentServices.updateAppointment(this.selectedEvent.appointmentID, currentAppointment)
+            .then(response => {            
+              console.log(response);
+            })
+            .catch(error => {
+              
+              console.log('There was an error: updating', error.response)
+            });
+          })
+          .catch(error => {
+            
+            console.log('There was an error: getting appointmer', error.response)
+          })
+
+
+          RequestServices.addRequest(this.request)
+                 .then(response => {
+            this.selectedOpen = false;
+            
+            console.log(response);
+          })
+          .catch(error => {
+            
+            console.log('There was an error:', error.response)
+          })
+      },
       add (){
 
         //DO CALCULATIONS AND INSERT INTO BACK END
         //I need a get current org
         var concat = "";
-        concat = this.date + " " + this.time;
+        concat = new Date(this.date + " " + this.time);
         
-        var newtime = this.time + this.duration*60000;
-        newtime = this.date  + " " +  newtime;
+        var newtime = new Date(new Date(concat).getTime() + this.duration*60000);
+        //newtime = this.date  + " " +  newtime;
+        var that = this
+        console.log(newtime)
 
+        UserServices.getCurrentUser().then(function(result) {
+          console.log(result)
+          that.appointment.tutorID = result.data.user.id
+          that.appointment.orgID = 10
+          that.appointment.startDateTime = concat
+          that.appointment.endDateTime = newtime
+          that.appointment.locationID = 5
+          AppointmentServices.addAppointment(that.appointment)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log('There was an error:', error.response)
+          })
 
-        this.appointment.tutorID =  UserServices.getCurrentUser(),      
-        this.appointment.orgID = 10,
-        this.appointment.startDateTime = concat,
-        this.appointment.endDateTime = newtime,
-        this.appointment.locationID = 5,          
-
-      AppointmentServices.addAppointment(this.appointment)
-        .then(response => {
-          console.log(response);
         })
-        .catch(error => {
-          console.log('There was an error:', error.response)
-        })
+            
+
 
 
         this.dialog = false
@@ -525,10 +591,10 @@ import UserServices from '@/services/UserServices.js';
           })
         }
         this.events = events
-      },*/
+      },
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
-     },
+     },*/
     },
   }
 </script>

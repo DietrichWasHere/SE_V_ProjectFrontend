@@ -71,7 +71,7 @@
         },
         methods: {
             editUser() {
-                UserServices.updateUser(this.user.id, this.userData)
+                UserServices.updateUser(this.userData)
                     /*.then(response => {
                         console.log("!")
                         //console.log(response);

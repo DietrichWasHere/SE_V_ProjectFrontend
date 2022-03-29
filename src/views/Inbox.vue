@@ -1,9 +1,6 @@
 <template>
   <v-app id="inspire">
-   <div>
-    <v-system-bar color="deep-purple darken-3" height="55">
-    </v-system-bar>
-    </div>
+
 
     <v-navigation-drawer
       v-model="drawer"
@@ -16,8 +13,9 @@
         <v-avatar
           class="mb-4"
           color="grey darken-1"
-          size="64"
-        ></v-avatar>
+          size="64">     
+          <img src="@/assets/dietrich.jpg" alt="">
+        </v-avatar>
 
         <div><p style="color:white; font-size:30px;">
             SEV Inbox</p></div>
@@ -56,26 +54,89 @@
             <v-card>
               <v-subheader>{{ card }}</v-subheader>
 
-              <v-list two-line>
-                <template v-for="n in 6">
                   <v-list-item
+                    :key="n"
+                  >
+                    <v-list-item-avatar >
+                        <v-avatar
+                        class="ma-2"
+                        color="grey darken-1"
+                        size="40">     
+                        <img src="@/assets/eddiegomez.jpg" alt="">
+                      </v-avatar>
+                    </v-list-item-avatar>
 
+                    <v-list-item-content>
+                      <v-list-item-title>Accept Tutor Request with Eddie Gomez?</v-list-item-title>
+
+                      <v-list-item-subtitle>
+                        I need help with my calculus homework.
+                      </v-list-item-subtitle>
+                          <div>
+                        <v-btn
+                          class="ma-2"
+                          text
+                          icon
+                          color="blue lighten-2"
+                          to="/contract"                        >
+                          <v-icon>mdi-thumb-up</v-icon>
+                          
+                        </v-btn>
+                        <v-btn
+                          class="ma-2"
+                          text
+                          icon
+                          color="grey lighten-2"
+                        >
+                          <v-icon>mdi-thumb-down</v-icon>
+                        </v-btn>
+                      </div>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-divider
+                    v-if="n !== 2"
+                    :key="`divider-${n}`"
+                    inset
+                  ></v-divider>
+                
+              <v-list two-line>
+                <template v-for="n in 3">
+                  <v-list-item
                     :key="n"
                   >
                     <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar>
 
                     <v-list-item-content>
-                      <v-list-item-title>Message {{ n }}</v-list-item-title>
+                      <v-list-item-title>Accept Tutor Request with user {{ n }}?</v-list-item-title>
 
                       <v-list-item-subtitle>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique
+                        This is a place where the notes the student wrote for the tutor wil be displayed.
                       </v-list-item-subtitle>
+                          <div>
+                        <v-btn
+                          class="ma-2"
+                          text
+                          icon
+                          color="blue lighten-2"
+                        >
+                          <v-icon>mdi-thumb-up</v-icon>
+                        </v-btn>
+                        <v-btn
+                          class="ma-2"
+                          text
+                          icon
+                          color="grey lighten-2"
+                        >
+                          <v-icon>mdi-thumb-down</v-icon>
+                        </v-btn>
+                      </div>
                     </v-list-item-content>
                   </v-list-item>
 
                   <v-divider
-                    v-if="n !== 6"
+                    v-if="n !== 2"
                     :key="`divider-${n}`"
                     inset
                   ></v-divider>
@@ -99,11 +160,11 @@ export default {
   },
 
     data: () => ({
-      cards: ['Today', 'Yesterday'],
+      cards: ['Today'/*, 'Yesterday'*/],
       drawer: null,
       links: [
         ['mdi-inbox-arrow-down', 'Inbox'],
-        ['mdi-send', 'Send'],
+      //  ['mdi-send', 'Send'],
       ],
     }),
 }

@@ -25,6 +25,6 @@ export default {
     return apiClient.put("/users/" + userID, user);
   },
   updateUser(user) {
-    return apiClient.put("/users/", user);
+    return apiClient.put("/user/", user);
   }
 };

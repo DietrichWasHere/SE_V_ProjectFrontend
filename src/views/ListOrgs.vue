@@ -121,7 +121,9 @@
       headers: [
         { text: 'Organization ID', value: 'orgID'},
         { text: 'Organization Name', value: 'orgName'},
-        { text: 'Primary Contact', value: 'primaryContactID'},
+        { text: 'Primary Contact Email', value: 'email'},
+        { text: 'First Name', value: 'fName'},
+        { text: 'Last Name', value: 'lName'},
         { text: 'Tutor Agreement', value: 'tutorAgreement' },
         { text: 'Student Agreement', value: 'studentAgreement'},
       ],
@@ -133,6 +135,7 @@
         orgID: '',
         orgName: '',
         primaryContactID: '',
+        primaryContact: '',
         tutorAgreement: '',
         studentAgreement: '',
       },
@@ -140,6 +143,7 @@
         orgID: '',
         orgName: '',
         primaryContactID: '',
+        primaryContact: '',
         tutorAgreement: '',
         studentAgreement: '',
       },
@@ -167,6 +171,8 @@
     },
     methods: {
       initialize() {
+        // https://stackoverflow.com/questions/54955426/how-to-use-async-await-in-vue-js
+        // 
         OrgServices.getOrganizations()
         .then(response => {
           console.log(response);

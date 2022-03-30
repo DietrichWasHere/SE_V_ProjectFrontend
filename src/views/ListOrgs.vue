@@ -1,10 +1,7 @@
 <template>
 <v-container>
 
-<h1>Organization</h1>
-
-<v-btn elevation="2 ">Organizations List </v-btn>
-<v-btn elevation="2" to="/createOrg">Add an Organization</v-btn>
+<h1>Organizations</h1>
 
 <!--<input  class = "search" type = "text" v-model= "search" placeholder="Filter by advisor name &#x1F50E;&#xFE0E;	"/>
     <br>
@@ -21,8 +18,8 @@
     </v-card-title>
   <v-data-table
     :headers="headers"
-    :items="org"
-    sort-by="firstname"
+    :items="organizations"
+    sort-by="fName"
     class="elevation-1"
       :search="search">
     <template v-slot:top>
@@ -34,51 +31,48 @@
         ></v-divider>
         <v-spacer></v-spacer>
         <v-dialog
-          v-model="dialog"
+          v-model="dialogEdit"
           max-width="500px"
         >
           <v-card>
               <v-container>
+                <p v-if="message">{{this.message}}</p>
                 <v-row>
                 <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.firstname"
+                      v-model="editedItem.orgID"
                       label="First name"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.lastname"
+                      v-model="editedItem.orgName"
                       label="Last Name"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.email"
+                      v-model="editedItem.primaryContactID"
                       label="Email"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.phonenumber"
+                      v-model="editedItem.tutorAgreement"
                       label="Phone number"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.organization"
-                      label="Organization"
-                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">
+              <v-btn color="blue darken-1" text @click="closeEdit">
                 Cancel
               </v-btn>
-              <v-btn color="blue darken-1" text @click="save">
+              <v-btn color="blue darken-1" text @click="saveEdit">
                 Save
               </v-btn>
             </v-card-actions>
@@ -86,6 +80,7 @@
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
+            <p v-if="message">{{this.message}}</p>
             <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -99,10 +94,7 @@
     </template>
 
     <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">
-        mdi-pencil
-      </v-icon>
-      <v-icon small @click="deleteItem(item)">
+      <v-icon small @click="deleteItemDialog(item)">
         mdi-delete
       </v-icon>
     </template>
@@ -119,123 +111,87 @@
 </template>
 
 <script>
-  import OrgServices from './services/OrgServices.js';
+  import OrgServices from '../services/OrgServices.js';
 
   export default {
     data: () => ({
       search: '',
-      dialog: false,
+      dialogEdit: false,
       dialogDelete: false,
       headers: [
-        { text: 'Organization', align: 'start', sortable: false, value: 'orgName'},
-        { text: 'Last Name', value: 'lastname'},
-        { text: 'Email', value: 'email'  },
-        { text: 'Phone Number', value: 'phonenumber' },
-        { text: 'Organization', value: 'organization' },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'Organization ID', value: 'orgID'},
+        { text: 'Organization Name', value: 'orgName'},
+        { text: 'Primary Contact', value: 'primaryContactID'},
+        { text: 'Tutor Agreement', value: 'tutorAgreement' },
+        { text: 'Student Agreement', value: 'studentAgreement'},
       ],
-      org: [],
+      message: '',
+      // organizations: [],
+      organizations: [],
       editedIndex: -1,
       editedItem: {
-        firstname: '',
-        lastname: '',
-        email: '',
-        phonenumber: '',
-        organization: '',
+        orgID: '',
+        orgName: '',
+        primaryContactID: '',
+        tutorAgreement: '',
+        studentAgreement: '',
       },
       defaultItem: {
-        firstname: '',
-        lastname: '',
-        email: '@gmail.com',
-        phonenumber: '',
-        organization: '',
+        orgID: '',
+        orgName: '',
+        primaryContactID: '',
+        tutorAgreement: '',
+        studentAgreement: '',
       },
     }),
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'New User' : 'Edit User'
       },
     },
     watch: {
-      dialog (val) {
-        val || this.close()
-      },
       dialogDelete (val) {
         val || this.closeDelete()
       },
     },
     created () {
-      this.initialize()
+      OrgServices.getOrganizations()
+        .then(response => {
+          console.log(response);
+          this.organizations = response.data
+          console.log(this.organizations);
+        })
+        .catch(error => {
+          console.log('There was an error:', error.response)
+        })
     },
     methods: {
-      initialize () {
-        this.orgs = [
-          {
-            orgID: '',
-            orgName: 'Eddie',
-            lastname: 'Gomez',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'David',
-            lastname: 'North',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'Timothy',
-            lastname: 'White',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'Deitrich',
-            lastname: 'Versaw',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'Braden',
-            lastname: 'Thompson',
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-          {
-            firstname: 'Jelly bean',
-            lastname: 375,
-            email: 'eddie@gmail.com',
-            phonenumber: '123 333-8993',
-            organization: 'New College',
-          },
-         
-        ]
+      initialize() {
+        OrgServices.getOrganizations()
+        .then(response => {
+          console.log(response);
+          this.organizations = response.data
+          console.log(this.organizations);
+        })
+        .catch(error => {
+          console.log('There was an error:', error.response)
+        })
       },
-      editItem (item) {
-        this.editedIndex = this.orgs.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-      deleteItem (item) {
-        this.editedIndex = this.orgs.indexOf(item)
+      deleteItemDialog(item) {
+        this.editedIndex = this.organizations.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
-      deleteItemConfirm () {
-        this.orgs.splice(this.editedIndex, 1)
-        this.closeDelete()
-      },
-      close () {
-        this.dialog = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
+      deleteItemConfirm() {
+        OrgServices.deleteUser(this.editedItem.userID)
+          .then(() => {
+            this.organizations.splice(this.editedIndex, 1)
+            this.closeDelete()
+          })
+          .catch(error => {
+            console.log("ERR: " + error.message);
+            //this.message = error.message;
+          })
       },
       closeDelete () {
         this.dialogDelete = false
@@ -243,18 +199,9 @@
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
         })
-      },
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.orgs[this.editedIndex], this.editedItem)
-        } else {
-          this.orgs.push(this.editedItem)
-        }
-        this.close()
-      },
-    },
+      }
+    }
   }
- 
 </script>
 
 <!-- Add "scoped" at

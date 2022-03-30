@@ -119,7 +119,7 @@
 </template>
 
 <script>
-  import OrgServices from './services/OrgServices.js';
+  // import OrgServices from './services/OrgServices.js';
 
   export default {
     data: () => ({

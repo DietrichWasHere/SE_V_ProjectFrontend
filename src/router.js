@@ -21,7 +21,7 @@ import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
 import ListAdmin from './views/ListAdmin.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
-
+import ListOrgs from './views/ListOrgs.vue'
 import dvTestPage from './views/dvTestPage.vue'
 
 Vue.use(Router)

@@ -30,16 +30,15 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'profile',
-    component: Profile,
-    meta: { title: 'User Profile' }
-  },
-  {
-    path: '/loginpage',
-
     name: 'loginpage',
     component: LoginPage,
     meta: { title: 'Log In' }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: { title: 'User Profile' }
   },
   {
     path: '/profile',
@@ -89,18 +88,12 @@ const routes = [
     component: Contract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
-  {
-    path: '/orgs',
-    name: 'organizations',
-    component: ListOrgs,
-    meta: { title: 'Organizations' }
-  },
-  {
+  /*{
     path: '/contractstudent',
     name: 'cotractstudent',
     component: ContractStudent,
     meta: { title: 'Tutoring Agreement Contract' }
-  },
+  },*/
   {
     path: '/appointmentrequest',
     name: 'appointmentrequest',

@@ -21,13 +21,13 @@ Vue.use(Router)
 // https://router.vuejs.org/guide/
 const routes = [
   {
-    path: '/',
+    path: '/profile',
     name: 'profile',
     component: Profile,
     meta: { title: 'Profile' }
   },
   {
-    path: '/loginpage',
+    path: '/',
     name: 'loginpage',
     component: LoginPage,
     meta: { title: 'Log In' }

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <v-app-bar color="deep-purple accent-4"  dark prominent>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-app-bar-title > {{ $route.meta.title }} </v-app-bar-title>
@@ -38,20 +38,24 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
-          <v-list-item>
-            <v-list-item-title>Foo</v-list-item-title>
+          <v-list-item  to="/">
+            <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-title>Bar</v-list-item-title>
+          <v-list-item  to="/inbox">
+            <v-list-item-title>Inbox</v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
+          <v-list-item  to="/calendarstudent">
+            <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-title>Buzz</v-list-item-title>
+          <v-list-item  to="/contract">
+            <v-list-item-title>Contract</v-list-item-title>
+          </v-list-item>
+          
+          <v-list-item  to="/users">
+            <v-list-item-title>Users</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>

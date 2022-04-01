@@ -4,10 +4,15 @@ import settings from "./config"
 const apiClient = axios.create(settings);
 
 export default {
+  getCurrentUser() {
+    // get id and roles
+    return apiClient.get("/user/");
+  },
   getUsers() {
     return apiClient.get("/users/");
   },
   getUser(userID) {
+    // get user data
     return apiClient.get("/users/" + userID);
   },
   deleteUser(userID) {

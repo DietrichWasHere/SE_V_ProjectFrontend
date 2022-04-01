@@ -71,25 +71,7 @@
         contract. I agree to work cooperatively with this stuent to achieve academic success.
     </p>
 
-    <br>
-    <v-container fill-width fluid>
-        <v-row justify="center"><v-col lg="3" >Tutor Signature<v-text-field v-model="name" :rules="nameRules" :counter="30" label="First name Last Name" required></v-text-field> </v-col>
-        
-        <v-col lg="3">Date:
-                <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-text-field v-model="dateFormatted"  hint="MM/DD/YYYY format" persistent-hint prepend-icon="mdi-calendar" 
-                        v-bind="attrs" @blur="date = parseDate(dateFormatted)" v-on="on">
-                        </v-text-field>
-                    </template>
-                    <v-date-picker v-model="date" no-title  @input="menu1 = false" >
-                    </v-date-picker>
-                </v-menu>
-            </v-col>
-        </v-row>
-    </v-container>
-   
-    <v-btn color="primary" elevation="3" plain rounded x-large to="/calendar">
+    <v-btn color="primary" elevation="3" plain rounded x-large to="/calendarstudent">
         Next
     </v-btn>
 </v-container>
@@ -98,7 +80,7 @@
 <script>
   export default {
     data: vm => ({
-      studentName: 'Eddie Gomez',
+      studentName: '',
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
       menu1: false,

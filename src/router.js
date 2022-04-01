@@ -41,10 +41,6 @@ const routes = [
     meta: { title: 'User Profile' }
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
-    meta: { title: 'Profile' }
   },
   {
     path: '/users',

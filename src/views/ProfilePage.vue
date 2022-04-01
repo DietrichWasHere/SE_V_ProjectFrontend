@@ -35,7 +35,7 @@
 
 <script>
     import UserServices from '@/services/UserServices.js';
-
+    
     export default {
         pageTitle: 'MyProfile',
         data () {

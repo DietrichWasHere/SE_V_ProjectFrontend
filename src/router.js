@@ -9,6 +9,7 @@ import Router from 'vue-router'
 // import Admin from './views/Admin.vue'
 import Contract from './views/Contract.vue'
 import Calendar from './views/Calendar.vue'
+import StudentCalendar from './views/StudentCalendar.vue'
 import ContractStudent from './views/ContractStudent.vue'
 import AppointmentRequest from './views/AppointmentRequest.vue'
 
@@ -66,6 +67,12 @@ const routes = [
     path: '/calendar',
     name: 'calendar',
     component: Calendar,
+    meta: { title: 'Calendar' }
+  },
+  {
+    path: '/studentcalendar',
+    name: 'studentcalendar',
+    component: StudentCalendar,
     meta: { title: 'Calendar' }
   },
   {

@@ -12,28 +12,38 @@
             @click="addItem()">
             Add
           </v-btn>
+        <v-btn 
+            outlined
+            class="mr-4"
+            color="grey darken-2"
+            @click="filter()">
+                Filter
+        </v-btn>   
+    <!--  <v-btn color="primary" @click="filter()">-->
+           <v-col
+          cols="12"
+          sm="6"
+        >
+          <v-select
+            v-model="color"
+            :items="colors"
+            colors
+            label="Color"
+            multiple
+            outlined
+          >
           
-      <v-btn color="primary" @click="filter()">
-        Filter
-      </v-btn>
+            </v-select>
+
+           
+
+        </v-col>
+     <!-- </v-btn>-->
     
           <v-dialog v-model="dialog" max-width="500px">
           <v-card>
               <v-container>
                 <v-row>
-                  <!-- <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.tutorID"
-                      label="Tutor ID"
-                    ></v-text-field>
-                  </v-col> 
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.orgID"
-                      label="Organization"
-                    ></v-text-field>
-                  </v-col> -->
-                  
                   <v-col cols="12" sm="6" md="4">
                     <v-container fill-width fluid>
                       <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
@@ -82,8 +92,6 @@
       </v-menu>
     </v-col>
                                     
-
-
    <v-col cols="12">
             <v-slider
               v-model="duration"
@@ -113,41 +121,7 @@
 
         ></v-select>
       </v-col>
-
-                 <!--   <v-text-field
-                      label="Location" 
-                    ></v-text-field>-->
-    <!--               <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.studentID"
-                      label="Student"
-                    ></v-text-field>
-                  </v-col>-->
-                   <!--<v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.tutorRating"                   
-                      label="Tutor Rating"
-                    ></v-text-field>
-                  </v-col>
-                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.tutorComments"                    
-                      label="Tutor Comments"
-                    ></v-text-field>
-                  </v-col>
-                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.studentRating"                    
-                      label="Student Rating"
-                    ></v-text-field>
-                  </v-col>
-                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="appointment.studentComments"                    
-                      label="Student Comments"
-                    ></v-text-field>
-                  </v-col>-->
-                </v-row>
+          </v-row>
               </v-container>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -160,15 +134,6 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-          <!--n<v-btn
-            outlined
-            class="mr-4"
-            color="grey darken-2"
-            @click="add"
-          >
-            Add
-          </v-btn>-->
-
           <v-btn
             outlined
             class="mr-4"
@@ -291,8 +256,6 @@
 import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
 import RequestServices from '@/services/RequestServices.js';
-
-
   export default {
     data: vm=> ({
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -338,8 +301,8 @@ import RequestServices from '@/services/RequestServices.js';
       events: [],
       rawEvents: [],
 
-      color: "", 
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+      color: [], 
+      colors: ['blue', 'indigo', 'cyan', 'green', 'orange'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
         computed: {
@@ -389,43 +352,27 @@ import RequestServices from '@/services/RequestServices.js';
          // console.log('HI', formattedStartDate, formattedEndDate)
          // UserServices.getUser(1)
           //  .then(response => {
-          var tutorID = this.rawEvents[x].tutorID;
+         // var tutorID = this.rawEvents[x].tutorID;
 
         //  console.log(this.rawEvents[x].title, '  ', this.rawEvents[x].color);
           
-          if (this.user == tutorID)
-           {
-             if(this.color == this.rawEvents[x].color)
-            {
-              events.push({
-              name: this.rawEvents[x].title,
-              start: formattedStartDate,
-              end: formattedEndDate,
-              startFormat: this.rawEvents[x].startDateTime,
-              endFormat: this.rawEvents[x].endDateTime,
-              color: this.rawEvents[x].color,
-              appointmentID: this.rawEvents[x].appointmentID,
-              tutorID: this.rawEvents[x].tutorID,
-              orgID: this.rawEvents[x].orgID,
-              })
-            }
-              else if(this.color == "")
-              {
+      //    if (this.user == tutorID)
+      //     {
+        
+           
                     events.push({
-                    name: this.rawEvents[x].title,
-                    start: formattedStartDate,
-                    end: formattedEndDate,
-                    startFormat: this.rawEvents[x].startDateTime,
-                    endFormat: this.rawEvents[x].endDateTime,
-                    color: this.rawEvents[x].color,
-                    appointmentID: this.rawEvents[x].appointmentID,
-                    tutorID: this.rawEvents[x].tutorID,
-                    orgID: this.rawEvents[x].orgID,
+                        name: this.rawEvents[x].title,
+                        start: formattedStartDate,
+                        end: formattedEndDate,
+                        startFormat: this.rawEvents[x].startDateTime,
+                        endFormat: this.rawEvents[x].endDateTime,
+                        color: this.rawEvents[x].color,
+                        appointmentID: this.rawEvents[x].appointmentID,
+                        tutorID: this.rawEvents[x].tutorID,
+                        orgID: this.rawEvents[x].orgID,
+                        
                     })
               }
-            }
-          
-       }
            this.events = events;
         })
         .catch(error => {
@@ -435,16 +382,19 @@ import RequestServices from '@/services/RequestServices.js';
     },
     methods: {
        filter() {
-                  UserServices.getCurrentUser() 
-              .then(response => {
-            this.user =  response.data.user.id;
-
+          
+         // this.color = "green";
+        UserServices.getCurrentUser() 
+        .then(response => {
+        this.user =  response.data.user.id;
+            
         const events = []
-        AppointmentServices.getAppointments(response.data.user.roles[0].org)
+
+      AppointmentServices.getAppointments(response.data.user.roles[0].org)
         .then(response => {
           console.log(response);
           this.rawEvents = response.data
-          console.log(this.rawEvents);
+     //     console.log(this.rawEvents);
           for (let x = 0; x < this.rawEvents.length; x++)
          {
            console.log(this.rawEvents[x]);
@@ -454,24 +404,32 @@ import RequestServices from '@/services/RequestServices.js';
           var endDate = new Date(this.rawEvents[x].endDateTime);
           hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
           var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
-          var tutorID = this.rawEvents[x].tutorID;
-          if (this.user == tutorID)
-           {
-             if(this.color == this.rawEvents[x].color)
-            {
-              events.push({
-              name: this.rawEvents[x].title,
-              start: formattedStartDate,
-              end: formattedEndDate,
-              startFormat: this.rawEvents[x].startDateTime,
-              endFormat: this.rawEvents[x].endDateTime,
-              color: this.rawEvents[x].color,
-              appointmentID: this.rawEvents[x].appointmentID,
-              tutorID: this.rawEvents[x].tutorID,
-              orgID: this.rawEvents[x].orgID,
-              })
-            }
-              else if(this.color == "")
+      //    var tutorID = this.rawEvents[x].tutorID;
+     //     if (this.user == tutorID)
+      
+      //     {
+          if(this.color.length > 0)
+          {
+                for(let y = 0; y < this.color.length; y++)
+                {
+                     console.log('THis is the color ',this.color[y], "  -   ", this.rawEvents[x].color)
+                    if(this.color[y] == this.rawEvents[x].color)
+                    {
+                        events.push({
+                        name: this.rawEvents[x].title,
+                        start: formattedStartDate,
+                        end: formattedEndDate,
+                        startFormat: this.rawEvents[x].startDateTime,
+                        endFormat: this.rawEvents[x].endDateTime,
+                        color: this.rawEvents[x].color,
+                        appointmentID: this.rawEvents[x].appointmentID,
+                        tutorID: this.rawEvents[x].tutorID,
+                        orgID: this.rawEvents[x].orgID,
+                        })
+                        }
+                }
+          }
+           else 
               {
                     events.push({
                     name: this.rawEvents[x].title,
@@ -485,7 +443,7 @@ import RequestServices from '@/services/RequestServices.js';
                     orgID: this.rawEvents[x].orgID,
                     })
               }
-            }
+
        }
            this.events = events;
         })
@@ -497,7 +455,8 @@ import RequestServices from '@/services/RequestServices.js';
           .catch(error => {
             console.log('There was an error:', error.response)
           })
-       
+
+  
       },
       formatDate (date) {
         if (!date) return null
@@ -535,18 +494,20 @@ import RequestServices from '@/services/RequestServices.js';
       sendRequest()
       {
           var today = new Date();
-
           var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
           var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
           var dateTime = date+' '+time;
 
-          this.request.orgID = 10;
+          //this.request.orgID = this.selectedEvent.orgID;
           this.request.studentID = this.user;
-          this.request.tutorID = this.selectedEvent.tutorID;
+          this.request.appointmentID = this.selectedEvent.appointmentID;
+          this.request.subjectID = 1;
           this.request.reqDate = dateTime;
           this.request.reqStatus = 'Requested';
+         // this.request.tutorID = this.selectedEvent.tutorID;
+          
+          
+          
 
           var currentAppointment;
           

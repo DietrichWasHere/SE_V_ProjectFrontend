@@ -41,6 +41,10 @@ const routes = [
     meta: { title: 'User Profile' }
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: { title: 'Profile' }
   },
   {
     path: '/users',
@@ -49,15 +53,15 @@ const routes = [
     meta: { title: 'User' }
   },
   {
+    path: '/orgs',
+    name: 'organizations',
+    component: ListOrgs,
+    meta: { title: 'Organizations' }
+  },
+  {
     path: '/inbox',
     name: 'inbox',
     component: Inbox
-  },
-
-  {
-    path: '/dvTest',
-    name: 'dvTest',
-    component: dvTestPage,
   },
 
   {
@@ -95,6 +99,11 @@ const routes = [
     name: 'appointmentrequest',
     component: AppointmentRequest,
     meta: { title: 'Appointment Request' }
+  },
+  {
+    path: '/dvTest',
+    name: 'dvTest',
+    component: dvTestPage,
   }
 ]
 

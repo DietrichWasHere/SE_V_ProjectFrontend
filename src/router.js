@@ -89,12 +89,12 @@ const routes = [
     component: Contract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
-  {
+  /*{
     path: '/contractstudent',
     name: 'cotractstudent',
     component: ContractStudent,
     meta: { title: 'Tutoring Agreement Contract' }
-  },
+  },*/
   {
     path: '/appointmentrequest',
     name: 'appointmentrequest',

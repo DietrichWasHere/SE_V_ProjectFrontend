@@ -30,16 +30,15 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'profile',
-    component: Profile,
-    meta: { title: 'User Profile' }
-  },
-  {
-    path: '/loginpage',
-
     name: 'loginpage',
     component: LoginPage,
     meta: { title: 'Log In' }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: { title: 'User Profile' }
   },
   {
     path: '/profile',

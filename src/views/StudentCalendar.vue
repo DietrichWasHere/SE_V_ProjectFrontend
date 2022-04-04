@@ -255,7 +255,7 @@
 <script>
 import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
-import RequestServices from '@/services/RequestServices.js';
+import ApptRequestServices from '@/services/ApptRequestServices.js';
   export default {
     data: vm=> ({
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -278,7 +278,7 @@ import RequestServices from '@/services/RequestServices.js';
       },
       request: {
         studentID: "",
-        orgID: "",
+        appointmentID: "",
         subjectID: "",
         reqDate: "",
         reqStatus: ""
@@ -504,17 +504,14 @@ import RequestServices from '@/services/RequestServices.js';
           this.request.subjectID = 1;
           this.request.reqDate = dateTime;
           this.request.reqStatus = 'Requested';
-         // this.request.tutorID = this.selectedEvent.tutorID;
-          
-          
-          
 
+         // this.request.tutorID = this.selectedEvent.tutorID;  
           var currentAppointment;
           
           AppointmentServices.getAppointment(this.selectedEvent.orgID, this.selectedEvent.appointmentID) 
           .then(response => {      
             currentAppointment = response.data[0];
-            currentAppointment.color = 'green';      
+            currentAppointment.color = 'green';  
             console.log(response);
             AppointmentServices.updateAppointment(this.selectedEvent.appointmentID, currentAppointment)
             .then(response => {            
@@ -531,7 +528,7 @@ import RequestServices from '@/services/RequestServices.js';
           })
 
 
-          RequestServices.addRequest(this.request)
+          ApptRequestServices.addRequest(this.request)
                  .then(response => {
             this.selectedOpen = false;
             
@@ -539,7 +536,7 @@ import RequestServices from '@/services/RequestServices.js';
           })
           .catch(error => {
             
-            console.log('There was an error:', error.response)
+            console.log('There was an error: in adding request', error.response)
           })
       },
       add (){

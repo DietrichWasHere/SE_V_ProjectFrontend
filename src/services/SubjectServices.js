@@ -7,8 +7,8 @@ export default {
   getSubjects() {
     return apiClient.get("/subjects/");
   },
-  getSubject(subjectID) {
-    return apiClient.get("/subjects/" + subjectID);
+  getSubjectsByTutor(tutorID) {
+    return apiClient.get("/subjects/" + tutorID);
   },
   deleteSubject(subjectID) {
     return apiClient.delete("/subjects/" + subjectID);

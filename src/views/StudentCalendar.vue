@@ -34,10 +34,28 @@
           >
           
             </v-select>
-
-           
+                      <v-select
+            v-model="tutor"
+            :items="tutors"
+            tutors
+            label="Tutor"
+            multiple
+            outlined
+          >
+          
+            </v-select>
 
         </v-col>
+        <v-select
+            v-model="subject"
+            :items="subjects"
+            subjects
+            label="Subject"
+            
+            outlined
+          >
+          
+            </v-select>
      <!-- </v-btn>-->
     
           <v-dialog v-model="dialog" max-width="500px">
@@ -256,6 +274,7 @@
 import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
 import ApptRequestServices from '@/services/ApptRequestServices.js';
+import SubjectServices from '@/services/SubjectServices.js';
   export default {
     data: vm=> ({
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -299,11 +318,17 @@ import ApptRequestServices from '@/services/ApptRequestServices.js';
       selectedElement: null,
       selectedOpen: false,
       events: [],
+      allevents: [],
       rawEvents: [],
 
       color: [], 
-      colors: ['blue', 'indigo', 'cyan', 'green', 'orange'],
+      colors: ['blue', 'green', 'orange'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+      tutors: [],
+      tutor:[],
+      subjects: [],
+      subject: []
+
     }),
         computed: {
       computedDateFormatted () {
@@ -318,6 +343,9 @@ import ApptRequestServices from '@/services/ApptRequestServices.js';
       this.$refs.calendar.checkChange()
     },
     created () {
+
+        
+
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
@@ -329,37 +357,29 @@ import ApptRequestServices from '@/services/ApptRequestServices.js';
           })
 
         const events = []
-
+        var that = this;
         AppointmentServices.getAppointments(10)
-        .then(response => {
+        .then(async response => {
           console.log(response);
           this.rawEvents = response.data
-          console.log(this.rawEvents);
-
-          for (let x = 0; x < this.rawEvents.length; x++)
-         {
-           console.log(this.rawEvents[x]);
-          var startDate = new Date(this.rawEvents[x].startDateTime);
-          var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
-          var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
-          var endDate = new Date(this.rawEvents[x].endDateTime);
-          hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
-          var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
-         
-         
-         
-         // console.log(this.rawEvents[x].startDateTime, startDate, endDate)
-         // console.log('HI', formattedStartDate, formattedEndDate)
-         // UserServices.getUser(1)
-          //  .then(response => {
-         // var tutorID = this.rawEvents[x].tutorID;
-
-        //  console.log(this.rawEvents[x].title, '  ', this.rawEvents[x].color);
-          
-      //    if (this.user == tutorID)
-      //     {
+         // console.log(this.rawEvents);
         
-           
+          for (let x = 0; x < this.rawEvents.length; x++)
+         {             
+            that.tutors.push(this.rawEvents[x].tutorFName + " " + this.rawEvents[x].tutorLName);  
+            
+
+            //console.log(this.rawEvents[x]);
+            var startDate = new Date(this.rawEvents[x].startDateTime);
+            var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
+            var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
+            var endDate = new Date(this.rawEvents[x].endDateTime);
+            hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
+            var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
+            var subjects = [];
+            await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
+                for (var x in r.data) subjects.push(r.data[x].subjectName);
+            });
                     events.push({
                         name: this.rawEvents[x].title,
                         start: formattedStartDate,
@@ -370,10 +390,16 @@ import ApptRequestServices from '@/services/ApptRequestServices.js';
                         appointmentID: this.rawEvents[x].appointmentID,
                         tutorID: this.rawEvents[x].tutorID,
                         orgID: this.rawEvents[x].orgID,
-                        
+                        tutorFName: this.rawEvents[x].tutorFName,
+                        tutorLName: this.rawEvents[x].tutorLName,
+                        subjects: subjects
                     })
               }
+            await SubjectServices.getSubjects().then(r => {
+                for (var x in r.data) that.subjects.push(r.data[x].subjectName);
+            });
            this.events = events;
+           this.allevents = events;
         })
         .catch(error => {
           console.log('There was an error:', error.response)
@@ -381,80 +407,13 @@ import ApptRequestServices from '@/services/ApptRequestServices.js';
     
     },
     methods: {
-       filter() {
-          
-         // this.color = "green";
-        UserServices.getCurrentUser() 
-        .then(response => {
-        this.user =  response.data.user.id;
-            
-        const events = []
-
-      AppointmentServices.getAppointments(response.data.user.roles[0].org)
-        .then(response => {
-          console.log(response);
-          this.rawEvents = response.data
-     //     console.log(this.rawEvents);
-          for (let x = 0; x < this.rawEvents.length; x++)
-         {
-           console.log(this.rawEvents[x]);
-          var startDate = new Date(this.rawEvents[x].startDateTime);
-          var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
-          var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
-          var endDate = new Date(this.rawEvents[x].endDateTime);
-          hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
-          var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
-      //    var tutorID = this.rawEvents[x].tutorID;
-     //     if (this.user == tutorID)
       
-      //     {
-          if(this.color.length > 0)
-          {
-                for(let y = 0; y < this.color.length; y++)
-                {
-                     console.log('THis is the color ',this.color[y], "  -   ", this.rawEvents[x].color)
-                    if(this.color[y] == this.rawEvents[x].color)
-                    {
-                        events.push({
-                        name: this.rawEvents[x].title,
-                        start: formattedStartDate,
-                        end: formattedEndDate,
-                        startFormat: this.rawEvents[x].startDateTime,
-                        endFormat: this.rawEvents[x].endDateTime,
-                        color: this.rawEvents[x].color,
-                        appointmentID: this.rawEvents[x].appointmentID,
-                        tutorID: this.rawEvents[x].tutorID,
-                        orgID: this.rawEvents[x].orgID,
-                        })
-                        }
-                }
-          }
-           else 
-              {
-                    events.push({
-                    name: this.rawEvents[x].title,
-                    start: formattedStartDate,
-                    end: formattedEndDate,
-                    startFormat: this.rawEvents[x].startDateTime,
-                    endFormat: this.rawEvents[x].endDateTime,
-                    color: this.rawEvents[x].color,
-                    appointmentID: this.rawEvents[x].appointmentID,
-                    tutorID: this.rawEvents[x].tutorID,
-                    orgID: this.rawEvents[x].orgID,
-                    })
-              }
-
-       }
-           this.events = events;
-        })
-        .catch(error => {
-          console.log('There was an error:', error.response)
-        })
-            console.log(response);
-          })
-          .catch(error => {
-            console.log('There was an error:', error.response)
-          })
+       filter() {
+          this.events = this.allevents.filter(e => !this.color.length || this.color.includes(e.color));
+          this.events = this.events.filter(e => !this.tutor.length || this.tutor.includes(e.tutorFName + " " + e.tutorLName));
+          this.events = this.events.filter(e => !this.subject.length || e.subjects.includes(this.subject));
+          console.log(this.events);
+         
 
   
       },
@@ -552,7 +511,7 @@ import ApptRequestServices from '@/services/ApptRequestServices.js';
         console.log(newtime)
 
         UserServices.getCurrentUser().then(function(result) {
-          console.log(result)
+          //console.log(result)
           that.appointment.tutorID = result.data.user.id
           that.appointment.orgID = 10
           that.appointment.startDateTime = concat

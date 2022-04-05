@@ -19,9 +19,12 @@ export default {
     return apiClient.delete("/users/" + userID);
   },
   addUser(user) {
-    return apiClient.post("/users/", user);
+    return apiClient.post("/user/", user);
   },
-  updateUser(userID, user) {
+  updateUserById(userID, user) {
     return apiClient.put("/users/" + userID, user);
+  },
+  updateUser(user) {
+    return apiClient.put("/user/", user);
   }
 };

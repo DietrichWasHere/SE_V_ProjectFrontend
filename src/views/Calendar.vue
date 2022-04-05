@@ -4,19 +4,13 @@
     <v-col>
       <v-sheet>
         <v-toolbar>
-               <v-btn    
-          color="primary"
-          elevation="2"         
-          small
-            @click="filter()">
-                Filter 
-        </v-btn> 
-          <v-btn 
+                <v-btn 
           
             class="mr-4"
             @click="addItem()">
             Add
           </v-btn>
+    
            <v-select
             v-model="color"
             :items="colors"
@@ -25,6 +19,13 @@
             multiple
           >
            </v-select>
+                        <v-btn    
+          color="primary"
+          elevation="2"         
+          small
+            @click="filter()">
+                Filter 
+        </v-btn> 
      
           <v-dialog v-model="dialog" max-width="500px">
           <v-card>
@@ -112,7 +113,6 @@
               </template>
             </v-slider>
     </v-col>
-
 
      <v-col>
         <v-select
@@ -488,9 +488,12 @@ import UserServices from '@/services/UserServices.js';
           that.appointment.startDateTime = concat
           that.appointment.endDateTime = newtime
           that.appointment.locationID = 5
+          that.appointment.color = "grey"
+          that.appointment.title = "Avalable Appointment"
           AppointmentServices.addAppointment(that.appointment)
           .then(response => {
             console.log(response);
+            window.location.reload();
           })
           .catch(error => {
             console.log('There was an error:', error.response)

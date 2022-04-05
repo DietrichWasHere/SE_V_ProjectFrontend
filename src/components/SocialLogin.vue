@@ -47,27 +47,31 @@ export default {
           console.log(window.localStorage.getItem('user'))
           console.log("0")
           //this.$store.commit('setLoginUser', userInfo)
+          
           UserServices.getCurrentUser()
           .then(response => {
+
             this.user = response.data;
             console.log(this.user);
-            console.log("1. " + this.user);
-            console.log(this.user.roles);
+            console.log(this.user.user.roles);
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
-            if (!this.user.roles){
+            if (!this.user.user.roles){
               UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email});
               
             }
+          window.location.href = this.user.user.roles[0].role == 'student' ? '/studentcalendar' : '/calendar';
+                      //  router.push('/calendar')
+
+
           })
           .catch(error => {
+            
             console.log('error', error)
           });
-          //router.push('/home')
-          router.push('/calendar')
         })
         .catch(error => {
           console.log('error', error)
-                    this.router.push('/calendar')
+          this.router.push('/calendar')
 
         })
     }

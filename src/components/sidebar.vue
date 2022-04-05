@@ -90,6 +90,7 @@
       logout() {
       this.requestUser = window.localStorage.clear('token') 
       this.requestUser = window.localStorage.clear('user') 
+      window.location.href = '/'
       },
     },
   }

@@ -11,15 +11,9 @@
 </template>
 
 <script>
-
-//import router from '@/router/router'
-import UserServices from '@/services/UserServices.js';
+import router from '@/router'
 export default {
   name: 'social_login',
-  data: () => ({
-    user: {},
-    presence: false
-  }),
   methods: {
     loginWithGoogle () {
       this.$gAuth
@@ -45,25 +39,7 @@ export default {
           window.localStorage.setItem('token', JSON.stringify({token: userInfo.google.auth.id_token}))
           window.localStorage.setItem('user', JSON.stringify(userInfo))
           console.log(window.localStorage.getItem('user'))
-          console.log("0")
           //this.$store.commit('setLoginUser', userInfo)
-          UserServices.getCurrentUser()
-          .then(response => {
-            this.user = response.data;
-            console.log(this.user);
-            console.log("1. " + this.user);
-            console.log(this.user.roles);
-            // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
-            if (!this.user.roles){
-              UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email});
-              
-            }
-          })
-          .catch(error => {
-            console.log('error', error)
-          });
-          //router.push('/home')
-
           router.push('/calendar')
         })
         .catch(error => {

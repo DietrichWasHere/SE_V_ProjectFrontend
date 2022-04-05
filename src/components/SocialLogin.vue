@@ -39,11 +39,11 @@ export default {
           window.localStorage.setItem('token', JSON.stringify({token: userInfo.google.auth.id_token}))
           window.localStorage.setItem('user', JSON.stringify(userInfo))
           //this.$store.commit('setLoginUser', userInfo)
-          router.push('/')
+          router.push('/calendar')
         })
         .catch(error => {
           console.log('error', error)
-                    this.router.push('/')
+                    this.router.push('/calendar')
 
         })
     }

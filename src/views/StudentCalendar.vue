@@ -432,6 +432,8 @@ import SubjectServices from '@/services/SubjectServices.js';
       },
       sendRequest()
       {
+         
+
           var today = new Date();
           var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
           var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -477,6 +479,9 @@ import SubjectServices from '@/services/SubjectServices.js';
             
             console.log('There was an error: in adding request', error.response)
           })
+
+          this.selectedOpen = false
+        
       },
       add (){
 

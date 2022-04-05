@@ -18,7 +18,7 @@
         </v-avatar>
 
         <div><p style="color:white; font-size:30px;">
-            SEV Inbox</p></div>
+             Notifications</p></div>
       </v-sheet>
 
       <v-divider></v-divider>
@@ -130,16 +130,15 @@ export default {
             for (let x = 0; x < this.rawRequests.length; x++)
             {
                 this.requests.push({
-                studentID : this.rawRequests.studentID,
-                appointmentID : this.rawRequests.appointmentID,
-                subjectID : this.rawRequests.subjectID,
-                reqDate: this.rawRequests.reqDate, 
-                reqStatus : this.rawRequests.reqStatus,
+                studentID : this.rawRequests[x].studentID,
+                appointmentID : this.rawRequests[x].appointmentID,
+                subjectID : this.rawRequests[x].subjectID,
+                reqDate: this.rawRequests[x].reqDate, 
+                reqStatus : this.rawRequests[x].reqStatus,
               })
-
-              console.log(response.data.studentID);
-
             }
+            console.log(this.rawRequests[1].studentID);
+
         
           })
           .catch(error => {

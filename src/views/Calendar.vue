@@ -271,9 +271,7 @@
               <span v-html="selectedEvent.start"></span>
             </v-card-text>
             <v-card-actions>
-              <v-btn  text color="blue" @click="sendRequest()">
-               Request Appointment
-              </v-btn>
+              
               <v-btn text color="red" @click="selectedOpen = false">
                 Cancel Appointment
               </v-btn>
@@ -292,7 +290,6 @@
 <script>
 import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
-import RequestServices from '@/services/RequestServices.js';
 
 
   export default {
@@ -315,13 +312,7 @@ import RequestServices from '@/services/RequestServices.js';
         day: 'Day',
         '4day': '4 Days',
       },
-      request: {
-        studentID: "",
-        orgID: "",
-        subjectID: "",
-        reqDate: "",
-        reqStatus: ""
-      },
+
       appointment: {
         tutorID: "",      
         orgID: "",
@@ -477,55 +468,7 @@ import RequestServices from '@/services/RequestServices.js';
       save () {
         this.add ()
       },
-      sendRequest()
-      {
-          var today = new Date();
-
-          var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
-          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
-          var dateTime = date+' '+time;
-
-          this.request.orgID = 10;
-          this.request.studentID = this.user;
-          this.request.tutorID = this.selectedEvent.tutorID;
-          this.request.reqDate = dateTime;
-          this.request.reqStatus = 'Requested';
-
-          var currentAppointment;
-          
-          AppointmentServices.getAppointment(this.selectedEvent.orgID, this.selectedEvent.appointmentID) 
-          .then(response => {      
-            currentAppointment = response.data[0];
-            currentAppointment.color = 'green';      
-            console.log(response);
-            AppointmentServices.updateAppointment(this.selectedEvent.appointmentID, currentAppointment)
-            .then(response => {            
-              console.log(response);
-            })
-            .catch(error => {
-              
-              console.log('There was an error: updating', error.response)
-            });
-          })
-          .catch(error => {
-            
-            console.log('There was an error: getting appointmer', error.response)
-          })
-
-
-          RequestServices.addRequest(this.request)
-                 .then(response => {
-            this.selectedOpen = false;
-            
-            console.log(response);
-          })
-          .catch(error => {
-            
-            console.log('There was an error:', error.response)
-          })
-      },
+    
       add (){
 
         //DO CALCULATIONS AND INSERT INTO BACK END

@@ -38,7 +38,7 @@
           </v-list-item>
 
           <v-list-item  to="/inbox">
-            <v-list-item-title>Inbox</v-list-item-title>
+            <v-list-item-title>Notifications</v-list-item-title>
           </v-list-item>
 
           <v-list-item  to="/calendar">

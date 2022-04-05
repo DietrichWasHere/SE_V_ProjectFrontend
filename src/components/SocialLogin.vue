@@ -40,11 +40,11 @@ export default {
           window.localStorage.setItem('user', JSON.stringify(userInfo))
           console.log(window.localStorage.getItem('user'))
           //this.$store.commit('setLoginUser', userInfo)
-          router.push('/')
+          router.push('/calendar')
         })
         .catch(error => {
           console.log('error', error)
-                    this.router.push('/')
+                    this.router.push('/calendar')
 
         })
     }

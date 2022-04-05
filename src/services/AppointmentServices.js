@@ -7,8 +7,8 @@ export default {
   getAppointments(orgID) {
     return apiClient.get("/appointments/" + orgID);
   },
-  getAppointment(tutorID, startDateTime) {
-    return apiClient.get("/appointments/" + tutorID + "/" + startDateTime);
+  getAppointment(orgID, appointmentID) {
+    return apiClient.get("/appointments/" + orgID + '/' + appointmentID);
   },
   deleteAppointment(tutorID, startDateTime) {
     return apiClient.delete("/appointments/" + tutorID + "/" + startDateTime);
@@ -16,7 +16,7 @@ export default {
   addAppointment(appointment) {
     return apiClient.post("/appointments/", appointment);
   },
-  updateAppointment(tutorID, startDateTime, appointment) {
-    return apiClient.put("/appointments/" + tutorID + "/" + startDateTime, appointment);
+  updateAppointment(appointmentID, appointment) {
+    return apiClient.put("/appointments/" + appointmentID, appointment);
   }
 };

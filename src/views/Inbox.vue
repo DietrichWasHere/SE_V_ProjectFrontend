@@ -18,7 +18,7 @@
         </v-avatar>
 
         <div><p style="color:white; font-size:30px;">
-            SEV Inbox</p></div>
+             Notifications</p></div>
       </v-sheet>
 
       <v-divider></v-divider>
@@ -54,62 +54,18 @@
             <v-card>
               <v-subheader>{{ card }}</v-subheader>
 
-                  <v-list-item
-                    :key="n"
-                  >
-                    <v-list-item-avatar >
-                        <v-avatar
-                        class="ma-2"
-                        color="grey darken-1"
-                        size="40">     
-                        <img src="@/assets/eddiegomez.jpg" alt="">
-                      </v-avatar>
-                    </v-list-item-avatar>
-
-                    <v-list-item-content>
-                      <v-list-item-title>Accept Tutor Request with Eddie Gomez?</v-list-item-title>
-
-                      <v-list-item-subtitle>
-                        I need help with my calculus homework.
-                      </v-list-item-subtitle>
-                          <div>
-                        <v-btn
-                          class="ma-2"
-                          text
-                          icon
-                          color="blue lighten-2"
-                          to="/contract"                        >
-                          <v-icon>mdi-thumb-up</v-icon>
-                          
-                        </v-btn>
-                        <v-btn
-                          class="ma-2"
-                          text
-                          icon
-                          color="grey lighten-2"
-                        >
-                          <v-icon>mdi-thumb-down</v-icon>
-                        </v-btn>
-                      </div>
-                    </v-list-item-content>
-                  </v-list-item>
-
-                  <v-divider
-                    v-if="n !== 2"
-                    :key="`divider-${n}`"
-                    inset
-                  ></v-divider>
-                
+    
               <v-list two-line>
-                <template v-for="n in 3">
+                <!--<template v-for="request in requests">-->
                   <v-list-item
-                    :key="n"
+                    v-for="request in requests"
+                    :key="request.requestID"
+                   
                   >
                     <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar>
-
                     <v-list-item-content>
-                      <v-list-item-title>Accept Tutor Request with user {{ n }}?</v-list-item-title>
+                      <v-list-item-title>Accept Tutor Request with user {{ requests[0].studentID }}?</v-list-item-title>
 
                       <v-list-item-subtitle>
                         This is a place where the notes the student wrote for the tutor wil be displayed.
@@ -135,12 +91,8 @@
                     </v-list-item-content>
                   </v-list-item>
 
-                  <v-divider
-                    v-if="n !== 2"
-                    :key="`divider-${n}`"
-                    inset
-                  ></v-divider>
-                </template>
+
+               <!--</template>-->
               </v-list>
             </v-card>
           </v-col>
@@ -152,6 +104,7 @@
 
 <script>
 
+import ApptRequestServices from '@/services/ApptRequestServices.js';
 
 export default {
     name: 'mssgInbox',
@@ -164,10 +117,39 @@ export default {
       drawer: null,
       links: [
         ['mdi-inbox-arrow-down', 'Inbox'],
-      //  ['mdi-send', 'Send'],
       ],
+
+      requests:[],
+      rawRequests:[]
     }),
-}
+    created () {
+      ApptRequestServices.getRequests()
+        .then(response => {
+            
+            this.rawRequests= response.data
+            for (let x = 0; x < this.rawRequests.length; x++)
+            {
+                this.requests.push({
+                studentID : this.rawRequests[x].studentID,
+                appointmentID : this.rawRequests[x].appointmentID,
+                subjectID : this.rawRequests[x].subjectID,
+                reqDate: this.rawRequests[x].reqDate, 
+                reqStatus : this.rawRequests[x].reqStatus,
+              })
+            }
+            console.log(this.rawRequests[1].studentID);
+
+        
+          })
+          .catch(error => {
+            
+            console.log('There was an error: in getting request', error.response)
+          })
+        
+      }
+
+    }
+
 
 
 // wireframe credit : https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wireframes/inbox.vue

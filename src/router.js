@@ -9,18 +9,23 @@ import Router from 'vue-router'
 // import Admin from './views/Admin.vue'
 import Contract from './views/Contract.vue'
 import Calendar from './views/Calendar.vue'
+
 import StudentCalendar from './views/StudentCalendar.vue'
-import ContractStudent from './views/ContractStudent.vue'
+
 import AppointmentRequest from './views/AppointmentRequest.vue'
 
 
 import LoginPage from './views/LoginPage.vue'
 import Profile from './views/ProfilePage.vue'
 
+
 import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
 import ListAdmin from './views/ListAdmin.vue'
+import Profile from './views/ProfilePage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
+
+import dvTestPage from './views/dvTestPage.vue'
 
 Vue.use(Router)
 
@@ -34,9 +39,16 @@ const routes = [
   },
   {
     path: '/loginpage',
+
     name: 'loginpage',
     component: LoginPage,
     meta: { title: 'Log In' }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: { title: 'Profile' }
   },
   {
     path: '/users',
@@ -51,11 +63,16 @@ const routes = [
   },
 
   {
+    path: '/dvTest',
+    name: 'dvTest',
+    component: dvTestPage,
+  },
+
+  {
     path: '/admin',
     name: 'admin',
     component: ListAdmin,
     meta: { title: 'Admin' }
-
   },
   {
     path: '/createAdmin',

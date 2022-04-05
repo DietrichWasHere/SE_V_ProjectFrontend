@@ -56,17 +56,16 @@
 
     
               <v-list two-line>
-               <!-- <template v-for="n in 3">-->
+                <!--<template v-for="request in requests">-->
                   <v-list-item
-                    v-model="request"
-                    :items="requests"
-                    requests
+                    v-for="request in requests"
+                    :key="request.requestID"
+                   
                   >
                     <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar>
-
                     <v-list-item-content>
-                      <v-list-item-title>Accept Tutor Request with user {{ request }}?</v-list-item-title>
+                      <v-list-item-title>Accept Tutor Request with user {{ requests[0].studentID }}?</v-list-item-title>
 
                       <v-list-item-subtitle>
                         This is a place where the notes the student wrote for the tutor wil be displayed.
@@ -92,12 +91,8 @@
                     </v-list-item-content>
                   </v-list-item>
 
-                  <v-divider
-                    v-if="n !== 2"
-                    :key="`divider-${n}`"
-                    inset
-                  ></v-divider>
-               <!-- </template>-->
+
+               <!--</template>-->
               </v-list>
             </v-card>
           </v-col>
@@ -124,7 +119,6 @@ export default {
         ['mdi-inbox-arrow-down', 'Inbox'],
       ],
 
-      request:[],
       requests:[],
       rawRequests:[]
     }),
@@ -142,9 +136,11 @@ export default {
                 reqDate: this.rawRequests.reqDate, 
                 reqStatus : this.rawRequests.reqStatus,
               })
+
+              console.log(response.data.studentID);
+
             }
         
-            console.log(response);
           })
           .catch(error => {
             

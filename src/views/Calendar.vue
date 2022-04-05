@@ -3,20 +3,29 @@
   <v-row >
     <v-col>
       <v-sheet>
-        <v-toolbar flat>
-          
+        <v-toolbar>
+               <v-btn    
+          color="primary"
+          elevation="2"         
+          small
+            @click="filter()">
+                Filter 
+        </v-btn> 
           <v-btn 
-          outlined
+          
             class="mr-4"
-            color="grey darken-2"
             @click="addItem()">
             Add
           </v-btn>
-          
-      <v-btn color="primary" @click="filter()">
-        Filter
-      </v-btn>
-    
+           <v-select
+            v-model="color"
+            :items="colors"
+            colors
+            label="Status"
+            multiple
+          >
+           </v-select>
+     
           <v-dialog v-model="dialog" max-width="500px">
           <v-card>
               <v-container>
@@ -169,14 +178,7 @@
             Add
           </v-btn>-->
 
-          <v-btn
-            outlined
-            class="mr-4"
-            color="grey darken-2"
-            @click="setToday"
-          >
-            Today
-          </v-btn>
+         
           <v-btn fab text small color="grey darken-2" @click="prev" >
             <v-icon small>
               mdi-chevron-left
@@ -337,9 +339,10 @@ import RequestServices from '@/services/RequestServices.js';
       selectedOpen: false,
       events: [],
       rawEvents: [],
+      allevents: [],
 
-      color: "", 
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+      color: [], 
+      colors: ['grey', 'orange', 'green', 'red'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
         computed: {
@@ -427,6 +430,8 @@ import RequestServices from '@/services/RequestServices.js';
           
        }
            this.events = events;
+          this.allevents = events;
+
         })
         .catch(error => {
           console.log('There was an error:', error.response)
@@ -434,70 +439,10 @@ import RequestServices from '@/services/RequestServices.js';
     
     },
     methods: {
-       filter() {
-                  UserServices.getCurrentUser() 
-              .then(response => {
-            this.user =  response.data.user.id;
-
-        const events = []
-        AppointmentServices.getAppointments(response.data.user.roles[0].org)
-        .then(response => {
-          console.log(response);
-          this.rawEvents = response.data
-          console.log(this.rawEvents);
-          for (let x = 0; x < this.rawEvents.length; x++)
-         {
-           console.log(this.rawEvents[x]);
-          var startDate = new Date(this.rawEvents[x].startDateTime);
-          var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
-          var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
-          var endDate = new Date(this.rawEvents[x].endDateTime);
-          hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
-          var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
-          var tutorID = this.rawEvents[x].tutorID;
-          if (this.user == tutorID)
-           {
-             if(this.color == this.rawEvents[x].color)
-            {
-              events.push({
-              name: this.rawEvents[x].title,
-              start: formattedStartDate,
-              end: formattedEndDate,
-              startFormat: this.rawEvents[x].startDateTime,
-              endFormat: this.rawEvents[x].endDateTime,
-              color: this.rawEvents[x].color,
-              appointmentID: this.rawEvents[x].appointmentID,
-              tutorID: this.rawEvents[x].tutorID,
-              orgID: this.rawEvents[x].orgID,
-              })
-            }
-              else if(this.color == "")
-              {
-                    events.push({
-                    name: this.rawEvents[x].title,
-                    start: formattedStartDate,
-                    end: formattedEndDate,
-                    startFormat: this.rawEvents[x].startDateTime,
-                    endFormat: this.rawEvents[x].endDateTime,
-                    color: this.rawEvents[x].color,
-                    appointmentID: this.rawEvents[x].appointmentID,
-                    tutorID: this.rawEvents[x].tutorID,
-                    orgID: this.rawEvents[x].orgID,
-                    })
-              }
-            }
-       }
-           this.events = events;
-        })
-        .catch(error => {
-          console.log('There was an error:', error.response)
-        })
-            console.log(response);
-          })
-          .catch(error => {
-            console.log('There was an error:', error.response)
-          })
-       
+      
+  filter() {
+           this.events = this.allevents.filter(e => !this.color.length || this.color.includes(e.color));
+           console.log(this.events);
       },
       formatDate (date) {
         if (!date) return null
@@ -672,7 +617,7 @@ import RequestServices from '@/services/RequestServices.js';
 <style scoped>
 .setsize{
   
-  height: 50%;
-  width: 50%;
+  height: 100%;
+  width: 70%;
 }
 </style>

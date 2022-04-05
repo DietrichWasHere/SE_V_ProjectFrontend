@@ -3,34 +3,13 @@
   <v-row >
     <v-col>
       <v-sheet>
-        <v-toolbar flat>
-          
-          <v-btn 
-          outlined
-            class="mr-4"
-            color="grey darken-2"
-            @click="addItem()">
-            Add
-          </v-btn>
-        <v-btn 
-            outlined
-            class="mr-4"
-            color="grey darken-2"
-            @click="filter()">
-                Filter
-        </v-btn>   
-    <!--  <v-btn color="primary" @click="filter()">-->
-           <v-col
-          cols="12"
-          sm="6"
-        >
+        <v-toolbar >  
           <v-select
             v-model="color"
             :items="colors"
             colors
-            label="Color"
+            label="Status"
             multiple
-            outlined
           >
           
             </v-select>
@@ -40,23 +19,29 @@
             tutors
             label="Tutor"
             multiple
-            outlined
           >
           
             </v-select>
 
-        </v-col>
+       
         <v-select
             v-model="subject"
             :items="subjects"
             subjects
             label="Subject"
-            
-            outlined
           >
           
             </v-select>
-     <!-- </v-btn>-->
+
+        <v-btn    
+          color="primary"
+          elevation="2"         
+          small
+            @click="filter()">
+                Filter
+                
+            
+        </v-btn> 
     
           <v-dialog v-model="dialog" max-width="500px">
           <v-card>
@@ -152,14 +137,14 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-          <v-btn
+       <!--   <v-btn
             outlined
             class="mr-4"
             color="grey darken-2"
             @click="setToday"
           >
             Today
-          </v-btn>
+          </v-btn>-->
           <v-btn fab text small color="grey darken-2" @click="prev" >
             <v-icon small>
               mdi-chevron-left
@@ -188,8 +173,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                outlined
-                color="grey darken-2"
+                small
                 v-bind="attrs"
                 v-on="on"
               >
@@ -322,7 +306,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       rawEvents: [],
 
       color: [], 
-      colors: ['blue', 'green', 'orange'],
+      colors: ['grey', 'orange', 'green', 'red'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       tutors: [],
       tutor:[],
@@ -437,11 +421,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       setToday () {
         this.focus = ''
       },
-       addItem () {
-      //  this.editedIndex = this.admins.indexOf(item)
-      //  this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
+    
         close () {
       
         this.dialog = false
@@ -589,7 +569,7 @@ import SubjectServices from '@/services/SubjectServices.js';
 <style scoped>
 .setsize{
   
-  height: 50%;
-  width: 50%;
+  height: 100%;
+  width: 70%;
 }
 </style>

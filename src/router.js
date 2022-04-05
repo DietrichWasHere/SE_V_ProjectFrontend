@@ -22,9 +22,8 @@ import Profile from './views/ProfilePage.vue'
 import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
 import ListAdmin from './views/ListAdmin.vue'
-import Profile from './views/ProfilePage.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
-
+import ListOrgs from './views/ListOrgs.vue'
 import dvTestPage from './views/dvTestPage.vue'
 
 Vue.use(Router)
@@ -33,16 +32,15 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'profile',
-    component: Profile,
-    meta: { title: 'User Profile' }
-  },
-  {
-    path: '/loginpage',
-
     name: 'loginpage',
     component: LoginPage,
     meta: { title: 'Log In' }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: { title: 'User Profile' }
   },
   {
     path: '/profile',
@@ -57,15 +55,15 @@ const routes = [
     meta: { title: 'User' }
   },
   {
+    path: '/orgs',
+    name: 'organizations',
+    component: ListOrgs,
+    meta: { title: 'Organizations' }
+  },
+  {
     path: '/inbox',
     name: 'inbox',
     component: Inbox
-  },
-
-  {
-    path: '/dvTest',
-    name: 'dvTest',
-    component: dvTestPage,
   },
 
   {
@@ -98,17 +96,22 @@ const routes = [
     component: Contract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
-  {
+  /*{
     path: '/contractstudent',
     name: 'cotractstudent',
     component: ContractStudent,
     meta: { title: 'Tutoring Agreement Contract' }
-  },
+  },*/
   {
     path: '/appointmentrequest',
     name: 'appointmentrequest',
     component: AppointmentRequest,
     meta: { title: 'Appointment Request' }
+  },
+  {
+    path: '/dvTest',
+    name: 'dvTest',
+    component: dvTestPage,
   }
 ]
 

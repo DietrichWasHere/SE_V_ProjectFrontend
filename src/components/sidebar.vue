@@ -14,6 +14,11 @@
         <v-icon>mdi-filter</v-icon>
       </v-btn>
 
+      <v-btn icon v-on:click = "logout()">
+        <v-icon>mdi-logout</v-icon>
+        
+      </v-btn>
+
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
@@ -61,7 +66,11 @@
 </template>
 
 <script>
+  
+  // import LogoutButton from '../components/logoutButton.vue'
+  
   export default {
+//  components: {LogoutButton },
       props: {
     title : String,
   },
@@ -74,6 +83,13 @@
     watch: {
       group () {
         this.drawer = false
+      },
+    },
+
+    methods: {
+      logout() {
+      this.requestUser = window.localStorage.clear('token') 
+      this.requestUser = window.localStorage.clear('user') 
       },
     },
   }

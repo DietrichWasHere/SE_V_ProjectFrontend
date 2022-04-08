@@ -452,7 +452,7 @@ import SubjectServices from '@/services/SubjectServices.js';
           AppointmentServices.getAppointment(this.selectedEvent.orgID, this.selectedEvent.appointmentID) 
           .then(response => {      
             currentAppointment = response.data[0];
-            currentAppointment.color = 'green';  
+            currentAppointment.color = 'orange';  
             console.log(response);
             AppointmentServices.updateAppointment(this.selectedEvent.appointmentID, currentAppointment)
             .then(response => {            
@@ -474,6 +474,7 @@ import SubjectServices from '@/services/SubjectServices.js';
             this.selectedOpen = false;
             
             console.log(response);
+            window.location.reload();
           })
           .catch(error => {
             

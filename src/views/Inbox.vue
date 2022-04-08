@@ -65,7 +65,7 @@
                     <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar>
                     <v-list-item-content>
-                      <v-list-item-title>Accept Tutor Request with user {{ requests[0].studentID }}?</v-list-item-title>
+                      <v-list-item-title>Accept Tutor Request with Timothy?</v-list-item-title>
 
                       <v-list-item-subtitle>
                         This is a place where the notes the student wrote for the tutor wil be displayed.
@@ -76,14 +76,19 @@
                           text
                           icon
                           color="blue lighten-2"
+                                      @click="accept(request)"
+
                         >
                           <v-icon>mdi-thumb-up</v-icon>
                         </v-btn>
+
+
                         <v-btn
                           class="ma-2"
                           text
                           icon
                           color="grey lighten-2"
+                          @click="deny(request)"
                         >
                           <v-icon>mdi-thumb-down</v-icon>
                         </v-btn>
@@ -105,7 +110,7 @@
 <script>
 
 import ApptRequestServices from '@/services/ApptRequestServices.js';
-
+import AppointmentServices from '@/services/AppointmentServices.js';
 export default {
     name: 'mssgInbox',
      props: {
@@ -116,7 +121,7 @@ export default {
       cards: ['Today'/*, 'Yesterday'*/],
       drawer: null,
       links: [
-        ['mdi-inbox-arrow-down', 'Inbox'],
+        ['mdi-inbox-arrow-down'],
       ],
 
       requests:[],
@@ -146,9 +151,40 @@ export default {
             console.log('There was an error: in getting request', error.response)
           })
         
-      }
+      },
+        methods: {
+      
+         accept(r) {
+          
+            AppointmentServices.updateAppointment(r.appointmentID, {color:'green'})
+            .then(response => {            
+              console.log(response);
+              window.location.href = '/calendar'
+            })
+            .catch(error => {
+              
+              console.log('There was an error: updating', error.response)
+            });
+         
+       },
+       deny(r)
+      {
+            AppointmentServices.updateAppointment(r.appointmentID, {color:'red'})
+            .then(response => {            
+              console.log(response);
+              window.location.href = '/calendar'
+            })
+            .catch(error => {
+              
+              console.log('There was an error: updating', error.response)
+            });
+         
+       },
 
+  
+      }
     }
+    
 
 
 

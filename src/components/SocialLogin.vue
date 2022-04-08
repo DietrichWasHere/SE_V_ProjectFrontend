@@ -68,6 +68,8 @@ export default {
             
             console.log('error', error)
           });
+          //router.push('/home')
+          router.push('/calendar')
         })
         .catch(error => {
           console.log('error', error)

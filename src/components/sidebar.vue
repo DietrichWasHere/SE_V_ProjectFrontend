@@ -38,7 +38,7 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
-          <v-list-item  to="/">
+          <v-list-item  to="/profile">
             <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 

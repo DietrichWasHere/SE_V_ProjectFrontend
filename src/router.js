@@ -37,16 +37,18 @@ const routes = [
     meta: { title: 'Log In' }
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
-    meta: { title: 'User Profile' }
+    // https://stackoverflow.com/questions/37937262/passing-props-to-vue-js-components-instantiated-by-vue-router
+    path: '/:orgID',
+    name: 'newUserByOrg',
+    props: true,
+    component: LoginPage,
+    meta: { title: 'Log In' }
   },
   {
     path: '/profile',
     name: 'profile',
     component: Profile,
-    meta: { title: 'Profile' }
+    meta: { title: 'User Profile' }
   },
   {
     path: '/users',
@@ -65,7 +67,6 @@ const routes = [
     name: 'inbox',
     component: Inbox
   },
-
   {
     path: '/admin',
     name: 'admin',
@@ -91,8 +92,9 @@ const routes = [
     meta: { title: 'Calendar' }
   },
   {
-    path: '/contract',
+    path: '/contract/:orgID',
     name: 'cotract',
+    props: true,
     component: Contract,
     meta: { title: 'Tutoring Agreement Contract' }
   },

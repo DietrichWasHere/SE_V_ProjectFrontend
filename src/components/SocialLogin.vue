@@ -16,9 +16,10 @@
 import UserServices from '@/services/UserServices.js';
 export default {
   name: 'social_login',
+  props: ['orgID'],
   data: () => ({
     user: {},
-    presence: false
+    presence: false,
   }),
   methods: {
     loginWithGoogle () {
@@ -52,24 +53,24 @@ export default {
             this.user = response.data;
             console.log(this.user);
             console.log("1. " + this.user);
-            console.log(this.user.roles);
+            console.log(this.user.user.roles);
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
-            if (!this.user.roles){
+            if (!this.user.user.roles.length){
               UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email});
-              
+              this.$router.push('/contract/' + this.orgID);
+            }
+            else {
+              this.$router.push('/calendar');
             }
           })
           .catch(error => {
             console.log('error', error)
           });
           //router.push('/home')
-
-          router.push('/calendar')
         })
         .catch(error => {
           console.log('error', error)
-                    this.router.push('/calendar')
-
+          this.router.push('/calendar')
         })
     }
   }

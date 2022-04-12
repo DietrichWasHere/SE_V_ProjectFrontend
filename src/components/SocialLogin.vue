@@ -57,11 +57,11 @@ export default {
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
             if (!this.user.user.roles.length){
               UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email});
-              this.$router.push('/contract/' + this.orgID);
+              console.log("orgID: " + this.orgID)
+              if (this.orgID) this.$router.push('/contract/' + this.orgID);
+              else this.$router.push('/profile');
             }
-            else {
-              this.$router.push('/calendar');
-            }
+            else this.$router.push('/calendar');
           })
           .catch(error => {
             console.log('error', error)

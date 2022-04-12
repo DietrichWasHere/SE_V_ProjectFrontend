@@ -45,6 +45,13 @@ const routes = [
     meta: { title: 'Log In' }
   },
   {
+    path: '/contract/:orgID',
+    name: 'cotract',
+    props: true,
+    component: Contract,
+    meta: { title: 'Tutoring Agreement Contract' }
+  },
+  {
     path: '/profile',
     name: 'profile',
     component: Profile,
@@ -91,13 +98,7 @@ const routes = [
     component: StudentCalendar,
     meta: { title: 'Calendar' }
   },
-  {
-    path: '/contract/:orgID',
-    name: 'cotract',
-    props: true,
-    component: Contract,
-    meta: { title: 'Tutoring Agreement Contract' }
-  },
+
   /*{
     path: '/contractstudent',
     name: 'cotractstudent',

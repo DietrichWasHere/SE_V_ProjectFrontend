@@ -25,7 +25,7 @@
         </v-card>
     </v-app>-->
     <v-container>
-<social-login/>
+<social-login :orgID = 'this.orgID'/>
     </v-container>
 </template>
 <script>

@@ -8,8 +8,8 @@
     </p>
 
     <p>
-        I certify that my tutor and I have read and discussed the information contained in this contract. I
-        agree to work cooperatively with this tutor to achieve academic success. I understand that 
+        I certify that I have read and discussed the information contained in this contract. I
+        agree to work cooperatively with my tutors to achieve academic success. I understand that 
         tutoring may be suspended or discontinued if it is determined that I am not making an effort to
         benefit from such services.
     </p>
@@ -22,7 +22,7 @@
                 <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
                     <template v-slot:activator="{ on, attrs }">
                         <v-text-field v-model="dateFormatted"  hint="MM/DD/YYYY format" persistent-hint prepend-icon="mdi-calendar" 
-                        v-bind="attrs" @blur="date = parseDate(dateFormatted)" v-on="on">
+                        v-bind="attrs" @blur="date = parseDate(dateFormatted)" v-on="off">
                         </v-text-field>
                     </template>
                     <v-date-picker v-model="date" no-title  @input="menu1 = false" >
@@ -32,12 +32,7 @@
         </v-row>
     </v-container>
     <br>
-    <p>
-        I certify that my student and I have read and discussed the information contained in this 
-        contract. I agree to work cooperatively with this stuent to achieve academic success.
-    </p>
-
-    <v-btn color="primary" elevation="3" plain rounded x-large to="/calendarstudent">
+    <v-btn color="primary" elevation="3" plain rounded x-large @click.native="submitContract">
         Next
     </v-btn>
 </v-container>
@@ -45,12 +40,17 @@
 
 <script>
   import OrgServices from '@/services/OrgServices.js'
+  import UserServices from '@/services/UserServices.js';
+  import StudentServices from '@/services/StudentServices.js';
+
 
   export default {
     props: ['orgID'],
     data: vm => ({
       org: '',
       studentName: '',
+      user: '',
+      userData: '',
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
       menu1: false,
@@ -66,6 +66,21 @@
         .catch(error => {
             console.log('There was an error:', error.response)
         })
+      UserServices.getCurrentUser()
+        .then(response => {
+                this.user = response.data.user
+                console.log(this.user); 
+                UserServices.getUser(this.user.id)
+                    .then(response => {
+                        this.userData = response.data[0]
+                    })
+                    .catch(error => {
+                        console.log('There was an error:', error.response)
+                    })
+            })
+        .catch(error => {
+            console.log('There was an error:', error.response)
+        })
     },
     computed: {
       computedDateFormatted () {
@@ -78,6 +93,23 @@
       },
     },*/
     methods: {
+      submitContract() {
+        var student = {
+          dateAgreementSigned: this.date
+        };
+        if (this.studentName == (this.userData.firstName + ' ' + this.userData.lastName)) {
+          StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
+            .then(response => {
+              console.log(response.data)
+              this.org = response.data;
+              console.log(this.org)
+            })
+            .catch(error => {
+                console.log('There was an error:', error.response)
+            })
+        }
+        //else
+      },
       formatDate (date) {
         if (!date) return null
         const [year, month, day] = date.split('-')

@@ -39,7 +39,7 @@ const routes = [
   },
   {
     // https://stackoverflow.com/questions/37937262/passing-props-to-vue-js-components-instantiated-by-vue-router
-    path: '/newUser/org/:orgID',
+    path: '/newUser/:orgID',
     name: 'newUserByOrg',
     props: true,
     component: LoginPage,

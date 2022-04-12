@@ -51,9 +51,9 @@ export default {
           UserServices.getCurrentUser()
           .then(response => {
             this.user = response.data;
-            console.log(this.user);
+            /*console.log(this.user);
             console.log("1. " + this.user);
-            console.log(this.user.user.roles);
+            console.log(this.user.user.roles);*/
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
             if (!this.user.user.roles.length){
               UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID);

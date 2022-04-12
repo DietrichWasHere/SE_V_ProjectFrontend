@@ -1,46 +1,12 @@
 <template>
 <v-container class = "setsize"> 
-    <h2>Student Responsibilities:</h2>
-    <ul>
-        <li>I will be on time, if I am 15 minutes late, the tutor is not obliged to wait for me and
-            I will be considered a "no show". After the 1st "no show" I understand I will be 
-            charged $10 per additional "no show".</li>
-        <li>If I must miss a session I will contact my tutor at least 6 hours prior to the 
-            appointed time.</li>
-        <li>I will be prepared. Assignments will be completed as fully as possible and I will 
-            have questions ready to ask.</li>
-        <li>I will attend class regularly.</li>
-        <li>I will not expect my tutor to "know everything"</li>
-        <li>When my tutor refers me to my professor, I will follow through.</li>
-    </ul>  
-    <br><h2>Tutor Responsibilities:</h2>
-    <ul>
-        <li>I will be on time.
-        </li>
-        <li>If I must cancel a session I will contact my students as far in advance as possible
-            (no less than 6 hours before appointed meeting time).
-        </li>
-        <li>I will be prepared to answer most student questions
-        </li>
-        <li>I will admit if I don't know the solution or answer. I will try to find the 
-            information. I will refer the student to the professor when needed.  
-        </li>
-        <li>I will provide opportunities and assist in practice problems (but not graded work)
-        </li>
-        
-    </ul>
-    <br><h2>Tutoring will be stopped for the follwing reasons:</h2>
-    <ul>
-        <li>When the student misses 3 tutoring sessions without above mentioned
-            notification.
-        </li>
-        <li>When tutoring is not helping the students progress
-        </li>
-        <li>If/When the tutor and student both agree that the student is able to make
-            satisfactory progress working independently.
-        </li>
-    </ul>
-    <br>
+    <h2>{{this.org[0].orgName}} Student Sign Up</h2>
+    
+    
+    <p>
+      {{this.org[0].studentAgreement}}
+    </p>
+
     <p>
         I certify that my tutor and I have read and discussed the information contained in this contract. I
         agree to work cooperatively with this tutor to achieve academic success. I understand that 
@@ -83,7 +49,7 @@
   export default {
     props: ['orgID'],
     data: vm => ({
-      contract: '',
+      org: '',
       studentName: '',
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
@@ -94,8 +60,8 @@
       OrgServices.getOrganization(this.orgID)
         .then(response => {
           console.log(response.data)
-          this.contract = response.data.org.studentAgreement;
-          console.log(this.contract)
+          this.org = response.data;
+          console.log(this.org)
         })
         .catch(error => {
             console.log('There was an error:', error.response)

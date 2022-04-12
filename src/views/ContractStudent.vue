@@ -15,6 +15,7 @@
     </p>
 
     <br>
+    <p v-if='this.nameCheck'>The name typed in was not correct!</p>
     <v-container fill-width fluid>
         <v-row justify="center"><v-col lg="3" >Student Signature<v-text-field v-model="studentName" :rules="nameRules" :counter="30" label="First name Last Name" required></v-text-field> </v-col>
         
@@ -51,6 +52,7 @@
       studentName: '',
       user: '',
       userData: '',
+      nameCheck: false,
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
       menu1: false,
@@ -100,15 +102,14 @@
         if (this.studentName == (this.userData.firstName + ' ' + this.userData.lastName)) {
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
-              console.log(response.data)
-              this.org = response.data;
-              console.log(this.org)
+              console.log(response.data);
+              this.$router.push('/calendar');
             })
             .catch(error => {
                 console.log('There was an error:', error.response)
             })
         }
-        //else
+        else this.nameCheck = true;
       },
       formatDate (date) {
         if (!date) return null

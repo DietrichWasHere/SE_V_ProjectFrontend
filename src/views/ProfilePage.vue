@@ -5,7 +5,10 @@
             <v-card>
                 <v-card-text>
                     <v-flex class="mb-4">
-                        <v-avatar size="96" class="mb-4" icon = circle color="grey darken-1">     
+                        <v-avatar size="96" class="mb-4" icon = circle color="grey darken-1">    
+                              <img 
+                                :src="`${picture}`"
+                                alt=""> 
                         </v-avatar>
                     </v-flex>
                     <v-text-field
@@ -43,6 +46,7 @@
                 loading: false,
                 user: {
                 },
+                picture : "", 
                 userData: {
                 }
                 // avatar: image
@@ -51,6 +55,7 @@
         created () {
             // var userData = window.localStorage.getItem('user').user;
             // console.log(userData);
+            var that = this;
             UserServices.getCurrentUser()
                 .then(response => {
                         //console.log("!")
@@ -59,7 +64,9 @@
                         console.log(this.user); 
                         UserServices.getUser(this.user.id)
                             .then(response => {
-                                this.userData = response.data[0]
+                                that.userData = response.data[0]
+                                that.picture = response.data[0].picture;
+
                             })
                             .catch(error => {
                                 console.log('There was an error:', error.response)

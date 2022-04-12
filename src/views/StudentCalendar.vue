@@ -121,7 +121,6 @@
           :items="locations" 
           label="Location"
           v-model="appointment.locationID"                    
-
         ></v-select>
       </v-col>
           </v-row>
@@ -221,25 +220,44 @@
         >
           <v-card
             color="grey lighten-4"
-            min-width="350px"
+            min-width="355px"
             flat
           >
             <v-toolbar
               :color="selectedEvent.color"
+
               dark
             >
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+            
+            <v-avatar
+            class="mb-4"
+            color="grey darken-1"
+            size="36">     
+              <img :src="`${selectedEvent.picture}`"  alt="">
+          </v-avatar>
+            
+              <p >&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedEvent.name }} </p>
+
               <v-spacer></v-spacer>
     
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.start"></span>
+              <!--content in appointment popup-->
+              <p >
+              Subjects Available:
+                <ul>
+                  <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
+                  </ul>
+
+              </p>
+
+
             </v-card-text>
             <v-card-actions>
-              <v-btn  text color="blue" @click="sendRequest()">
+              <v-btn  v-if= "selectedEvent.color === 'grey'" text color="blue" @click="sendRequest()">
                Request Appointment
               </v-btn>
-              <v-btn text color="red" @click="selectedOpen = false">
+              <v-btn  v-if= "selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
                 Cancel Appointment
               </v-btn>
               <v-btn text color="secondary" @click="selectedOpen = false">
@@ -304,8 +322,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       events: [],
       allevents: [],
       rawEvents: [],
-
-      color: [], 
+      color: [],
       colors: ['grey', 'orange', 'green', 'red'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       tutors: [],
@@ -327,9 +344,6 @@ import SubjectServices from '@/services/SubjectServices.js';
       this.$refs.calendar.checkChange()
     },
     created () {
-
-        
-
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
@@ -344,7 +358,7 @@ import SubjectServices from '@/services/SubjectServices.js';
         var that = this;
         AppointmentServices.getAppointments(10)
         .then(async response => {
-          console.log(response);
+          //console.log(response);
           this.rawEvents = response.data
          // console.log(this.rawEvents);
         
@@ -376,8 +390,10 @@ import SubjectServices from '@/services/SubjectServices.js';
                         orgID: this.rawEvents[x].orgID,
                         tutorFName: this.rawEvents[x].tutorFName,
                         tutorLName: this.rawEvents[x].tutorLName,
-                        subjects: subjects
+                        subjects: subjects,
+                        picture : this.rawEvents[x].picture
                     })
+                    console.log(this.rawEvents[x].picture);
               }
             await SubjectServices.getSubjects().then(r => {
                 for (var x in r.data) that.subjects.push(r.data[x].subjectName);

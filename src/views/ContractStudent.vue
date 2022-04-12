@@ -78,14 +78,29 @@
 </template>
 
 <script>
+  import OrgServices from '@/services/OrgServices.js'
+
   export default {
+    props: ['orgID'],
     data: vm => ({
+      contract: '',
       studentName: '',
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
       menu1: false,
       menu2: false,
     }),
+    created () {
+      OrgServices.getOrganization(this.orgID)
+        .then(response => {
+          console.log(response.data)
+          this.contract = response.data.org.studentAgreement;
+          console.log(this.contract)
+        })
+        .catch(error => {
+            console.log('There was an error:', error.response)
+        })
+    },
     computed: {
       computedDateFormatted () {
         return this.formatDate(this.date)

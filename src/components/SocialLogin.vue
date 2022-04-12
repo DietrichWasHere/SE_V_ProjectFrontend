@@ -58,7 +58,7 @@ export default {
             if (!this.user.user.roles.length){
               UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email});
               console.log("orgID: " + this.orgID)
-              if (this.orgID) this.$router.push('/contract/' + this.orgID);
+              if (this.orgID) this.$router.push('/studentContract/' + this.orgID);
               else this.$router.push('/profile');
             }
             else this.$router.push('/calendar');

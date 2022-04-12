@@ -7,7 +7,8 @@ import Router from 'vue-router'
 //import viewName from '../views/viewName.vue'
 
 // import Admin from './views/Admin.vue'
-import Contract from './views/Contract.vue'
+import StudentContract from './views/ContractStudent.vue'
+import TutorContract from './views/ContractTutor.vue'
 import Calendar from './views/Calendar.vue'
 
 import StudentCalendar from './views/StudentCalendar.vue'
@@ -45,10 +46,17 @@ const routes = [
     meta: { title: 'Log In' }
   },
   {
-    path: '/contract/:orgID',
-    name: 'cotract',
+    path: '/studentContract/:orgID',
+    name: 'studentContract',
     props: true,
-    component: Contract,
+    component: StudentContract,
+    meta: { title: 'Tutoring Agreement Contract' }
+  },
+  {
+    path: '/tutorContract/:orgID',
+    name: 'tutorContract',
+    props: true,
+    component: TutorContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {

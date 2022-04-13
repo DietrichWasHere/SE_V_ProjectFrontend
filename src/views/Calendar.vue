@@ -263,7 +263,6 @@
               :color="selectedEvent.color"
               dark
             >
-
                          <v-avatar
             class="mb-4"
             color="grey darken-1"
@@ -285,12 +284,12 @@
                   </ul>
 
               </p>
-
-
             </v-card-text>
             <v-card-actions>
-              
-              <v-btn text color="red" @click="selectedOpen = false">
+              <v-btn  v-if= "selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false">
+                Review
+              </v-btn>
+              <v-btn v-if= "selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
                 Cancel Appointment
               </v-btn>
               <v-btn text color="secondary" @click="selectedOpen = false">
@@ -494,7 +493,7 @@ import SubjectServices from '@/services/SubjectServices.js';
           that.appointment.endDateTime = newtime
           that.appointment.locationID = 5
           that.appointment.color = "grey"
-          that.appointment.title = "Available " + response.data[0].fName + " " + response.data[0].lName;
+          that.appointment.title = response.data[0].fName + " " + response.data[0].lName;
           AppointmentServices.addAppointment(that.appointment)
           })
           .then(response => {

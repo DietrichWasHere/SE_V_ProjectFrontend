@@ -8,6 +8,8 @@ import Router from 'vue-router'
 
 // import Admin from './views/Admin.vue'
 import Contract from './views/Contract.vue'
+import Review from './views/Review.vue'
+
 import Calendar from './views/Calendar.vue'
 
 import StudentCalendar from './views/StudentCalendar.vue'
@@ -107,6 +109,12 @@ const routes = [
     name: 'appointmentrequest',
     component: AppointmentRequest,
     meta: { title: 'Appointment Request' }
+  },
+  {
+    path: '/review',
+    name: 'review',
+    component: Review,
+    meta: { title: 'Review' }
   },
   {
     path: '/dvTest',

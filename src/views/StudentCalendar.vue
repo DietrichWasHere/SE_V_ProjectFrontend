@@ -247,6 +247,10 @@
                   </ul>
               </p>
             </v-card-text>
+              <v-card-text  v-if= "selectedEvent.color === 'green'"> 
+                Location: &nbsp;&nbsp;{{ selectedEvent.locationName }} <br>
+                Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedEvent.email }}
+              </v-card-text>
             <v-card-actions>
 <!-- write comments here-->
       <v-row>
@@ -255,20 +259,25 @@
                       sm="5"
                       md="10"
                     >
+
               <v-text-field v-model="comments" v-if= "selectedEvent.color === 'grey'" text color="blue"
                 label="Notes for appointment:"
                 outlined
                 persistent-hint
               ></v-text-field>
+
               </v-col>
-              <v-btn  v-if= "selectedEvent.color === 'grey'" text color="blue" @click="sendRequest()">
+              <v-btn  v-if= "(Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'grey'" text color="blue" @click="sendRequest()">
                Request Appointment
               </v-btn>
-              <v-btn  v-if= "selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
-                Cancel Appointment
+              <v-btn  v-if= "(Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false">
+              Review
+              </v-btn>
+              <v-btn  v-if= "(Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
+              Cancel Appointment
               </v-btn>
               <v-btn text color="secondary" @click="selectedOpen = false">
-                Exit
+              Exit
               </v-btn>
        </v-row>
             </v-card-actions>
@@ -403,8 +412,10 @@ import SubjectServices from '@/services/SubjectServices.js';
                         tutorLName: this.rawEvents[x].tutorLName,
                         subjects: subjects,
                         picture : this.rawEvents[x].picture,
+                        locationName : this.rawEvents[x].locationName,
+                        email : this.rawEvents[x].tutorEmail
                     })
-                    console.log(this.rawEvents[x].picture);
+                   // console.log(this.rawEvents[x].picture);
               }
             await SubjectServices.getSubjects().then(r => {
                 for (var x in r.data) that.subjects.push(r.data[x].subjectName);

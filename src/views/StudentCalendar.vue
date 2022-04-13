@@ -225,7 +225,6 @@
           >
             <v-toolbar
               :color="selectedEvent.color"
-
               dark
             >
             
@@ -237,8 +236,6 @@
           </v-avatar>
             
               <p >&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedEvent.name }} </p>
-
-              <v-spacer></v-spacer>
     
             </v-toolbar>
             <v-card-text>
@@ -248,12 +245,22 @@
                 <ul>
                   <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
                   </ul>
-
               </p>
-
-
             </v-card-text>
             <v-card-actions>
+<!-- write comments here-->
+      <v-row>
+              <v-col
+                      cols="10"
+                      sm="5"
+                      md="10"
+                    >
+              <v-text-field v-model="comments" v-if= "selectedEvent.color === 'grey'" text color="blue"
+                label="Notes for appointment:"
+                outlined
+                persistent-hint
+              ></v-text-field>
+              </v-col>
               <v-btn  v-if= "selectedEvent.color === 'grey'" text color="blue" @click="sendRequest()">
                Request Appointment
               </v-btn>
@@ -263,8 +270,11 @@
               <v-btn text color="secondary" @click="selectedOpen = false">
                 Exit
               </v-btn>
+       </v-row>
             </v-card-actions>
           </v-card>
+
+          
         </v-menu>
       </v-sheet>
     </v-col>
@@ -328,7 +338,8 @@ import SubjectServices from '@/services/SubjectServices.js';
       tutors: [],
       tutor:[],
       subjects: [],
-      subject: []
+      subject: [],
+      comments : ""
 
     }),
         computed: {
@@ -391,7 +402,7 @@ import SubjectServices from '@/services/SubjectServices.js';
                         tutorFName: this.rawEvents[x].tutorFName,
                         tutorLName: this.rawEvents[x].tutorLName,
                         subjects: subjects,
-                        picture : this.rawEvents[x].picture
+                        picture : this.rawEvents[x].picture,
                     })
                     console.log(this.rawEvents[x].picture);
               }
@@ -448,7 +459,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       },
       sendRequest()
       {
-         
+         console.log(this.comments);
 
           var today = new Date();
           var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -461,6 +472,8 @@ import SubjectServices from '@/services/SubjectServices.js';
           this.request.subjectID = 1;
           this.request.reqDate = dateTime;
           this.request.reqStatus = 'Requested';
+          this.request.comments = this.comments;
+
 
          // this.request.tutorID = this.selectedEvent.tutorID;  
           var currentAppointment;
@@ -490,7 +503,7 @@ import SubjectServices from '@/services/SubjectServices.js';
             this.selectedOpen = false;
             
             console.log(response);
-            window.location.reload();
+            //window.location.reload();
           })
           .catch(error => {
             

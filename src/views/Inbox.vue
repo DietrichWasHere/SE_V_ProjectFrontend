@@ -76,7 +76,7 @@
                       <v-list-item-title>Accept Tutor Request with {{ request.name }}?</v-list-item-title>
 
                       <v-list-item-subtitle>
-                        This is a place where the notes the student wrote for the tutor wil be displayed.
+                        {{ request.comments }}
                       </v-list-item-subtitle>
                           <div>
                         <v-btn
@@ -94,7 +94,7 @@
                           class="ma-2"
                           text
                           icon
-                          color="grey lighten-2"
+                          color="grey"
                           @click="deny(request)"
                         >
                           <v-icon>mdi-thumb-down</v-icon>
@@ -168,7 +168,8 @@ export default {
                 reqDate: this.rawRequests[x].reqDate, 
                 reqStatus : this.rawRequests[x].reqStatus,
                 name :  this.rawRequests[x].fName + " " + this.rawRequests[x].lName,
-                picture : this.rawRequests[x].picture
+                picture : this.rawRequests[x].picture,
+                comments : this.rawRequests[x].comments
               })
                 //  })
           /*         .catch(error => {

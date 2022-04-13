@@ -1,10 +1,10 @@
 <template>
 <v-container class = "setsize"> 
-    <h2>{{this.org[0].orgName}} Student Sign Up</h2>
+    <h2>{{this.org.orgName}} Student Sign Up</h2>
     
     
     <p>
-      {{this.org[0].studentAgreement}}
+      {{this.org.studentAgreement}}
     </p>
 
     <p>
@@ -61,9 +61,10 @@
     created () {
       OrgServices.getOrganization(this.orgID)
         .then(response => {
-          console.log(response.data)
-          this.org = response.data;
-          console.log(this.org)
+          //console.log(response.data)
+          this.org = response.data[0];
+          //console.log("!")
+          //console.log(this.org)
         })
         .catch(error => {
             console.log('There was an error:', error.response)
@@ -75,6 +76,7 @@
                 UserServices.getUser(this.user.id)
                     .then(response => {
                         this.userData = response.data[0]
+                        console.log(this.userData);
                     })
                     .catch(error => {
                         console.log('There was an error:', error.response)
@@ -99,7 +101,10 @@
         var student = {
           dateAgreementSigned: this.date
         };
-        if (this.studentName == (this.userData.firstName + ' ' + this.userData.lastName)) {
+        console.log(this.studentName);
+        console.log(this.userData.firstName + ' ' + this.userData.lastName);
+        console.log(this.studentName == (this.userData.fName + ' ' + this.userData.lName));
+        if (this.studentName == (this.userData.fName + ' ' + this.userData.lName)) {
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
               console.log(response.data);

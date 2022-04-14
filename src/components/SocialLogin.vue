@@ -61,6 +61,7 @@ export default {
               if (this.orgID) this.$router.push('/studentContract/' + this.orgID);
               else this.$router.push('/profile');
             }
+            else if (!this.user.user.roles[0].dateAgreementSigned) this.$router.push('/studentContract/' + this.user.user.roles[0].org);
             else this.$router.push('/calendar');
           })
           .catch(error => {

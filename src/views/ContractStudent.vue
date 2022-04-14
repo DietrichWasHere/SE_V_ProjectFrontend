@@ -21,9 +21,10 @@
         
         <v-col lg="3">Date:
                 <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-text-field v-model="dateFormatted"  hint="MM/DD/YYYY format" persistent-hint prepend-icon="mdi-calendar" 
-                        v-bind="attrs" @blur="date = parseDate(dateFormatted)" v-on="off">
+                    <template v-slot:activator="{ attrs }">
+                      <!--https://stackoverflow.com/questions/57524110/what-does-v-on-syntax-mean-in-vuejs-->
+                        <v-text-field v-model="dateFormatted" persistent-hint prepend-icon="mdi-calendar" 
+                        v-bind="attrs" @blur="date = parseDate(dateFormatted)">
                         </v-text-field>
                     </template>
                     <v-date-picker v-model="date" no-title  @input="menu1 = false" >

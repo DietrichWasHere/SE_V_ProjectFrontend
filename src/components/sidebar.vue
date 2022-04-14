@@ -6,22 +6,13 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-filter</v-icon>
-      </v-btn>
+  
 
       <v-btn icon v-on:click = "logout()">
         <v-icon>mdi-logout</v-icon>
         
       </v-btn>
 
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -90,6 +81,7 @@
       logout() {
       this.requestUser = window.localStorage.clear('token') 
       this.requestUser = window.localStorage.clear('user') 
+      window.location.href = '/'
       },
     },
   }

@@ -99,6 +99,7 @@
         var tutor = {
           userID: this.userData.userID,
           orgID: this.org.orgID,
+          verified: false,
           dateAgreementSigned: this.date
         };
         console.log(this.studentName);

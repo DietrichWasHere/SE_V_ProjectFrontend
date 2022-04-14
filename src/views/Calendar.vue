@@ -384,7 +384,7 @@ import SubjectServices from '@/services/SubjectServices.js';
         const events = []
                 var that = this;
 
-        AppointmentServices.getAppointments(10)
+        AppointmentServices.getAppointments(1)
         .then(async response => {
           //console.log(response);
           this.rawEvents = response.data
@@ -444,6 +444,9 @@ import SubjectServices from '@/services/SubjectServices.js';
         const [year, month, day] = date.split('-')
         return `${month}/${day}/${year}`
       },
+      sqlDate(date) {
+        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + String(date.getMinutes()).padStart(2, "0");
+      },
       parseDate (date) {
         if (!date) return null
         const [month, day, year] = date.split('/')
@@ -489,10 +492,10 @@ import SubjectServices from '@/services/SubjectServices.js';
            UserServices.getUser(result.data.user.id) 
                .then(response => {
           that.appointment.tutorID = result.data.user.id
-          that.appointment.orgID = 10
-          that.appointment.startDateTime = concat
-          that.appointment.endDateTime = newtime
-          that.appointment.locationID = 5
+          that.appointment.orgID = 1
+          that.appointment.startDateTime = that.sqlDate(concat)
+          that.appointment.endDateTime = that.sqlDate(newtime)
+          that.appointment.locationID = 1
           that.appointment.color = "grey"
           that.appointment.title = "Available " + response.data[0].fName + " " + response.data[0].lName;
           AppointmentServices.addAppointment(that.appointment)

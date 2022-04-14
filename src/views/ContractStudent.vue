@@ -102,7 +102,7 @@
           dateAgreementSigned: this.date
         };
         console.log(this.studentName);
-        console.log(this.userData.firstName + ' ' + this.userData.lastName);
+        console.log(this.userData.fName + ' ' + this.userData.lName);
         console.log(this.studentName == (this.userData.fName + ' ' + this.userData.lName));
         if (this.studentName == (this.userData.fName + ' ' + this.userData.lName)) {
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)

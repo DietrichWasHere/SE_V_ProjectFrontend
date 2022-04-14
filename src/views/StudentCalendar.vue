@@ -210,7 +210,6 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-          @change="updateRange"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -260,7 +259,7 @@
                       md="10"
                     >
 
-              <v-text-field v-model="comments" v-if= "selectedEvent.color === 'grey'" text color="blue"
+              <v-text-field v-model="comments" v-if= " (Date.now() < new Date(selectedEvent.end)) && selectedEvent.color === 'grey'" text color="blue"
                 label="Notes for appointment:"
                 outlined
                 persistent-hint
@@ -270,8 +269,9 @@
               <v-btn  v-if= "(Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'grey'" text color="blue" @click="sendRequest()">
                Request Appointment
               </v-btn>
-              <v-btn  v-if= "(Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false">
-              Review
+              <v-btn  v-if= "(Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false"
+               >
+               <router-link :to="{ name: 'review', params: { id : selectedEvent.appointmentID } }">Review</router-link> 
               </v-btn>
               <v-btn  v-if= "(Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
               Cancel Appointment
@@ -348,7 +348,8 @@ import SubjectServices from '@/services/SubjectServices.js';
       tutor:[],
       subjects: [],
       subject: [],
-      comments : ""
+      comments : "",
+      org : "",
 
     }),
         computed: {
@@ -360,23 +361,21 @@ import SubjectServices from '@/services/SubjectServices.js';
       dialog (val) {
         val || this.close()
        }},
-    mounted () {
-      this.$refs.calendar.checkChange()
-    },
+   // mounted () {
+    //  this.$refs.calendar.checkChange()
+   // },
     created () {
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
+            this.org = response.data.user.roles[0].org;
 
-            console.log(response);
-          })
-          .catch(error => {
-            console.log('There was an error:', error.response)
-          })
+            console.log("This is user", response);
+          
 
         const events = []
         var that = this;
-        AppointmentServices.getAppointments(10)
+        AppointmentServices.getAppointments(this.org)
         .then(async response => {
           //console.log(response);
           this.rawEvents = response.data
@@ -426,6 +425,11 @@ import SubjectServices from '@/services/SubjectServices.js';
         .catch(error => {
           console.log('There was an error:', error.response)
         })
+
+        })
+          .catch(error => {
+            console.log('There was an error:', error.response)
+          })
     
     },
     methods: {
@@ -514,7 +518,7 @@ import SubjectServices from '@/services/SubjectServices.js';
             this.selectedOpen = false;
             
             console.log(response);
-            //window.location.reload();
+            window.location.reload();
           })
           .catch(error => {
             
@@ -536,10 +540,10 @@ import SubjectServices from '@/services/SubjectServices.js';
         var that = this
         console.log(newtime)
 
-        UserServices.getCurrentUser().then(function(result) {
+        //UserServices.getCurrentUser().then(function(result) {
           //console.log(result)
-          that.appointment.tutorID = result.data.user.id
-          that.appointment.orgID = 10
+          that.appointment.tutorID = this.user
+          that.appointment.orgID = this.org
           that.appointment.startDateTime = concat
           that.appointment.endDateTime = newtime
           that.appointment.locationID = 5
@@ -551,7 +555,7 @@ import SubjectServices from '@/services/SubjectServices.js';
             console.log('There was an error:', error.response)
           })
 
-        })
+     //   })
             
 
 

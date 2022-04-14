@@ -286,8 +286,9 @@
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn  v-if= "selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false">
-                Review
+               <v-btn  v-if= "(Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false"
+               >
+               <router-link :to="{ name: 'review', params: { id : selectedEvent.appointmentID } }">Review</router-link> 
               </v-btn>
               <v-btn v-if= "selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
                 Cancel Appointment
@@ -356,6 +357,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       color: [], 
       colors: ['grey', 'orange', 'green', 'red'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+      org : ""
     }),
         computed: {
       computedDateFormatted () {
@@ -373,17 +375,13 @@ import SubjectServices from '@/services/SubjectServices.js';
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
-
-            //console.log(response);
-          })
-          .catch(error => {
-            console.log('There was an error:', error.response)
-          })
+            this.org = response.data.user.roles[0].org;
+            console.log(this.org);
 
         const events = []
                 var that = this;
 
-        AppointmentServices.getAppointments(10)
+        AppointmentServices.getAppointments(this.org)
         .then(async response => {
           //console.log(response);
           this.rawEvents = response.data
@@ -431,6 +429,10 @@ import SubjectServices from '@/services/SubjectServices.js';
           console.log('There was an error:', error.response)
         })
     
+          })
+          .catch(error => {
+            console.log('There was an error: heres', error.response)
+          })
     },
     methods: {
       
@@ -484,11 +486,11 @@ import SubjectServices from '@/services/SubjectServices.js';
         var that = this
        // console.log(newtime)
 
-        UserServices.getCurrentUser().then(function(result) {
-           UserServices.getUser(result.data.user.id) 
+    //    UserServices.getCurrentUser().then(function(result) {
+           UserServices.getUser(this.user) 
                .then(response => {
-          that.appointment.tutorID = result.data.user.id
-          that.appointment.orgID = 10
+          that.appointment.tutorID = this.user
+          that.appointment.orgID = this.org
           that.appointment.startDateTime = concat
           that.appointment.endDateTime = newtime
           that.appointment.locationID = 5
@@ -498,13 +500,13 @@ import SubjectServices from '@/services/SubjectServices.js';
           })
           .then(response => {
             console.log(response);
-           // window.location.reload();
+            window.location.reload();
           })
           .catch(error => {
             console.log('There was an error:', error.response)
           })
 
-        })
+     //   })
             
 
 

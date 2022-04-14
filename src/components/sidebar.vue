@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar color="deep-purple accent-4"  dark prominent>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"  @click="getRole()"></v-app-bar-nav-icon>
       <v-app-bar-title > {{ $route.meta.title }} </v-app-bar-title>
 
       <v-spacer></v-spacer>
@@ -34,10 +34,14 @@
           </v-list-item>
 
           <v-list-item  to="/inbox">
-            <v-list-item-title>Notifications</v-list-item-title>
+            <v-list-item-title>Notifications 
+          </v-list-item-title>
+          </v-list-item>
+          <v-list-item   v-if= "role === 'tutor'" to="/calendar" >
+            <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  to="/calendar">
+            <v-list-item  v-if= "role === 'student'" to="/studentcalendar">
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
@@ -59,6 +63,8 @@
 <script>
   
   // import LogoutButton from '../components/logoutButton.vue'
+import UserServices from '@/services/UserServices.js';
+
   
   export default {
 //  components: {LogoutButton },
@@ -68,6 +74,7 @@
     data: () => ({
       drawer: false,
       group: null,
+      role : ''
   
     }),
 
@@ -83,6 +90,12 @@
       this.requestUser = window.localStorage.clear('user') 
       window.location.href = '/'
       },
+       getRole(){
+            UserServices.getCurrentUser().then(function(result) {
+           console.log(result.data.user.roles[0].role);
+           this.role = result.data.user.roles[0].role;
+       })
+      }
     },
   }
 </script>

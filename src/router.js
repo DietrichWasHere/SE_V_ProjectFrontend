@@ -111,8 +111,9 @@ const routes = [
     meta: { title: 'Appointment Request' }
   },
   {
-    path: '/review',
+    path: '/review/:id',
     name: 'review',
+    props : true,
     component: Review,
     meta: { title: 'Review' }
   },

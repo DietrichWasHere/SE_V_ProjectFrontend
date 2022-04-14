@@ -48,8 +48,10 @@ export default {
           console.log(window.localStorage.getItem('user'))
           console.log("0")
           //this.$store.commit('setLoginUser', userInfo)
+          
           UserServices.getCurrentUser()
           .then(response => {
+
             this.user = response.data;
             /*console.log(this.user);
             console.log("1. " + this.user);
@@ -65,6 +67,7 @@ export default {
             else this.$router.push('/calendar');
           })
           .catch(error => {
+            
             console.log('error', error)
           });
           //router.push('/home')

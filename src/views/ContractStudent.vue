@@ -1,54 +1,21 @@
 <template>
 <v-container class = "setsize"> 
-    <h2>Student Responsibilities:</h2>
-    <ul>
-        <li>I will be on time, if I am 15 minutes late, the tutor is not obliged to wait for me and
-            I will be considered a "no show". After the 1st "no show" I understand I will be 
-            charged $10 per additional "no show".</li>
-        <li>If I must miss a session I will contact my tutor at least 6 hours prior to the 
-            appointed time.</li>
-        <li>I will be prepared. Assignments will be completed as fully as possible and I will 
-            have questions ready to ask.</li>
-        <li>I will attend class regularly.</li>
-        <li>I will not expect my tutor to "know everything"</li>
-        <li>When my tutor refers me to my professor, I will follow through.</li>
-    </ul>  
-    <br><h2>Tutor Responsibilities:</h2>
-    <ul>
-        <li>I will be on time.
-        </li>
-        <li>If I must cancel a session I will contact my students as far in advance as possible
-            (no less than 6 hours before appointed meeting time).
-        </li>
-        <li>I will be prepared to answer most student questions
-        </li>
-        <li>I will admit if I don't know the solution or answer. I will try to find the 
-            information. I will refer the student to the professor when needed.  
-        </li>
-        <li>I will provide opportunities and assist in practice problems (but not graded work)
-        </li>
-        
-    </ul>
-    <br><h2>Tutoring will be stopped for the follwing reasons:</h2>
-    <ul>
-        <li>When the student misses 3 tutoring sessions without above mentioned
-            notification.
-        </li>
-        <li>When tutoring is not helping the students progress
-        </li>
-        <li>If/When the tutor and student both agree that the student is able to make
-            satisfactory progress working independently.
-        </li>
-    </ul>
-    <br>
+    <h2>{{this.org.orgName}} Student Sign Up</h2>
+    
+    
     <p>
-        I certify that my tutor and I have read and discussed the information contained in this contract. I
-        agree to work cooperatively with this tutor to achieve academic success. I understand that 
+      {{this.org.studentAgreement}}
+    </p>
+
+    <p>
+        I certify that I have read and discussed the information contained in this contract. I
+        agree to work cooperatively with my tutors to achieve academic success. I understand that 
         tutoring may be suspended or discontinued if it is determined that I am not making an effort to
         benefit from such services.
     </p>
 
     <br>
+    <p v-if='this.nameCheck'>The name typed in was not correct!</p>
     <v-container fill-width fluid>
         <v-row justify="center"><v-col lg="3" >Student Signature<v-text-field v-model="studentName" :rules="nameRules" :counter="30" label="First name Last Name" required></v-text-field> </v-col>
         
@@ -56,7 +23,7 @@
                 <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
                     <template v-slot:activator="{ on, attrs }">
                         <v-text-field v-model="dateFormatted"  hint="MM/DD/YYYY format" persistent-hint prepend-icon="mdi-calendar" 
-                        v-bind="attrs" @blur="date = parseDate(dateFormatted)" v-on="on">
+                        v-bind="attrs" @blur="date = parseDate(dateFormatted)" v-on="off">
                         </v-text-field>
                     </template>
                     <v-date-picker v-model="date" no-title  @input="menu1 = false" >
@@ -66,26 +33,59 @@
         </v-row>
     </v-container>
     <br>
-    <p>
-        I certify that my student and I have read and discussed the information contained in this 
-        contract. I agree to work cooperatively with this stuent to achieve academic success.
-    </p>
-
-    <v-btn color="primary" elevation="3" plain rounded x-large to="/calendarstudent">
+    <v-btn color="primary" elevation="3" plain rounded x-large @click.native="submitContract">
         Next
     </v-btn>
 </v-container>
 </template>
 
 <script>
+  import OrgServices from '@/services/OrgServices.js'
+  import UserServices from '@/services/UserServices.js';
+  import StudentServices from '@/services/StudentServices.js';
+
+
   export default {
+    props: ['orgID'],
     data: vm => ({
+      org: '',
       studentName: '',
+      user: '',
+      userData: '',
+      nameCheck: false,
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
       menu1: false,
       menu2: false,
     }),
+    created () {
+      OrgServices.getOrganization(this.orgID)
+        .then(response => {
+          //console.log(response.data)
+          this.org = response.data[0];
+          //console.log("!")
+          //console.log(this.org)
+        })
+        .catch(error => {
+            console.log('There was an error:', error.response)
+        })
+      UserServices.getCurrentUser()
+        .then(response => {
+                this.user = response.data.user
+                console.log(this.user); 
+                UserServices.getUser(this.user.id)
+                    .then(response => {
+                        this.userData = response.data[0]
+                        console.log(this.userData);
+                    })
+                    .catch(error => {
+                        console.log('There was an error:', error.response)
+                    })
+            })
+        .catch(error => {
+            console.log('There was an error:', error.response)
+        })
+    },
     computed: {
       computedDateFormatted () {
         return this.formatDate(this.date)
@@ -97,6 +97,25 @@
       },
     },*/
     methods: {
+      submitContract() {
+        var student = {
+          dateAgreementSigned: this.date
+        };
+        console.log(this.studentName);
+        console.log(this.userData.fName + ' ' + this.userData.lName);
+        console.log(this.studentName == (this.userData.fName + ' ' + this.userData.lName));
+        if (this.studentName == (this.userData.fName + ' ' + this.userData.lName)) {
+          StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
+            .then(response => {
+              console.log(response.data);
+              this.$router.push('/calendar');
+            })
+            .catch(error => {
+                console.log('There was an error:', error.response)
+            })
+        }
+        else this.nameCheck = true;
+      },
       formatDate (date) {
         if (!date) return null
         const [year, month, day] = date.split('-')

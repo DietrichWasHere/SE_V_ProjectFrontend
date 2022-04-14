@@ -7,6 +7,9 @@ export default {
   getOrganizations() {
     return apiClient.get("/orgs/");
   },
+  getStudentContract(orgID) {
+    return apiClient.get("/orgs/" + orgID);
+  },
   getOrganization(orgID) {
     return apiClient.get("/orgs/" + orgID);
   },

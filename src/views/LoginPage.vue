@@ -22,11 +22,10 @@
                      <v-spacer></v-spacer>
                      <v-btn color="info">Login</v-btn>
                 </v-card-actions>
-           
         </v-card>
     </v-app>-->
     <v-container>
-<social-login/>
+<social-login :orgID = 'this.orgID'/>
     </v-container>
 </template>
 <script>
@@ -34,11 +33,8 @@ import SocialLogin from '../components/SocialLogin'
 
 export default {
     name: 'login_page',
-components: { SocialLogin
-  
-  },
-    
-
+    components: { SocialLogin},
+    props: ['orgID'],
     data: () => ({
         showPasswowrd: false
     }),

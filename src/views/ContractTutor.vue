@@ -97,6 +97,7 @@
 
 <script>
   export default {
+    props: ['orgID'],
     data: vm => ({
       studentName: 'Eddie Gomez',
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),

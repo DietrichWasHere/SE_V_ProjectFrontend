@@ -7,7 +7,8 @@ import Router from 'vue-router'
 //import viewName from '../views/viewName.vue'
 
 // import Admin from './views/Admin.vue'
-import Contract from './views/Contract.vue'
+import StudentContract from './views/ContractStudent.vue'
+import TutorContract from './views/ContractTutor.vue'
 import Calendar from './views/Calendar.vue'
 
 import StudentCalendar from './views/StudentCalendar.vue'
@@ -37,16 +38,32 @@ const routes = [
     meta: { title: 'Log In' }
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
-    meta: { title: 'User Profile' }
+    // https://stackoverflow.com/questions/37937262/passing-props-to-vue-js-components-instantiated-by-vue-router
+    path: '/newUser/:orgID',
+    name: 'newUserByOrg',
+    props: true,
+    component: LoginPage,
+    meta: { title: 'Log In' }
+  },
+  {
+    path: '/studentContract/:orgID',
+    name: 'studentContract',
+    props: true,
+    component: StudentContract,
+    meta: { title: 'Tutoring Agreement Contract' }
+  },
+  {
+    path: '/tutorContract/:orgID',
+    name: 'tutorContract',
+    props: true,
+    component: TutorContract,
+    meta: { title: 'Tutoring Agreement Contract' }
   },
   {
     path: '/profile',
     name: 'profile',
     component: Profile,
-    meta: { title: 'Profile' }
+    meta: { title: 'User Profile' }
   },
   {
     path: '/users',
@@ -65,7 +82,6 @@ const routes = [
     name: 'inbox',
     component: Inbox
   },
-
   {
     path: '/admin',
     name: 'admin',
@@ -90,12 +106,7 @@ const routes = [
     component: StudentCalendar,
     meta: { title: 'Calendar' }
   },
-  {
-    path: '/contract',
-    name: 'cotract',
-    component: Contract,
-    meta: { title: 'Tutoring Agreement Contract' }
-  },
+
   /*{
     path: '/contractstudent',
     name: 'cotractstudent',

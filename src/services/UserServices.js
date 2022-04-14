@@ -18,8 +18,8 @@ export default {
   deleteUser(userID) {
     return apiClient.delete("/users/" + userID);
   },
-  addUser(user) {
-    return apiClient.post("/user/", user);
+  addUser(user, orgID) {
+    return apiClient.post("/user/" + orgID, user);
   },
   updateUserById(userID, user) {
     return apiClient.put("/users/" + userID, user);

@@ -16,9 +16,10 @@
 import UserServices from '@/services/UserServices.js';
 export default {
   name: 'social_login',
+  props: ['orgID'],
   data: () => ({
     user: {},
-    presence: false
+    presence: false,
   }),
   methods: {
     loginWithGoogle () {
@@ -52,29 +53,28 @@ export default {
           .then(response => {
 
             this.user = response.data;
-            console.log(this.user);
-            console.log(this.user.user.roles);
+            /*console.log(this.user);
+            console.log("1. " + this.user);
+            console.log(this.user.user.roles);*/
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
             if (!this.user.user.roles.length){
-              UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email});
-              
+              UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID);
+              console.log("orgID: " + this.orgID)
+              if (this.orgID) this.$router.push('/studentContract/' + this.orgID);
+              else this.$router.push('/profile');
             }
-          window.location.href = this.user.user.roles[0].role == 'student' ? '/studentcalendar' : '/calendar';
-                      //  router.push('/calendar')
-
-
+            else if (!this.user.user.roles[0].dateAgreementSigned) this.$router.push('/studentContract/' + this.user.user.roles[0].org);
+            else this.$router.push('/calendar');
           })
           .catch(error => {
             
             console.log('error', error)
           });
           //router.push('/home')
-          router.push('/calendar')
         })
         .catch(error => {
           console.log('error', error)
           this.router.push('/calendar')
-
         })
     }
   }

@@ -263,12 +263,30 @@
               :color="selectedEvent.color"
               dark
             >
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+
+                         <v-avatar
+            class="mb-4"
+            color="grey darken-1"
+            size="36">     
+              <img :src="`${selectedEvent.picture}`"  alt="">
+          </v-avatar>
+            
+              <p >&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedEvent.name }} </p>
+
               <v-spacer></v-spacer>
     
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.start"></span>
+              <!--content in appointment popup-->
+              <p >
+              Subjects Available:
+                <ul>
+                  <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
+                  </ul>
+
+              </p>
+
+
             </v-card-text>
             <v-card-actions>
               
@@ -290,6 +308,8 @@
 <script>
 import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
+import SubjectServices from '@/services/SubjectServices.js';
+
 
 
   export default {
@@ -331,6 +351,8 @@ import UserServices from '@/services/UserServices.js';
       events: [],
       rawEvents: [],
       allevents: [],
+       subjects: [],
+      subject: [],
 
       color: [], 
       colors: ['grey', 'orange', 'green', 'red'],
@@ -353,76 +375,58 @@ import UserServices from '@/services/UserServices.js';
               .then(response => {
             this.user =  response.data.user.id;
 
-            console.log(response);
+            //console.log(response);
           })
           .catch(error => {
             console.log('There was an error:', error.response)
           })
 
         const events = []
+                var that = this;
 
         AppointmentServices.getAppointments(10)
-        .then(response => {
-          console.log(response);
+        .then(async response => {
+          //console.log(response);
           this.rawEvents = response.data
-          console.log(this.rawEvents);
+          //console.log(this.rawEvents);
 
           for (let x = 0; x < this.rawEvents.length; x++)
-         {
-           console.log(this.rawEvents[x]);
-          var startDate = new Date(this.rawEvents[x].startDateTime);
-          var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
-          var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
-          var endDate = new Date(this.rawEvents[x].endDateTime);
-          hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
-          var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
-         
-         
-         
-         // console.log(this.rawEvents[x].startDateTime, startDate, endDate)
-         // console.log('HI', formattedStartDate, formattedEndDate)
-         // UserServices.getUser(1)
-          //  .then(response => {
-          var tutorID = this.rawEvents[x].tutorID;
+         {             
+            
 
-        //  console.log(this.rawEvents[x].title, '  ', this.rawEvents[x].color);
-          
-          if (this.user == tutorID)
-           {
-             if(this.color == this.rawEvents[x].color)
-            {
-              events.push({
-              name: this.rawEvents[x].title,
-              start: formattedStartDate,
-              end: formattedEndDate,
-              startFormat: this.rawEvents[x].startDateTime,
-              endFormat: this.rawEvents[x].endDateTime,
-              color: this.rawEvents[x].color,
-              appointmentID: this.rawEvents[x].appointmentID,
-              tutorID: this.rawEvents[x].tutorID,
-              orgID: this.rawEvents[x].orgID,
-              })
-            }
-              else if(this.color == "")
-              {
+            //console.log(this.rawEvents[x]);
+            var startDate = new Date(this.rawEvents[x].startDateTime);
+            var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
+            var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
+            var endDate = new Date(this.rawEvents[x].endDateTime);
+            hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
+            var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
+            var subjects = [];
+            await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
+                for (var x in r.data) subjects.push(r.data[x].subjectName);
+            });
                     events.push({
-                    name: this.rawEvents[x].title,
-                    start: formattedStartDate,
-                    end: formattedEndDate,
-                    startFormat: this.rawEvents[x].startDateTime,
-                    endFormat: this.rawEvents[x].endDateTime,
-                    color: this.rawEvents[x].color,
-                    appointmentID: this.rawEvents[x].appointmentID,
-                    tutorID: this.rawEvents[x].tutorID,
-                    orgID: this.rawEvents[x].orgID,
+                        name: this.rawEvents[x].title,
+                        start: formattedStartDate,
+                        end: formattedEndDate,
+                        startFormat: this.rawEvents[x].startDateTime,
+                        endFormat: this.rawEvents[x].endDateTime,
+                        color: this.rawEvents[x].color,
+                        appointmentID: this.rawEvents[x].appointmentID,
+                        tutorID: this.rawEvents[x].tutorID,
+                        orgID: this.rawEvents[x].orgID,
+                        tutorFName: this.rawEvents[x].tutorFName,
+                        tutorLName: this.rawEvents[x].tutorLName,
+                        subjects: subjects,
+                        picture : this.rawEvents[x].picture
                     })
+                    console.log(this.rawEvents[x].picture);
               }
-            }
-          
-       }
+            await SubjectServices.getSubjects().then(r => {
+                for (var x in r.data) that.subjects.push(r.data[x].subjectName);
+            });
            this.events = events;
-          this.allevents = events;
-
+           this.allevents = events;
         })
         .catch(error => {
           console.log('There was an error:', error.response)
@@ -433,7 +437,7 @@ import UserServices from '@/services/UserServices.js';
       
   filter() {
            this.events = this.allevents.filter(e => !this.color.length || this.color.includes(e.color));
-           console.log(this.events);
+           //console.log(this.events);
       },
       formatDate (date) {
         if (!date) return null
@@ -479,21 +483,23 @@ import UserServices from '@/services/UserServices.js';
         var newtime = new Date(new Date(concat).getTime() + this.duration*60000);
         //newtime = this.date  + " " +  newtime;
         var that = this
-        console.log(newtime)
+       // console.log(newtime)
 
         UserServices.getCurrentUser().then(function(result) {
-          console.log(result)
+           UserServices.getUser(result.data.user.id) 
+               .then(response => {
           that.appointment.tutorID = result.data.user.id
           that.appointment.orgID = 10
           that.appointment.startDateTime = concat
           that.appointment.endDateTime = newtime
           that.appointment.locationID = 5
           that.appointment.color = "grey"
-          that.appointment.title = "Avalable Appointment"
+          that.appointment.title = "Available " + response.data[0].fName + " " + response.data[0].lName;
           AppointmentServices.addAppointment(that.appointment)
+          })
           .then(response => {
             console.log(response);
-            window.location.reload();
+           // window.location.reload();
           })
           .catch(error => {
             console.log('There was an error:', error.response)

@@ -57,28 +57,28 @@
       menu2: false,
     }),
     created () {
-      OrgServices.getOrganization(this.orgID)
-        .then(response => {
-          //console.log(response.data)
-          this.org = response.data[0];
-          //console.log("!")
-          //console.log(this.org)
-        })
-        .catch(error => {
-            console.log('There was an error:', error.response)
-        })
       UserServices.getCurrentUser()
         .then(response => {
                 this.user = response.data.user
                 console.log(this.user); 
                 UserServices.getUser(this.user.id)
-                    .then(response => {
-                        this.userData = response.data[0]
-                        console.log(this.userData);
-                    })
-                    .catch(error => {
-                        console.log('There was an error:', error.response)
-                    })
+                  .then(response => {
+                      this.userData = response.data[0]
+                      console.log(this.userData);
+                  })
+                  .catch(error => {
+                      console.log('There was an error:', error.response)
+                  })
+                OrgServices.getOrganization(this.user.roles[0].org)
+                  .then(response => {
+                    //console.log(response.data)
+                    this.org = response.data[0];
+                    //console.log("!")
+                    //console.log(this.org)
+                  })
+                  .catch(error => {
+                    console.log('There was an error:', error.response)
+                  })
             })
         .catch(error => {
             console.log('There was an error:', error.response)
@@ -102,9 +102,7 @@
           verified: false,
           dateAgreementSigned: this.date
         };
-        console.log(this.studentName);
-        console.log(this.userData.fName + ' ' + this.userData.lName);
-        console.log(this.studentName == (this.userData.fName + ' ' + this.userData.lName));
+        console.log(tutor);
         if (this.studentName == (this.userData.fName + ' ' + this.userData.lName)) {
           TutorServices.addTutor(tutor)
             .then(response => {

@@ -49,7 +49,7 @@
 
 
   export default {
-    props: ['orgID'],
+    props: ['orgName'],
     data: vm => ({
       org: '',
       studentName: '',
@@ -62,7 +62,7 @@
       menu2: false,
     }),
     created () {
-      OrgServices.getOrganization(this.orgID)
+      OrgServices.getOrganizationByName(this.orgName)
         .then(response => {
           //console.log(response.data)
           this.org = response.data[0];
@@ -111,8 +111,8 @@
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
               console.log(response.data);
-              if (this.userData.phone) NotifyServices.notify(this.userData.phone, "PLAY KIRBY AND THE FORGOTTEN LAND pls!");
-              this.$router.push('/calendar');
+              if (this.userData.phone) NotifyServices.notify(this.userData.phone, "Successfully Registered!");
+              this.$router.push('/' + this.orgName + '/studentcalendar');
             })
             .catch(error => {
                 console.log('There was an error:', error.response)

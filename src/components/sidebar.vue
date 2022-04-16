@@ -1,14 +1,15 @@
 <template>
   <div>
     <v-app-bar color="deep-purple accent-4"  dark prominent>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"  @click="getRole()"></v-app-bar-nav-icon>
-      <v-app-bar-title > {{ $route.meta.title }} </v-app-bar-title>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-app-bar-title > {{orgName}} {{ $route.meta.title }} </v-app-bar-title>
 
       <v-spacer></v-spacer>
 
   
 
-      <v-btn icon v-on:click = "logout()">
+      <v-btn v-if="loggedIn()" icon v-on:click = "logout()">
         <v-icon>mdi-logout</v-icon>
         
       </v-btn>
@@ -29,27 +30,28 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
-          <v-list-item  to="/profile">
+          <v-list-item  :to="'/' + this.orgID + '/profile'">
             <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  to="/inbox">
+
+          <v-list-item  :to="'/' + this.orgID + '/inbox'">
             <v-list-item-title>Notifications 
           </v-list-item-title>
           </v-list-item>
-          <v-list-item   v-if= "role === 'tutor'" to="/calendar" >
+          <v-list-item   v-if= "role === 'tutor'" :to="'/' + this.orgID + '/calendar'" >
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-            <v-list-item  v-if= "role === 'student'" to="/studentcalendar">
+            <v-list-item  v-if= "role === 'student'" :to="'/' + this.orgID + '/studentcalendar'">
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  to="/contract">
+          <v-list-item  :to="'/' + this.orgID + '/contract'">
             <v-list-item-title>Contract</v-list-item-title>
           </v-list-item>
           
-          <v-list-item  to="/users">
+          <v-list-item  :to="'/' + this.orgID + '/users'">
             <v-list-item-title>Users</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
@@ -62,21 +64,23 @@
 
 <script>
   
-  // import LogoutButton from '../components/logoutButton.vue'
+import OrgServices from '../services/OrgServices'
 import UserServices from '@/services/UserServices.js';
-
   
   export default {
 //  components: {LogoutButton },
-      props: {
-    title : String,
-  },
+      props: ['orgID'],
     data: () => ({
       drawer: false,
       group: null,
+      orgName: '',
       role : ''
-  
     }),
+    async created() {
+      this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
+      console.log(this.orgName)
+      this.role = await this.getRole();
+    },
 
     watch: {
       group () {
@@ -84,17 +88,25 @@ import UserServices from '@/services/UserServices.js';
       },
     },
 
-    methods: {
-      logout() {
-      this.requestUser = window.localStorage.clear('token') 
-      this.requestUser = window.localStorage.clear('user') 
-      window.location.href = '/'
-      },
-       getRole(){
+       created(){
+         var that = this;
             UserServices.getCurrentUser().then(function(result) {
            console.log(result.data.user.roles[0].role);
-           this.role = result.data.user.roles[0].role;
+           that.role = result.data.user.roles[0].role;
+           that.$forceUpdate();
        })
+      },
+    methods: {
+      loggedIn() {return window.localStorage.token || window.localStorage.user;},
+      logout() {
+      this.requestUser = window.localStorage.clear('token') 
+
+      this.requestUser = window.localStorage.clear('user')
+      this.$router.push('/' + this.orgID)
+      },
+      async getRole(){
+        return (await UserServices.getCurrentUser()).data.user.roles[0].role;
+
       }
     },
   }

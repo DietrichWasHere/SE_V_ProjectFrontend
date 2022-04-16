@@ -67,6 +67,7 @@ const routes = [
   {
     path: '/:orgName/profile',
     name: 'profile',
+    props: true,
     component: Profile,
     meta: { title: 'User Profile' }
   },
@@ -88,7 +89,7 @@ const routes = [
     name: 'Notifications',
     component: InboxTutorRequest
   },
-
+  {
     path: '/:orgName/inbox',
     name: 'Notifications',
     component: Inbox

@@ -112,7 +112,7 @@
             .then(response => {
               console.log(response.data);
               if (this.userData.phone) NotifyServices.notify(this.userData.phone, "Successfully Registered!");
-              this.$router.push('/' + this.orgName + '/studentcalendar');
+              this.$router.push('/' + this.orgName + '/calendars');
             })
             .catch(error => {
                 console.log('There was an error:', error.response)

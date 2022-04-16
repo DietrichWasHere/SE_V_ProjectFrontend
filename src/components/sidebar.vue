@@ -87,15 +87,6 @@ import UserServices from '@/services/UserServices.js';
         this.drawer = false
       },
     },
-
-       created(){
-         var that = this;
-            UserServices.getCurrentUser().then(function(result) {
-           console.log(result.data.user.roles[0].role);
-           that.role = result.data.user.roles[0].role;
-           that.$forceUpdate();
-       })
-      },
     methods: {
       loggedIn() {return window.localStorage.token || window.localStorage.user;},
       logout() {

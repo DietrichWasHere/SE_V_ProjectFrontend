@@ -11,6 +11,9 @@
                                 alt=""> 
                         </v-avatar>
                     </v-flex>
+                    <v-btn v-if='this.isStudent' @click.native="toTutorContract">
+                        Become a Tutor
+                    </v-btn>
                     <v-text-field
                         v-model="userData.fName"
                         label="FirstName"></v-text-field>
@@ -41,14 +44,18 @@
     
     export default {
         pageTitle: 'MyProfile',
+        props: ['orgName'],
         data () {
             return {
                 loading: false,
                 user: {
                 },
+                student: {},
+                tutor: {},
                 picture : "", 
                 userData: {
-                }
+                },
+                isStudent: false
                 // avatar: image
             }
         },
@@ -66,11 +73,13 @@
                             .then(response => {
                                 that.userData = response.data[0]
                                 that.picture = response.data[0].picture;
-
                             })
                             .catch(error => {
                                 console.log('There was an error:', error.response)
                             })
+                        console.log("hi2");
+                        console.log(this.user.roles[0].role);
+                        if (this.user.roles[0].role == 'student') this.isStudent = true;
                     })
                 .catch(error => {
                     console.log('There was an error:', error.response)
@@ -88,7 +97,10 @@
                     .catch(error => {
                         console.log('There was an error:', error.response)
                     }) 
-            }         
+            },
+            toTutorContract() {
+                this.$router.push("/"+ this.orgName + "/tutorContract"); 
+            }        
         }
     }
 </script>

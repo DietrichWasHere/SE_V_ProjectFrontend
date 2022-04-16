@@ -113,6 +113,7 @@
   import TutorServices from '@/services/TutorServices.js';
 
   export default {
+    props: ['orgID'],
     data: () => ({
       search: '',
       dialogEdit: false,
@@ -132,15 +133,16 @@
         fName: '',
         lName: '',
         verified: '',
-        contract: '',
-                
+        //verifiedImg: '',
+        dateAgreementSigned: ''
       },
       defaultItem: {
         userID: '',
         fName: '',
         lName: '',
         verified: '',
-        contract: '',
+        //verifiedImg: '',
+        dateAgreementSigned: ''
       },
     }),
     computed: {

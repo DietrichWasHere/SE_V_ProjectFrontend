@@ -14,12 +14,16 @@
 
 //import router from '@/router/router'
 import UserServices from '@/services/UserServices.js';
+import StudentServices from '@/services/StudentServices.js';
+
 export default {
   name: 'social_login',
   props: ['orgID'],
   data: () => ({
     user: {},
     presence: false,
+    rolse: {},
+    unauthorized: false
   }),
   methods: {
     loginWithGoogle () {
@@ -46,35 +50,51 @@ export default {
           window.localStorage.setItem('token', JSON.stringify({token: userInfo.google.auth.id_token}))
           window.localStorage.setItem('user', JSON.stringify(userInfo))
           console.log(window.localStorage.getItem('user'))
-          console.log("0")
+          //console.log("0")
           //this.$store.commit('setLoginUser', userInfo)
           
           UserServices.getCurrentUser()
           .then(response => {
-
             this.user = response.data;
             /*console.log(this.user);
             console.log("1. " + this.user);
             console.log(this.user.user.roles);*/
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
             if (!this.user.user.roles.length){
-              UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID);
-              console.log("orgID: " + this.orgID)
-              if (this.orgID) this.$router.push('/studentContract/' + this.orgID);
-              else this.$router.push('/profile');
+              if (this.orgID) {
+                console.log("1.");
+                console.log(this.user);
+                var that = this;
+                UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID).then(function() {
+                //console.log("orgID: " + this.orgID)
+                that.$router.push('/studentContract/' + that.orgID);
+                })
+              }
+              else {
+                this.unauthorized = true;
+                console.log('Unauthorized login');
+              }
+              //else this.$router.push('/profile');
             }
-            else if (!this.user.user.roles[0].dateAgreementSigned) this.$router.push('/studentContract/' + this.user.user.roles[0].org);
-            else this.$router.push('/calendar');
-          })
-          .catch(error => {
+            else {
+              console.log(this.user.user);
+              StudentServices.getStudentsByUser(this.user.user.id)
+                .then(response => {
+                  this.roles = response.data;
+                  if (!this.roles[0].dateAgreementSigned) {
+                    console.log("test");
+                    console.log(this.user.user.roles[0]);
+                    this.$router.push('/studentContract/' + this.user.user.roles[0].org);
+                  }
+                  else this.$router.push('/calendar');
+                })
+            }
             
-            console.log('error', error)
-          });
-          //router.push('/home')
+          })
         })
         .catch(error => {
           console.log('error', error)
-          this.router.push('/calendar')
+          //this.router.push('/calendar')
         })
     }
   }

@@ -53,7 +53,7 @@ const routes = [
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/tutorContract/:orgID',
+    path: '/tutorContract',
     name: 'tutorContract',
     props: true,
     component: TutorContract,

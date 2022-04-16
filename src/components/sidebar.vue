@@ -2,7 +2,7 @@
   <div>
     <v-app-bar color="deep-purple accent-4"  dark prominent>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-app-bar-title > {{ $route.meta.title }} </v-app-bar-title>
+      <v-app-bar-title > {{orgName}} {{ $route.meta.title }} </v-app-bar-title>
 
       <v-spacer></v-spacer>
 
@@ -58,7 +58,7 @@
 
 <script>
   
-  // import LogoutButton from '../components/logoutButton.vue'
+import OrgServices from '../services/OrgServices'
   
   export default {
 //  components: {LogoutButton },
@@ -66,8 +66,12 @@
     data: () => ({
       drawer: false,
       group: null,
-      
+      orgName: ''
     }),
+    async created() {
+      this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
+      console.log(this.orgName)
+    },
 
     watch: {
       group () {

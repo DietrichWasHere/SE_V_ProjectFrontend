@@ -1,6 +1,6 @@
 <template>
   <v-app class="grey lighten-4">
-    <SideBar :orgID="this.$route.params.orgID">
+    <SideBar :orgID="this.$route.params.orgName">
 
     </Sidebar>
 

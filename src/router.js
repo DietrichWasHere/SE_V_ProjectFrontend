@@ -38,36 +38,36 @@ const routes = [
     component: LoginPage,
     meta: { title: 'Log In' }
   },
-  {
+  /*{
     // https://stackoverflow.com/questions/37937262/passing-props-to-vue-js-components-instantiated-by-vue-router
     path: '/newUser/:orgID',
     name: 'newUserByOrg',
     props: true,
     component: LoginPage,
     meta: { title: 'Log In' }
-  },
+  },*/
   {
-    path: '/:orgID/studentContract',
+    path: '/:orgName/studentContract',
     name: 'studentContract',
     props: true,
     component: StudentContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/:orgID/tutorContract',
+    path: '/:orgName/tutorContract',
     name: 'tutorContract',
     props: true,
     component: TutorContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/:orgID/profile',
+    path: '/:orgName/profile',
     name: 'profile',
     component: Profile,
     meta: { title: 'User Profile' }
   },
   {
-    path: '/:orgID/users',
+    path: '/:orgName/users',
     name: 'users',
     component: ListUsers,
     meta: { title: 'User' }
@@ -79,30 +79,30 @@ const routes = [
     meta: { title: 'Organizations' }
   },
   {
-    path: '/:orgID/inbox',
+    path: '/:orgName/inbox',
     name: 'inbox',
     component: Inbox
   },
   {
-    path: '/:orgID/admin',
+    path: '/:orgName/admin',
     name: 'admin',
     component: ListAdmin,
     meta: { title: 'Admin' }
   },
   {
-    path: '/:orgID/createAdmin',
+    path: '/:orgName/createAdmin',
     name: 'createadmin',
     component: CreateAdmin,
     meta: { title: 'Create Admin' }
   },
   {
-    path: '/:orgID/calendar',
+    path: '/:orgName/calendar',
     name: 'calendar',
     component: Calendar,
     meta: { title: 'Calendar' }
   },
   {
-    path: '/:orgID/studentcalendar',
+    path: '/:orgName/studentcalendar',
     name: 'studentcalendar',
     component: StudentCalendar,
     meta: { title: 'Calendar' }

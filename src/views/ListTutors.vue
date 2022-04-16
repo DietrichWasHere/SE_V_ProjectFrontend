@@ -51,13 +51,13 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.email"
+                      v-model="editedItem.verified"
                       label="Email"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.phone"
+                      v-model="editedItem.contract"
                       label="Phone number"
                     ></v-text-field>
                   </v-col>
@@ -111,7 +111,6 @@
 
 <script>
   import UserServices from '@/services/UserServices.js';
-  //import TutorServices from '@services/TutorServices.js';
 
   export default {
     data: () => ({

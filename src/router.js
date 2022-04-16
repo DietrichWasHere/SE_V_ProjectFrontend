@@ -67,6 +67,7 @@ const routes = [
   {
     path: '/:orgName/profile',
     name: 'profile',
+    props: true,
     component: Profile,
     meta: { title: 'User Profile' }
   },

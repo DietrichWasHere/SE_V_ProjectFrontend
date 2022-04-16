@@ -45,7 +45,6 @@
     export default {
         pageTitle: 'MyProfile',
         props: ['orgName'],
-
         data () {
             return {
                 loading: false,

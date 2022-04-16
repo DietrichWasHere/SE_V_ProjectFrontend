@@ -26,7 +26,7 @@ import ListAdmin from './views/ListAdmin.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
 import ListOrgs from './views/ListOrgs.vue'
 import dvTestPage from './views/dvTestPage.vue'
-
+import ListTutors from './views/ListTutors.vue'
 Vue.use(Router)
 
 // https://router.vuejs.org/guide/
@@ -123,7 +123,15 @@ const routes = [
     path: '/dvTest',
     name: 'dvTest',
     component: dvTestPage,
-  }
+  },
+
+  {
+    path: '/listTutor',
+    name: 'tutorList',
+    component: ListTutors,
+    meta: { title: 'Tutors' }
+  },
+  
 ]
 
 

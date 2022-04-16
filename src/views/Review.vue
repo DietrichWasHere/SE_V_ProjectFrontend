@@ -81,6 +81,8 @@ import AppointmentServices from '@/services/AppointmentServices.js';
             AppointmentServices.updateAppointment(this.id, {tutorRating: this.tutorRating,tutorComments: this.tutorComment})
             .then(response => {         
               console.log(response);
+              window.location.href = '/calendar'
+
             })
             .catch(error => {
               
@@ -95,6 +97,8 @@ import AppointmentServices from '@/services/AppointmentServices.js';
             AppointmentServices.updateAppointment(this.id, {studentRating: this.studentRating, studentComments: this.studentComment})
             .then(response => {         
               console.log(response);
+              window.location.href = '/calendars'
+
             })
             .catch(error => {
               

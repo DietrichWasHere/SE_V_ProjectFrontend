@@ -244,15 +244,39 @@
                 <ul>
                   <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
                   </ul>
-              </p>
-            </v-card-text>
-              <v-card-text  v-if= "selectedEvent.color === 'green'"> 
-                Location: &nbsp;&nbsp;{{ selectedEvent.locationName }} <br>
+                  
+              <br>
+               Location:&nbsp;&nbsp; 
+                <span v-if= "selectedEvent.locationName === 'Online'"  >
+                    <span v-if= "(Date.now() < new Date(selectedEvent.end)) && selectedEvent.color === 'green'" >
+                    <a :href="selectedEvent.tutorComments">Virtual Session Link</a>
+                     </span>
+                     <span v-else>
+                          {{selectedEvent.locationName}}
+                    </span>
+              </span>
+              <span v-else>
+                <span v-if= "selectedEvent.locationName === 'Other'">
+                    {{selectedEvent.tutorComments}}
+                </span>
+                <span v-else>
+                  {{selectedEvent.locationName}}
+                  {{selectedEvent.tutorComments}}
+                </span>
+              </span>
+
+               <span  v-if= "selectedEvent.color === 'green'"> 
+                 <br>
                 Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedEvent.email }}
-              </v-card-text>
+                </span>
+              </p>
+             
+            </v-card-text>
+
+
             <v-card-actions>
 <!-- write comments here-->
-      <v-row>
+              <v-row>
               <v-col
                       cols="10"
                       sm="5"
@@ -308,7 +332,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       dialog: false,
       focus: '',
       type: 'month',
-      locations : ['Student Center', 'Writing Center', 'Library', 'Other'],
+      locations : [{name:'Student Center',id:1}, {name:'Writing Center',id:2}, {name:'Student Success Center',id:3}, {name:'Library',id:4}, {name:'Online',id:5}, {name:'Other: ',id:6}],
       duration: 60,
       typeToLabel: {
         month: 'Month',
@@ -412,7 +436,11 @@ import SubjectServices from '@/services/SubjectServices.js';
                         subjects: subjects,
                         picture : this.rawEvents[x].picture,
                         locationName : this.rawEvents[x].locationName,
-                        email : this.rawEvents[x].tutorEmail
+                        email : this.rawEvents[x].tutorEmail,
+                        locationID : this.rawEvents[x].locationID,
+                        tutorComments : this.rawEvents[x].tutorComments
+
+
                     })
                    // console.log(this.rawEvents[x].picture);
               }

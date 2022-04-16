@@ -18,6 +18,7 @@
             label="Status"
             multiple
           >
+
            </v-select>
                         <v-btn    
           color="primary"
@@ -118,11 +119,28 @@
         <v-select
           :items="locations" 
           label="Location"
-          v-model="appointment.locationID"                    
+          item-text="name"
+          item-value="id"
+          v-model="locationID"                    
 
         ></v-select>
-      </v-col>
+      <v-text-field             
+            v-model="tutorComments"
+            v-if = "locationID === 6"
+            label="Specify Location:"
+            outlined
+            clearable
 
+          ></v-text-field>
+         <v-text-field 
+            v-if = "locationID === 5"
+            label="Google Meet Link:"
+            outlined
+            clearable
+            v-model="tutorComments"
+
+          ></v-text-field>
+      </v-col>
                  <!--   <v-text-field
                       label="Location" 
                     ></v-text-field>-->
@@ -263,7 +281,7 @@
               :color="selectedEvent.color"
               dark
             >
-                         <v-avatar
+            <v-avatar
             class="mb-4"
             color="grey darken-1"
             size="36">     
@@ -282,8 +300,22 @@
                 <ul>
                   <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
                   </ul>
-
+                <br>
+              Location:&nbsp;
+              <span v-if= "selectedEvent.locationName === 'Online'"  >
+                <a :href="selectedEvent.tutorComments">Virtual Session Link</a>
+              </span>
+              <span v-else>
+                <span v-if= "selectedEvent.locationName === 'Other'">
+                    {{selectedEvent.tutorComments}}
+                </span>
+                <span v-else>
+                  {{selectedEvent.locationName}}
+                </span>
+              </span>
               </p>
+
+
             </v-card-text>
             <v-card-actions>
                <v-btn  v-if= "(Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false"
@@ -323,8 +355,8 @@ import SubjectServices from '@/services/SubjectServices.js';
       time : "12:30",
       dialog: false,
       focus: '',
-      type: 'month',
-      locations : ['Student Center', 'Writing Center', 'Library', 'Other'],
+      type: 'month', 
+      locations : [{name:'Student Center',id:1}, {name:'Writing Center',id:2}, {name:'Student Success Center',id:3}, {name:'Library',id:4}, {name:'Online',id:5}, {name:'Other: ',id:6}],
       duration: 60,
       typeToLabel: {
         month: 'Month',
@@ -353,9 +385,11 @@ import SubjectServices from '@/services/SubjectServices.js';
       allevents: [],
        subjects: [],
       subject: [],
+      locationID : "", 
+      tutorComments : "", 
 
       color: [], 
-      colors: ['grey', 'orange', 'green', 'red'],
+      colors: [ 'grey', 'orange', 'green', 'red'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       org : ""
     }),
@@ -415,7 +449,11 @@ import SubjectServices from '@/services/SubjectServices.js';
                         tutorFName: this.rawEvents[x].tutorFName,
                         tutorLName: this.rawEvents[x].tutorLName,
                         subjects: subjects,
-                        picture : this.rawEvents[x].picture
+                        picture : this.rawEvents[x].picture,
+                        locationID : this.rawEvents[x].locationID,
+                        locationName : this.rawEvents[x].locationName,
+                        tutorComments : this.rawEvents[x].tutorComments
+
                     })
                     console.log(this.rawEvents[x].picture);
               }
@@ -493,9 +531,10 @@ import SubjectServices from '@/services/SubjectServices.js';
           that.appointment.orgID = this.org
           that.appointment.startDateTime = concat
           that.appointment.endDateTime = newtime
-          that.appointment.locationID = 5
+          that.appointment.locationID = this.locationID
           that.appointment.color = "grey"
           that.appointment.title = response.data[0].fName + " " + response.data[0].lName;
+          that.appointment.tutorComments = this.tutorComments;
           AppointmentServices.addAppointment(that.appointment)
           })
           .then(response => {

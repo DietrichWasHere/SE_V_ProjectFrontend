@@ -121,8 +121,10 @@
       headers: [
         { text: 'First Name', value: 'fName'},
         { text: 'Last Name', value: 'lName'},
-        { text: 'Verified', value: 'verifiedTxt'  },
+        { text: 'Verification', value: 'verifiedTxt'  },
         { text: 'Contract', value: 'dateAgreementSigned' },
+        { text: 'Email', value: 'email'},
+        { text: 'Phone', value: 'phone'},
         //{ text: 'Actions', value: 'actions', sortable: false },
       ],
       message: '',
@@ -161,12 +163,9 @@
           console.log(response);
           this.tutors = response.data
           this.tutors.forEach(function setVerifyTxt(tutor) {
-              console.log("hi");
-              console.log(tutor);
-              if (tutor.verified) tutor.verifiedTxt = "Verified";
+              if (tutor.verified) tutor.verifiedTxt = "Confirmed";
               else tutor.verifiedTxt = "Requested";
           })
-          console.log(this.tutors);
         })
         .catch(error => {
           console.log('There was an error:', error.response)

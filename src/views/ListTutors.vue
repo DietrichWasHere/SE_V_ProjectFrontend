@@ -163,6 +163,12 @@
           console.log(response);
           this.tutors = response.data
           this.tutors.forEach(function setVerifyTxt(tutor) {
+
+                const [year, month, day] = tutor.dateAgreementSigned.split('-'); 
+                const [days, hours] = day.split('T');
+                hours;
+                tutor.dateAgreementSigned = year + '/' + month + '/' + days;
+      
               if (tutor.verified) tutor.verifiedTxt = "Confirmed";
               else tutor.verifiedTxt = "Requested";
           })
@@ -183,6 +189,11 @@
           console.log('There was an error:', error.response)
         })
       },*/
+        formatDate (date) {
+        if (!date) return null
+        const [year, month, day] = date.split('-')
+        return `${month}/${day}/${year}`
+      },
       deleteItemDialog(item) {
         this.editedIndex = this.tutors.indexOf(item)
         this.editedItem = Object.assign({}, item)
@@ -202,6 +213,7 @@
       closeDelete () {
         this.dialogDelete = false
         this.$nextTick(() => {
+
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
         })

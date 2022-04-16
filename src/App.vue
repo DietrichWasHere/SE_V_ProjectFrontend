@@ -1,6 +1,6 @@
 <template>
   <v-app class="grey lighten-4">
-    <SideBar>
+    <SideBar :orgID="this.$route.params.orgName">
 
     </Sidebar>
 
@@ -19,14 +19,12 @@ export default {
   masterTitle: 'Title',
   components: { SideBar },
   name: 'App',
-    props: {
-  
-  },
   data () {
     return {
       
     }
-  }
+  },
+  created() {console.log(this.$route)}
 }
 
 

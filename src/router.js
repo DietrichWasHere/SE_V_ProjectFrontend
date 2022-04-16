@@ -35,41 +35,42 @@ Vue.use(Router)
 // https://router.vuejs.org/guide/
 const routes = [
   {
-    path: '/',
+    path: '/:orgName',
     name: 'loginpage',
+    props: true,
     component: LoginPage,
     meta: { title: 'Log In' }
   },
-  {
+  /*{
     // https://stackoverflow.com/questions/37937262/passing-props-to-vue-js-components-instantiated-by-vue-router
     path: '/newUser/:orgID',
     name: 'newUserByOrg',
     props: true,
     component: LoginPage,
     meta: { title: 'Log In' }
-  },
+  },*/
   {
-    path: '/studentContract/:orgID',
+    path: '/:orgName/studentContract',
     name: 'studentContract',
     props: true,
     component: StudentContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/tutorContract',
+    path: '/:orgName/tutorContract',
     name: 'tutorContract',
     props: true,
     component: TutorContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/profile',
+    path: '/:orgName/profile',
     name: 'profile',
     component: Profile,
     meta: { title: 'User Profile' }
   },
   {
-    path: '/users',
+    path: '/:orgName/users',
     name: 'users',
     component: ListUsers,
     meta: { title: 'User' }
@@ -81,30 +82,30 @@ const routes = [
     meta: { title: 'Organizations' }
   },
   {
-    path: '/inbox',
+    path: '/:orgName/inbox',
     name: 'inbox',
     component: Inbox
   },
   {
-    path: '/admin',
+    path: '/:orgName/admin',
     name: 'admin',
     component: ListAdmin,
     meta: { title: 'Admin' }
   },
   {
-    path: '/createAdmin',
+    path: '/:orgName/createAdmin',
     name: 'createadmin',
     component: CreateAdmin,
     meta: { title: 'Create Admin' }
   },
   {
-    path: '/calendar',
+    path: '/:orgName/calendar',
     name: 'calendar',
     component: Calendar,
     meta: { title: 'Calendar' }
   },
   {
-    path: '/studentcalendar',
+    path: '/:orgName/studentcalendar',
     name: 'studentcalendar',
     component: StudentCalendar,
     meta: { title: 'Calendar' }
@@ -117,7 +118,7 @@ const routes = [
     meta: { title: 'Tutoring Agreement Contract' }
   },*/
   {
-    path: '/appointmentrequest',
+    path: '/:orgID/appointmentrequest',
     name: 'appointmentrequest',
     component: AppointmentRequest,
     meta: { title: 'Appointment Request' }

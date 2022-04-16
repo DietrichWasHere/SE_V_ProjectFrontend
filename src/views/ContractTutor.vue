@@ -44,7 +44,7 @@
 
 
   export default {
-    props: ['orgID'],
+    props: ['orgName'],
     data: vm => ({
       org: '',
       studentName: '',
@@ -107,7 +107,7 @@
           TutorServices.addTutor(tutor)
             .then(response => {
               console.log(response.data);
-              this.$router.push('/calendar');
+              this.$router.push('/' + this.org.orgName + '/calendar');
             })
             .catch(error => {
                 console.log('There was an error:', error.response)

@@ -25,18 +25,23 @@
         </v-card>
     </v-app>-->
     <v-container>
-<social-login :orgID = 'this.orgID'/>
+<social-login :orgID.sync = 'this.orgID' :orgName="this.orgName"/>
     </v-container>
 </template>
 <script>
 import SocialLogin from '../components/SocialLogin'
+import OrgServices from '../services/OrgServices'
 
 export default {
     name: 'login_page',
     components: { SocialLogin},
-    props: ['orgID'],
+    props: ['orgName'],
     data: () => ({
-        showPasswowrd: false
+        orgID: 0
     }),
+    async created() {
+        this.orgID = (await OrgServices.getOrganizationByName(this.orgName)).data[0].orgID;
+        console.log(this.orgID);
+    }
 }
 </script>

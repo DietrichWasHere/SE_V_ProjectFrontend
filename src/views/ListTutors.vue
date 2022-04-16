@@ -163,12 +163,10 @@
           console.log(response);
           this.tutors = response.data
           this.tutors.forEach(function setVerifyTxt(tutor) {
-
                 const [year, month, day] = tutor.dateAgreementSigned.split('-'); 
                 const [days, hours] = day.split('T');
                 hours;
                 tutor.dateAgreementSigned = year + '/' + month + '/' + days;
-      
               if (tutor.verified) tutor.verifiedTxt = "Confirmed";
               else tutor.verifiedTxt = "Requested";
           })
@@ -213,7 +211,6 @@
       closeDelete () {
         this.dialogDelete = false
         this.$nextTick(() => {
-
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
         })

@@ -88,7 +88,7 @@ const routes = [
     name: 'Notifications',
     component: InboxTutorRequest
   },
-
+  {
     path: '/:orgName/inbox',
     name: 'Notifications',
     component: Inbox

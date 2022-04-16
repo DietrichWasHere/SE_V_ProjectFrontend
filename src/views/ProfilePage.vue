@@ -76,7 +76,9 @@
                             .catch(error => {
                                 console.log('There was an error:', error.response)
                             })
-                        if (this.user.user.roles[0].role == 'student') this.isStudent = true;
+                        console.log("hi2");
+                        console.log(this.user.roles[0].role);
+                        if (this.user.roles[0].role == 'student') this.isStudent = true;
                     })
                 .catch(error => {
                     console.log('There was an error:', error.response)

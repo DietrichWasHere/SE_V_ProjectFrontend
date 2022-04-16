@@ -78,6 +78,7 @@ import UserServices from '@/services/UserServices.js';
     async created() {
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
       console.log(this.orgName)
+      this.role = await this.getRole();
     },
 
     watch: {
@@ -93,11 +94,8 @@ import UserServices from '@/services/UserServices.js';
       this.requestUser = window.localStorage.clear('user')
       this.$router.push('/' + this.orgID)
       },
-       getRole(){
-            UserServices.getCurrentUser().then(function(result) {
-           console.log(result.data.user.roles[0].role);
-           this.role = result.data.user.roles[0].role;
-       })
+      async getRole(){
+        return (await UserServices.getCurrentUser()).data.user.roles[0].role;
       }
     },
   }

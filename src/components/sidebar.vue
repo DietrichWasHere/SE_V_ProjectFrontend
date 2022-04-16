@@ -34,15 +34,15 @@
           </v-list-item>
 
 
-          <v-list-item  :to="'/' + this.orgID + ':/inbox">
+          <v-list-item  :to="'/' + this.orgID + '/inbox'">
             <v-list-item-title>Notifications 
           </v-list-item-title>
           </v-list-item>
-          <v-list-item   v-if= "role === 'tutor'" :to="'/' + this.orgID + '/calendar" >
+          <v-list-item   v-if= "role === 'tutor'" :to="'/' + this.orgID + '/calendar'" >
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-            <v-list-item  v-if= "role === 'student'" :to="'/' + this.orgID + '/studentcalendar">
+            <v-list-item  v-if= "role === 'student'" :to="'/' + this.orgID + '/studentcalendar'">
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 

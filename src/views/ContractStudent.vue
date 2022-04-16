@@ -111,7 +111,7 @@
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
               console.log(response.data);
-              //if (this.userData.phone) NotifyServices.notify(this.userData.phone, "Successfully Registered!");
+              if (this.userData.phone) NotifyServices.notify(this.userData.phone, "Successfully Registered!");
               this.$router.push('/' + this.orgName + '/studentcalendar');
             })
             .catch(error => {

@@ -156,7 +156,7 @@
       },
     },
     created () {
-      TutorServices.getTutors()
+      TutorServices.getTutorsByOrg(this.orgID)
         .then(response => {
           console.log(response);
           this.tutors = response.data

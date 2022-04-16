@@ -129,15 +129,16 @@ const routes = [
     component: Review,
     meta: { title: 'Review' }
   },
-  {
+  {    
     path: '/dvTest',
     name: 'dvTest',
     component: dvTestPage,
   },
 
   {
-    path: '/listTutor',
+    path: '/tutors/:orgID',
     name: 'tutorList',
+    props: true,
     component: ListTutors,
     meta: { title: 'Tutors' }
   },

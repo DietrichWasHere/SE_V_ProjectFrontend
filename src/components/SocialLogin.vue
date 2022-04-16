@@ -22,7 +22,8 @@ export default {
   data: () => ({
     user: {},
     presence: false,
-    rolse: {}
+    rolse: {},
+    unauthorized: false
   }),
   methods: {
     loginWithGoogle () {
@@ -60,9 +61,19 @@ export default {
             console.log(this.user.user.roles);*/
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
             if (!this.user.user.roles.length){
-              UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID);
-              //console.log("orgID: " + this.orgID)
-              if (this.orgID) this.$router.push('/studentContract/' + this.orgID);
+              if (this.orgID) {
+                console.log("1.");
+                console.log(this.user);
+                var that = this;
+                UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID).then(function() {
+                //console.log("orgID: " + this.orgID)
+                that.$router.push('/studentContract/' + that.orgID);
+                })
+              }
+              else {
+                this.unauthorized = true;
+                console.log('Unauthorized login');
+              }
               //else this.$router.push('/profile');
             }
             else {

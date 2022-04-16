@@ -32,8 +32,9 @@ Vue.use(Router)
 // https://router.vuejs.org/guide/
 const routes = [
   {
-    path: '/',
+    path: '/:orgName',
     name: 'loginpage',
+    props: true,
     component: LoginPage,
     meta: { title: 'Log In' }
   },
@@ -46,27 +47,27 @@ const routes = [
     meta: { title: 'Log In' }
   },
   {
-    path: '/studentContract/:orgID',
+    path: '/:orgID/studentContract',
     name: 'studentContract',
     props: true,
     component: StudentContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/tutorContract/:orgID',
+    path: '/:orgID/tutorContract',
     name: 'tutorContract',
     props: true,
     component: TutorContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/profile',
+    path: '/:orgID/profile',
     name: 'profile',
     component: Profile,
     meta: { title: 'User Profile' }
   },
   {
-    path: '/users',
+    path: '/:orgID/users',
     name: 'users',
     component: ListUsers,
     meta: { title: 'User' }
@@ -78,30 +79,30 @@ const routes = [
     meta: { title: 'Organizations' }
   },
   {
-    path: '/inbox',
+    path: '/:orgID/inbox',
     name: 'inbox',
     component: Inbox
   },
   {
-    path: '/admin',
+    path: '/:orgID/admin',
     name: 'admin',
     component: ListAdmin,
     meta: { title: 'Admin' }
   },
   {
-    path: '/createAdmin',
+    path: '/:orgID/createAdmin',
     name: 'createadmin',
     component: CreateAdmin,
     meta: { title: 'Create Admin' }
   },
   {
-    path: '/calendar',
+    path: '/:orgID/calendar',
     name: 'calendar',
     component: Calendar,
     meta: { title: 'Calendar' }
   },
   {
-    path: '/studentcalendar',
+    path: '/:orgID/studentcalendar',
     name: 'studentcalendar',
     component: StudentCalendar,
     meta: { title: 'Calendar' }
@@ -114,7 +115,7 @@ const routes = [
     meta: { title: 'Tutoring Agreement Contract' }
   },*/
   {
-    path: '/appointmentrequest',
+    path: '/:orgID/appointmentrequest',
     name: 'appointmentrequest',
     component: AppointmentRequest,
     meta: { title: 'Appointment Request' }

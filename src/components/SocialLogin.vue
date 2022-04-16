@@ -16,7 +16,7 @@
 import UserServices from '@/services/UserServices.js';
 export default {
   name: 'social_login',
-  props: ['orgID'],
+  props: ['orgID', 'orgName'],
   data: () => ({
     user: {},
     presence: false,
@@ -60,11 +60,11 @@ export default {
             if (!this.user.user.roles.length){
               UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID);
               console.log("orgID: " + this.orgID)
-              if (this.orgID) this.$router.push('/studentContract/' + this.orgID);
-              else this.$router.push('/profile');
+              if (this.orgID) this.$router.push('/' + this.orgName + '/studentContract');
+              else this.$router.push('/' + this.orgName + '/profile');
             }
-            else if (!this.user.user.roles[0].dateAgreementSigned) this.$router.push('/studentContract/' + this.user.user.roles[0].org);
-            else this.$router.push('/calendar');
+            //else if (!this.user.user.roles[0].dateAgreementSigned) this.$router.push('/' + this.user.user.roles[0].org + '/studentContract');
+            else this.$router.push('/' + this.orgName + '/calendar');
           })
           .catch(error => {
             
@@ -74,7 +74,7 @@ export default {
         })
         .catch(error => {
           console.log('error', error)
-          this.router.push('/calendar')
+          this.router.push('/' + this.orgName + '/calendar')
         })
     }
   }

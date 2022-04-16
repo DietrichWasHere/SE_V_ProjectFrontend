@@ -8,7 +8,7 @@
 
   
 
-      <v-btn icon v-on:click = "logout()">
+      <v-btn v-if="loggedIn()" icon v-on:click = "logout()">
         <v-icon>mdi-logout</v-icon>
         
       </v-btn>
@@ -29,23 +29,23 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
-          <v-list-item  to="/profile">
+          <v-list-item  :to="'/' + this.orgID + '/profile'">
             <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  to="/inbox">
+          <v-list-item  :to="'/' + this.orgID + '/inbox'">
             <v-list-item-title>Notifications</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  to="/calendar">
+          <v-list-item  :to="'/' + this.orgID + '/calendar'">
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  to="/contract">
+          <v-list-item  :to="'/' + this.orgID + '/contract'">
             <v-list-item-title>Contract</v-list-item-title>
           </v-list-item>
           
-          <v-list-item  to="/users">
+          <v-list-item  :to="'/' + this.orgID + '/users'">
             <v-list-item-title>Users</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
@@ -62,13 +62,11 @@
   
   export default {
 //  components: {LogoutButton },
-      props: {
-    title : String,
-  },
+      props: ['orgID'],
     data: () => ({
       drawer: false,
       group: null,
-  
+      
     }),
 
     watch: {
@@ -78,10 +76,11 @@
     },
 
     methods: {
+      loggedIn() {return window.localStorage.token || window.localStorage.user;},
       logout() {
       this.requestUser = window.localStorage.clear('token') 
-      this.requestUser = window.localStorage.clear('user') 
-      window.location.href = '/'
+      this.requestUser = window.localStorage.clear('user')
+      this.$router.push('/' + this.orgID)
       },
     },
   }

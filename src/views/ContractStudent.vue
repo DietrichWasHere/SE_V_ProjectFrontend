@@ -60,7 +60,7 @@
       menu2: false,
     }),
     created () {
-      OrgServices.getOrganization(this.orgID)
+      OrgServices.getOrganizationByName(this.orgID)
         .then(response => {
           //console.log(response.data)
           this.org = response.data[0];
@@ -109,7 +109,7 @@
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
               console.log(response.data);
-              this.$router.push('/calendar');
+              this.$router.push('/' + this.orgID + '/calendar');
             })
             .catch(error => {
                 console.log('There was an error:', error.response)

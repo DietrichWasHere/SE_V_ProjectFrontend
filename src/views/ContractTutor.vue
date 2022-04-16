@@ -107,7 +107,7 @@
           TutorServices.addTutor(tutor)
             .then(response => {
               console.log(response.data);
-              this.$router.push('/' + this.orgName + '/calendar');
+              this.$router.push('/' + this.orgName + '/calendars');
             })
             .catch(error => {
                 console.log('There was an error:', error.response)

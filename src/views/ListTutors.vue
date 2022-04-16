@@ -121,9 +121,9 @@
       headers: [
         { text: 'First Name', value: 'fName'},
         { text: 'Last Name', value: 'lName'},
-        { text: 'Verified', value: 'verified'  },
+        { text: 'Verified', value: 'verifiedTxt'  },
         { text: 'Contract', value: 'dateAgreementSigned' },
-        { text: 'Actions', value: 'actions', sortable: false },
+        //{ text: 'Actions', value: 'actions', sortable: false },
       ],
       message: '',
       tutors: [],
@@ -133,7 +133,7 @@
         fName: '',
         lName: '',
         verified: '',
-        //verifiedImg: '',
+        verifiedTxt: '',
         dateAgreementSigned: ''
       },
       defaultItem: {
@@ -141,7 +141,7 @@
         fName: '',
         lName: '',
         verified: '',
-        //verifiedImg: '',
+        verifiedTxt: '',
         dateAgreementSigned: ''
       },
     }),
@@ -160,6 +160,12 @@
         .then(response => {
           console.log(response);
           this.tutors = response.data
+          this.tutors.forEach(function setVerifyTxt(tutor) {
+              console.log("hi");
+              console.log(tutor);
+              if (tutor.verified) tutor.verifiedTxt = "Verified";
+              else tutor.verifiedTxt = "Requested";
+          })
           console.log(this.tutors);
         })
         .catch(error => {

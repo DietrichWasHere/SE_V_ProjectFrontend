@@ -1,23 +1,20 @@
 <template>
 <v-container class = "setsize"> 
-    <h2>{{this.org.orgName}} Student Sign Up</h2>
+    <h2>{{this.org.orgName}} Tutor Sign Up</h2>
     
     
     <p>
-      {{this.org.studentAgreement}}
+      {{this.org.tutorAgreement}}
     </p>
 
     <p>
-        I certify that I have read and discussed the information contained in this contract. I
-        agree to work cooperatively with my tutors to achieve academic success. I understand that 
-        tutoring may be suspended or discontinued if it is determined that I am not making an effort to
-        benefit from such services.
+        I certify that I have read the information contained in this contract.
     </p>
 
     <br>
     <p v-if='this.nameCheck'>The name typed in was not correct!</p>
     <v-container fill-width fluid>
-        <v-row justify="center"><v-col lg="3" >Student Signature<v-text-field v-model="studentName" :rules="nameRules" :counter="30" label="First name Last Name" required></v-text-field> </v-col>
+        <v-row justify="center"><v-col lg="3" >Tutor Signature<v-text-field v-model="studentName" :rules="nameRules" :counter="30" label="First name Last Name" required></v-text-field> </v-col>
         
         <v-col lg="3">Date:
                 <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
@@ -43,7 +40,7 @@
 <script>
   import OrgServices from '@/services/OrgServices.js'
   import UserServices from '@/services/UserServices.js';
-  import StudentServices from '@/services/StudentServices.js';
+  import TutorServices from '@/services/TutorServices.js';
 
 
   export default {
@@ -60,28 +57,28 @@
       menu2: false,
     }),
     created () {
-      OrgServices.getOrganization(this.orgID)
-        .then(response => {
-          //console.log(response.data)
-          this.org = response.data[0];
-          //console.log("!")
-          //console.log(this.org)
-        })
-        .catch(error => {
-            console.log('There was an error:', error.response)
-        })
       UserServices.getCurrentUser()
         .then(response => {
                 this.user = response.data.user
                 console.log(this.user); 
                 UserServices.getUser(this.user.id)
-                    .then(response => {
-                        this.userData = response.data[0]
-                        console.log(this.userData);
-                    })
-                    .catch(error => {
-                        console.log('There was an error:', error.response)
-                    })
+                  .then(response => {
+                      this.userData = response.data[0]
+                      console.log(this.userData);
+                  })
+                  .catch(error => {
+                      console.log('There was an error:', error.response)
+                  })
+                OrgServices.getOrganization(this.user.roles[0].org)
+                  .then(response => {
+                    //console.log(response.data)
+                    this.org = response.data[0];
+                    //console.log("!")
+                    //console.log(this.org)
+                  })
+                  .catch(error => {
+                    console.log('There was an error:', error.response)
+                  })
             })
         .catch(error => {
             console.log('There was an error:', error.response)
@@ -99,14 +96,15 @@
     },*/
     methods: {
       submitContract() {
-        var student = {
+        var tutor = {
+          userID: this.userData.userID,
+          orgID: this.org.orgID,
+          verified: false,
           dateAgreementSigned: this.date
         };
-        console.log(this.studentName);
-        console.log(this.userData.fName + ' ' + this.userData.lName);
-        console.log(this.studentName == (this.userData.fName + ' ' + this.userData.lName));
+        console.log(tutor);
         if (this.studentName == (this.userData.fName + ' ' + this.userData.lName)) {
-          StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
+          TutorServices.addTutor(tutor)
             .then(response => {
               console.log(response.data);
               this.$router.push('/calendar');

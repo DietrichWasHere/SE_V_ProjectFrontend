@@ -18,12 +18,12 @@ Vue.use(GoogleAuth, gauthOption)
 Vue.config.productionTip = false
 
 
-router.afterEach((to, from, next) => {
-  Vue.nextTick( () => {
-    document.title = to.meta.title ? to.meta.title : 'default title';
-    next();
-  });
-})
+// router.afterEach((to, from, next) => {
+//   Vue.nextTick( () => {
+//     document.title = to.meta.title ? to.meta.title : 'default title';
+//     next();
+//   });
+// })
 
 new Vue({
   router,

@@ -22,7 +22,7 @@ export default {
   data: () => ({
     user: {},
     presence: false,
-    rolse: {},
+    studentRoles: {},
     unauthorized: false
   }),
   methods: {
@@ -76,14 +76,15 @@ export default {
               }
               //else this.$router.push('/profile');
             }
+            else if (this.user.user.roles[0] == "admin") this.$router.push('/orgs');
             else {
               console.log(this.user.user);
               StudentServices.getStudentsByUser(this.user.user.id)
                 .then(response => {
-                  this.roles = response.data;
-                  if (!this.roles[0].dateAgreementSigned) {
-                    console.log("test");
-                    console.log(this.user.user.roles[0]);
+                  this.studentRoles = response.data;
+                  if (!this.studentRoles[0].dateAgreementSigned) {
+                    //console.log("test");
+                    //console.log(this.user.user.roles[0]);
                     this.$router.push('/studentContract/' + this.user.user.roles[0].org);
                   }
                   else this.$router.push('/calendar');

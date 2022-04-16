@@ -18,11 +18,11 @@ import StudentServices from '@/services/StudentServices.js';
 
 export default {
   name: 'social_login',
-  props: ['orgID'],
+  props: ['orgID', 'orgName'],
   data: () => ({
     user: {},
     presence: false,
-    rolse: {},
+    studentRoles: {},
     unauthorized: false
   }),
   methods: {
@@ -67,7 +67,7 @@ export default {
                 var that = this;
                 UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID).then(function() {
                 //console.log("orgID: " + this.orgID)
-                that.$router.push('/studentContract/' + that.orgID);
+                that.$router.push('/' + that.orgName + '/studentContract');
                 })
               }
               else {
@@ -75,6 +75,7 @@ export default {
                 console.log('Unauthorized login');
               }
             }
+            else if (this.user.user.roles[0] == "admin") this.$router.push('/orgs');
             else {
               console.log(this.user.user);
               if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/calendar');
@@ -82,14 +83,14 @@ export default {
               else {
                 StudentServices.getStudentsByUser(this.user.user.id)
                 .then(response => {
-                  this.roles = response.data;
-                  if (!this.roles[0].dateAgreementSigned) {
-                    console.log("test");
-                    console.log(this.user.user.roles[0]);
-                    this.$router.push('/studentContract/' + this.user.user.roles[0].org);
+                  this.studentRoles = response.data;
+                  if (!this.studentRoles[0].dateAgreementSigned) {
+                    //console.log("test");
+                    //console.log(this.user.user.roles[0]);
+                    this.$router.push('/' + this.orgName + '/studentContract');
                   }
-                  
-                  this.$router.push('/calendars');
+
+                  else this.$router.push('/' + this.orgName + '/calendars');
                 })
             }
             }
@@ -98,7 +99,7 @@ export default {
         })
         .catch(error => {
           console.log('error', error)
-          //this.router.push('/calendar')
+          this.router.push('/' + this.orgName + '/calendar')
         })
     }
   }

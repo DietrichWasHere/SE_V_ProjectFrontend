@@ -13,6 +13,9 @@ export default {
   getOrganization(orgID) {
     return apiClient.get("/orgs/" + orgID);
   },
+  getOrganizationByName(orgName) {
+    return apiClient.get("/orgs/name/" + orgName);
+  },
   deleteOrganization(orgID) {
     return apiClient.delete("/orgs/" + orgID);
   },

@@ -7,6 +7,9 @@ export default {
   getTutors(orgID) {
     return apiClient.get("/tutors/" + orgID);
   },
+  getTutorsByOrg(orgID) {
+    return apiClient.get("/tutors/" + orgID);
+  },
   getTutor(userID, orgID) {
     return apiClient.get("/tutors/" + userID + "/" + orgID);
   },

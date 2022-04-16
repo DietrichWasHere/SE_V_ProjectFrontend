@@ -30,47 +30,48 @@ import ListAdmin from './views/ListAdmin.vue'
 import CreateAdmin from './views/CreateAdmin.vue'
 import ListOrgs from './views/ListOrgs.vue'
 import dvTestPage from './views/dvTestPage.vue'
-
+import ListTutors from './views/ListTutors.vue'
 Vue.use(Router)
 
 // https://router.vuejs.org/guide/
 const routes = [
   {
-    path: '/',
+    path: '/:orgName',
     name: 'loginpage',
+    props: true,
     component: LoginPage,
     meta: { title: 'Log In' }
   },
-  {
+  /*{
     // https://stackoverflow.com/questions/37937262/passing-props-to-vue-js-components-instantiated-by-vue-router
     path: '/newUser/:orgID',
     name: 'newUserByOrg',
     props: true,
     component: LoginPage,
     meta: { title: 'Log In' }
-  },
+  },*/
   {
-    path: '/studentContract/:orgID',
+    path: '/:orgName/studentContract',
     name: 'studentContract',
     props: true,
     component: StudentContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/tutorContract',
+    path: '/:orgName/tutorContract',
     name: 'tutorContract',
     props: true,
     component: TutorContract,
     meta: { title: 'Tutoring Agreement Contract' }
   },
   {
-    path: '/profile',
+    path: '/:orgName/profile',
     name: 'profile',
     component: Profile,
     meta: { title: 'User Profile' }
   },
   {
-    path: '/users',
+    path: '/:orgName/users',
     name: 'users',
     component: ListUsers,
     meta: { title: 'User' }
@@ -81,36 +82,38 @@ const routes = [
     component: ListOrgs,
     meta: { title: 'Organizations' }
   },
+  
   {
-    path: '/inbox',
+    path: '/:orgName/inboxtutorrequest',
+    name: 'Notifications',
+    component: InboxTutorRequest
+  },
+
+    path: '/:orgName/inbox',
     name: 'Notifications',
     component: Inbox
   },
   {
-    path: '/inboxtutorrequest',
-    name: 'Notifications',
-    component: InboxTutorRequest
-  },
-  {
-    path: '/admin',
+    path: '/:orgName/admin',
     name: 'admin',
     component: ListAdmin,
     meta: { title: 'Admin' }
   },
   {
-    path: '/createAdmin',
+    path: '/:orgName/createAdmin',
     name: 'createadmin',
     component: CreateAdmin,
     meta: { title: 'Create Admin' }
   },
   {
-    path: '/calendar',
+    path: '/:orgName/calendar',
     name: 'calendar',
     component: Calendar,
     meta: { title: 'Calendar' }
   },
   {
-    path: '/calendars',
+
+    path: '/:orgName/calendars',
     name: 'studentcalendar',
     component: StudentCalendar,
     meta: { title: 'Calendar' }
@@ -123,7 +126,7 @@ const routes = [
     meta: { title: 'Tutoring Agreement Contract' }
   },*/
   {
-    path: '/appointmentrequest',
+    path: '/:orgID/appointmentrequest',
     name: 'appointmentrequest',
     component: AppointmentRequest,
     meta: { title: 'Appointment Request' }
@@ -135,11 +138,20 @@ const routes = [
     component: Review,
     meta: { title: 'Review' }
   },
-  {
+  {    
     path: '/dvTest',
     name: 'dvTest',
     component: dvTestPage,
-  }
+  },
+
+  {
+    path: '/tutors/:orgID',
+    name: 'tutorList',
+    props: true,
+    component: ListTutors,
+    meta: { title: 'Tutors' }
+  },
+  
 ]
 
 

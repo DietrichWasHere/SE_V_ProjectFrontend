@@ -47,7 +47,7 @@
 
 
   export default {
-    props: ['orgID'],
+    props: ['orgName'],
     data: vm => ({
       org: '',
       studentName: '',
@@ -60,7 +60,7 @@
       menu2: false,
     }),
     created () {
-      OrgServices.getOrganizationByName(this.orgID)
+      OrgServices.getOrganizationByName(this.orgName)
         .then(response => {
           //console.log(response.data)
           this.org = response.data[0];
@@ -109,7 +109,7 @@
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
               console.log(response.data);
-              this.$router.push('/' + this.orgID + '/calendar');
+              this.$router.push('/' + this.orgName + '/studentcalendar');
             })
             .catch(error => {
                 console.log('There was an error:', error.response)

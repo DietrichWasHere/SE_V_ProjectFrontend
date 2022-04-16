@@ -87,13 +87,13 @@ export default {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
-  border-radius: 25px;
+  width: 35%;
+  border-radius: 20px;
   background: #5100c2;
-  padding: 20px;
+  padding: 15px;
   text-align: center;
   text-decoration: none;
   color: white;
-  font-size: 40px;
+  font-size: 30px;
 }
 </style>

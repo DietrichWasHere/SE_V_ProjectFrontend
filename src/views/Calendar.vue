@@ -15,9 +15,15 @@
             v-model="color"
             :items="colors"
             colors
+            item-text="status"
+            item-value="color"
+            item-color="black"
             label="Status"
             multiple
-          >
+          ><template #item="{item}">
+              <span :style="{color: item.color}"> 
+                      {{item.status}}</span>
+           </template>
            </v-select>
                         <v-btn    
           color="primary"
@@ -355,7 +361,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       subject: [],
 
       color: [], 
-      colors: ['grey', 'orange', 'green', 'red'],
+      colors: [{status:'Available', color:'grey'}, {status:'Pending', color:'orange'}, {status:'Booked', color:'green'}, {status:'Canceled',color:'red'}],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
         computed: {
@@ -384,7 +390,7 @@ import SubjectServices from '@/services/SubjectServices.js';
         const events = []
                 var that = this;
 
-        AppointmentServices.getAppointments(10)
+        AppointmentServices.getAppointments(1)
         .then(async response => {
           //console.log(response);
           this.rawEvents = response.data

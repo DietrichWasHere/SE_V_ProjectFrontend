@@ -74,12 +74,14 @@ export default {
                 this.unauthorized = true;
                 console.log('Unauthorized login');
               }
-              //else this.$router.push('/profile');
             }
             else if (this.user.user.roles[0] == "admin") this.$router.push('/orgs');
             else {
               console.log(this.user.user);
-              StudentServices.getStudentsByUser(this.user.user.id)
+              if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/calendar');
+              else if (this.user.user.roles.filter(a => a.role == 'supervisor').length) this.$router.push('/calendars');
+              else {
+                StudentServices.getStudentsByUser(this.user.user.id)
                 .then(response => {
                   this.studentRoles = response.data;
                   if (!this.studentRoles[0].dateAgreementSigned) {
@@ -87,8 +89,10 @@ export default {
                     //console.log(this.user.user.roles[0]);
                     this.$router.push('/' + this.orgName + '/studentContract');
                   }
-                  else this.$router.push('/' + this.orgName + '/studentcalendar');
+
+                  else this.$router.push('/' + this.orgName + '/calendars');
                 })
+            }
             }
             
           })

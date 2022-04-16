@@ -283,17 +283,17 @@
                       md="10"
                     >
 
-              <v-text-field v-model="comments" v-if= " (Date.now() < new Date(selectedEvent.end)) && selectedEvent.color === 'grey'" text color="blue"
+              <v-text-field v-model="comments" v-if= " role != 'supervisor' &&  (Date.now() < new Date(selectedEvent.end)) && selectedEvent.color === 'grey'" text color="blue"
                 label="Notes for appointment:"
                 outlined
                 persistent-hint
               ></v-text-field>
 
               </v-col>
-              <v-btn  v-if= "(Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'grey'" text color="blue" @click="sendRequest()">
+              <v-btn  v-if= "role != 'supervisor' && (Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'grey'" text color="blue" @click="sendRequest()">
                Request Appointment
               </v-btn>
-              <v-btn  v-if= "(Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false"
+              <v-btn  v-if= "role != 'supervisor' &&  (Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false"
                >
                <router-link :to="{ name: 'review', params: { id : selectedEvent.appointmentID } }">Review</router-link> 
               </v-btn>
@@ -374,6 +374,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       subject: [],
       comments : "",
       org : "",
+      role : "",
 
     }),
         computed: {
@@ -393,6 +394,7 @@ import SubjectServices from '@/services/SubjectServices.js';
               .then(response => {
             this.user =  response.data.user.id;
             this.org = response.data.user.roles[0].org;
+            this.role = response.data.user.roles[0].role;
 
             console.log("This is user", response);
           

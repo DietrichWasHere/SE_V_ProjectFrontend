@@ -22,6 +22,7 @@ import AppointmentRequest from './views/AppointmentRequest.vue'
 import LoginPage from './views/LoginPage.vue'
 import Profile from './views/ProfilePage.vue'
 
+import InboxTutorRequest from './views/InboxTutorRequest.vue'
 
 import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
@@ -81,9 +82,15 @@ const routes = [
     component: ListOrgs,
     meta: { title: 'Organizations' }
   },
+  
   {
+    path: '/:orgName/inboxtutorrequest',
+    name: 'Notifications',
+    component: InboxTutorRequest
+  },
+
     path: '/:orgName/inbox',
-    name: 'inbox',
+    name: 'Notifications',
     component: Inbox
   },
   {
@@ -105,7 +112,8 @@ const routes = [
     meta: { title: 'Calendar' }
   },
   {
-    path: '/:orgName/studentcalendar',
+
+    path: '/:orgName/calendars',
     name: 'studentcalendar',
     component: StudentCalendar,
     meta: { title: 'Calendar' }

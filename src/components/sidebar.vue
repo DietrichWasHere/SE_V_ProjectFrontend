@@ -2,6 +2,7 @@
   <div>
     <v-app-bar color="deep-purple accent-4"  dark prominent>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
       <v-app-bar-title > {{orgName}} {{ $route.meta.title }} </v-app-bar-title>
 
       <v-spacer></v-spacer>
@@ -87,15 +88,25 @@ import UserServices from '@/services/UserServices.js';
       },
     },
 
+       created(){
+         var that = this;
+            UserServices.getCurrentUser().then(function(result) {
+           console.log(result.data.user.roles[0].role);
+           that.role = result.data.user.roles[0].role;
+           that.$forceUpdate();
+       })
+      },
     methods: {
       loggedIn() {return window.localStorage.token || window.localStorage.user;},
       logout() {
       this.requestUser = window.localStorage.clear('token') 
+
       this.requestUser = window.localStorage.clear('user')
       this.$router.push('/' + this.orgID)
       },
       async getRole(){
         return (await UserServices.getCurrentUser()).data.user.roles[0].role;
+
       }
     },
   }

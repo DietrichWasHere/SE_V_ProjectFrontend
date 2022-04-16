@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar color="deep-purple accent-4"  dark prominent>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"  @click="getRole()"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-app-bar-title > {{ $route.meta.title }} </v-app-bar-title>
 
       <v-spacer></v-spacer>
@@ -84,17 +84,19 @@ import UserServices from '@/services/UserServices.js';
       },
     },
 
+       created(){
+         var that = this;
+            UserServices.getCurrentUser().then(function(result) {
+           console.log(result.data.user.roles[0].role);
+           that.role = result.data.user.roles[0].role;
+           that.$forceUpdate();
+       })
+      },
     methods: {
       logout() {
       this.requestUser = window.localStorage.clear('token') 
       this.requestUser = window.localStorage.clear('user') 
       window.location.href = '/'
-      },
-       getRole(){
-            UserServices.getCurrentUser().then(function(result) {
-           console.log(result.data.user.roles[0].role);
-           this.role = result.data.user.roles[0].role;
-       })
       }
     },
   }

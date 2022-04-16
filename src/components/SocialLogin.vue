@@ -74,11 +74,12 @@ export default {
                 this.unauthorized = true;
                 console.log('Unauthorized login');
               }
-              //else this.$router.push('/profile');
             }
             else {
               console.log(this.user.user);
-              StudentServices.getStudentsByUser(this.user.user.id)
+              if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/calendar');
+              else {
+                StudentServices.getStudentsByUser(this.user.user.id)
                 .then(response => {
                   this.roles = response.data;
                   if (!this.roles[0].dateAgreementSigned) {
@@ -86,8 +87,10 @@ export default {
                     console.log(this.user.user.roles[0]);
                     this.$router.push('/studentContract/' + this.user.user.roles[0].org);
                   }
-                  else this.$router.push('/calendar');
+                  
+                  this.$router.push('/studentcalendar');
                 })
+            }
             }
             
           })

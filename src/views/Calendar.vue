@@ -264,7 +264,6 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-          @change="updateRange"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -402,9 +401,9 @@ import SubjectServices from '@/services/SubjectServices.js';
       dialog (val) {
         val || this.close()
        }},
-    mounted () {
-      this.$refs.calendar.checkChange()
-    },
+  //  mounted () {
+   //   this.$refs.calendar.checkChange()
+    //},
     created () {
            UserServices.getCurrentUser() 
               .then(response => {

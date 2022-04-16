@@ -22,6 +22,7 @@ import AppointmentRequest from './views/AppointmentRequest.vue'
 import LoginPage from './views/LoginPage.vue'
 import Profile from './views/ProfilePage.vue'
 
+import InboxTutorRequest from './views/InboxTutorRequest.vue'
 
 import Inbox from './views/Inbox.vue'
 import ListUsers from './views/ListUsers.vue'
@@ -82,8 +83,13 @@ const routes = [
   },
   {
     path: '/inbox',
-    name: 'inbox',
+    name: 'Notifications',
     component: Inbox
+  },
+  {
+    path: '/inboxtutorrequest',
+    name: 'Notifications',
+    component: InboxTutorRequest
   },
   {
     path: '/admin',

@@ -17,7 +17,7 @@
     </v-card-title>
   <v-data-table
     :headers="headers"
-    :items="users"
+    :items="tutors"
     sort-by="fName"
     class="elevation-1"
       :search="search">
@@ -110,7 +110,7 @@
 </template>
 
 <script>
-  import UserServices from '@/services/UserServices.js';
+  import TutorServices from '@/services/TutorServices.js';
 
   export default {
     data: () => ({
@@ -125,7 +125,7 @@
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       message: '',
-      users: [],
+      tutors: [],
       editedIndex: -1,
       editedItem: {
         userID: '',
@@ -145,7 +145,7 @@
     }),
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New User' : 'Edit User'
+        return this.editedIndex === -1 ? 'New Tutor' : 'Edit Tutor'
       },
     },
     watch: {
@@ -154,11 +154,11 @@
       },
     },
     created () {
-      UserServices.getUsers()
+      TutorServices.getTutors()
         .then(response => {
           console.log(response);
-          this.users = response.data
-          console.log(this.users);
+          this.tutors = response.data
+          console.log(this.tutors);
         })
         .catch(error => {
           console.log('There was an error:', error.response)
@@ -166,25 +166,25 @@
     },
     methods: {
       /*initialize() {
-        UserServices.getUsers()
+        TutorServices.getTutors()
         .then(response => {
           console.log(response);
-          this.users = response.data
-          console.log(this.users);
+          this.tutors = response.data
+          console.log(this.tutors);
         })
         .catch(error => {
           console.log('There was an error:', error.response)
         })
       },*/
       deleteItemDialog(item) {
-        this.editedIndex = this.users.indexOf(item)
+        this.editedIndex = this.tutors.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
       deleteItemConfirm() {
-        UserServices.deleteUser(this.editedItem.userID)
+        TutorServices.deleteTutor(this.editedItem.userID)
           .then(() => {
-            this.users.splice(this.editedIndex, 1)
+            this.tutors.splice(this.editedIndex, 1)
             this.closeDelete()
           })
           .catch(error => {

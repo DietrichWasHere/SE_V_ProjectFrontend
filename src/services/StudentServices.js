@@ -10,6 +10,12 @@ export default {
   getStudent(userID, orgID) {
     return apiClient.get("/students/" + userID + "/" + orgID);
   },
+  getStudentsByUser(userID) {
+    return apiClient.get("/students/user/" + userID);
+  },
+  getStudentsByOrg(orgID) {
+    return apiClient.get("/students/org/" + orgID);
+  },
   deleteStudent(userID, orgID) {
     return apiClient.delete("/students/" + + userID + "/" + orgID);
   },

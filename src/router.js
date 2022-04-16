@@ -9,6 +9,9 @@ import Router from 'vue-router'
 // import Admin from './views/Admin.vue'
 import StudentContract from './views/ContractStudent.vue'
 import TutorContract from './views/ContractTutor.vue'
+import Review from './views/Review.vue'
+
+
 import Calendar from './views/Calendar.vue'
 
 import StudentCalendar from './views/StudentCalendar.vue'
@@ -119,6 +122,13 @@ const routes = [
     name: 'appointmentrequest',
     component: AppointmentRequest,
     meta: { title: 'Appointment Request' }
+  },
+  {
+    path: '/review/:id',
+    name: 'review',
+    props : true,
+    component: Review,
+    meta: { title: 'Review' }
   },
   {
     path: '/dvTest',

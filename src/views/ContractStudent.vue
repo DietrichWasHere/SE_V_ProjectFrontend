@@ -44,6 +44,8 @@
   import OrgServices from '@/services/OrgServices.js'
   import UserServices from '@/services/UserServices.js';
   import StudentServices from '@/services/StudentServices.js';
+  import NotifyServices from '@/services/NotifyServices.js';
+
 
 
   export default {
@@ -109,6 +111,7 @@
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
               console.log(response.data);
+              //if (this.userData.phone) NotifyServices.notify(this.userData.phone, "Successfully Registered!");
               this.$router.push('/' + this.orgName + '/studentcalendar');
             })
             .catch(error => {

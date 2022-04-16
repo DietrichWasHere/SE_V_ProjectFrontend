@@ -33,11 +33,16 @@
             <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  :to="'/' + this.orgID + '/inbox'">
-            <v-list-item-title>Notifications</v-list-item-title>
+
+          <v-list-item  :to="'/' + this.orgID + ':/inbox">
+            <v-list-item-title>Notifications 
+          </v-list-item-title>
+          </v-list-item>
+          <v-list-item   v-if= "role === 'tutor'" :to="'/' + this.orgID + '/calendar" >
+            <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  :to="'/' + this.orgID + '/calendar'">
+            <v-list-item  v-if= "role === 'student'" :to="'/' + this.orgID + '/studentcalendar">
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
@@ -59,6 +64,7 @@
 <script>
   
 import OrgServices from '../services/OrgServices'
+import UserServices from '@/services/UserServices.js';
   
   export default {
 //  components: {LogoutButton },
@@ -66,7 +72,8 @@ import OrgServices from '../services/OrgServices'
     data: () => ({
       drawer: false,
       group: null,
-      orgName: ''
+      orgName: '',
+      role : ''
     }),
     async created() {
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
@@ -86,6 +93,12 @@ import OrgServices from '../services/OrgServices'
       this.requestUser = window.localStorage.clear('user')
       this.$router.push('/' + this.orgID)
       },
+       getRole(){
+            UserServices.getCurrentUser().then(function(result) {
+           console.log(result.data.user.roles[0].role);
+           this.role = result.data.user.roles[0].role;
+       })
+      }
     },
   }
 </script>

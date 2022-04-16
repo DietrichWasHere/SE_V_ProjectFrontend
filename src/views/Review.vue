@@ -71,9 +71,6 @@ import AppointmentServices from '@/services/AppointmentServices.js';
        })
    },methods: {
    submit(){
-
-    console.log(this.user, this.tutorID, this.studentID);
-
        if( this.user == this.tutorID)
        {
            this.tutorComment = this.comment;
@@ -90,12 +87,12 @@ import AppointmentServices from '@/services/AppointmentServices.js';
             });
        }
        else if (this.user == this.studentID)
-       {
-           
+       {          
            this.studentComment = this.comment;
            this.studentRating = this.rating;
             AppointmentServices.updateAppointment(this.id, {studentRating: this.studentRating, studentComments: this.studentComment})
-            .then(response => {         
+            .then(response => {   
+      
               console.log(response);
               window.location.href = '/calendars'
 

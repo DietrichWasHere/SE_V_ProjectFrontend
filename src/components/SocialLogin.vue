@@ -87,7 +87,7 @@ export default {
                     //console.log(this.user.user.roles[0]);
                     this.$router.push('/' + this.orgName + '/studentContract');
                   }
-                  else this.$router.push('/' + this.orgName + '/calendar');
+                  else this.$router.push('/' + this.orgName + '/studentcalendar');
                 })
             }
             

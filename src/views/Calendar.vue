@@ -390,7 +390,8 @@ import SubjectServices from '@/services/SubjectServices.js';
       color: [], 
       colors: [ 'grey', 'orange', 'green', 'red'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-      org : ""
+      org : "",
+      role : ""
     }),
         computed: {
       computedDateFormatted () {
@@ -409,7 +410,8 @@ import SubjectServices from '@/services/SubjectServices.js';
               .then(response => {
             this.user =  response.data.user.id;
             this.org = response.data.user.roles[0].org;
-            console.log(this.org);
+            this.role = response.data.user.roles[0].role;
+
 
         const events = []
                 var that = this;
@@ -435,7 +437,10 @@ import SubjectServices from '@/services/SubjectServices.js';
             await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
                 for (var x in r.data) subjects.push(r.data[x].subjectName);
             });
-                    events.push({
+                
+                if (this.user == this.rawEvents[x].tutorID)
+                {
+                      events.push({
                         name: this.rawEvents[x].title,
                         start: formattedStartDate,
                         end: formattedEndDate,
@@ -452,9 +457,10 @@ import SubjectServices from '@/services/SubjectServices.js';
                         locationID : this.rawEvents[x].locationID,
                         locationName : this.rawEvents[x].locationName,
                         tutorComments : this.rawEvents[x].tutorComments
-
+                    
                     })
                     console.log(this.rawEvents[x].picture);
+                }
               }
             await SubjectServices.getSubjects().then(r => {
                 for (var x in r.data) that.subjects.push(r.data[x].subjectName);

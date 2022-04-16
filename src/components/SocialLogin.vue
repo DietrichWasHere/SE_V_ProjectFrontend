@@ -78,6 +78,7 @@ export default {
             else {
               console.log(this.user.user);
               if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/calendar');
+              else if (this.user.user.roles.filter(a => a.role == 'supervisor').length) this.$router.push('/calendars');
               else {
                 StudentServices.getStudentsByUser(this.user.user.id)
                 .then(response => {
@@ -88,7 +89,7 @@ export default {
                     this.$router.push('/studentContract/' + this.user.user.roles[0].org);
                   }
                   
-                  this.$router.push('/studentcalendar');
+                  this.$router.push('/calendars');
                 })
             }
             }

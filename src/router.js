@@ -110,7 +110,7 @@ const routes = [
     meta: { title: 'Calendar' }
   },
   {
-    path: '/studentcalendar',
+    path: '/calendars',
     name: 'studentcalendar',
     component: StudentCalendar,
     meta: { title: 'Calendar' }

@@ -44,6 +44,7 @@
   import OrgServices from '@/services/OrgServices.js'
   import UserServices from '@/services/UserServices.js';
   import StudentServices from '@/services/StudentServices.js';
+  import NotifyServices from '@/services/NotifyServices.js';
 
 
   export default {
@@ -102,13 +103,14 @@
         var student = {
           dateAgreementSigned: this.date
         };
-        console.log(this.studentName);
-        console.log(this.userData.fName + ' ' + this.userData.lName);
-        console.log(this.studentName == (this.userData.fName + ' ' + this.userData.lName));
+        //console.log(this.studentName);
+        //console.log(this.userData.fName + ' ' + this.userData.lName);
+        //console.log(this.studentName == (this.userData.fName + ' ' + this.userData.lName));
         if (this.studentName == (this.userData.fName + ' ' + this.userData.lName)) {
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
               console.log(response.data);
+              if (this.userData.phone) NotifyServices.nptify(this.userData.phone, "PLAY KIRBY AND THE FORGOTTEN LAND pls!")
               this.$router.push('/calendar');
             })
             .catch(error => {

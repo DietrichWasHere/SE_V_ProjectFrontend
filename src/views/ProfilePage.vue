@@ -64,9 +64,9 @@
                         console.log(this.user); 
                         UserServices.getUser(this.user.id)
                             .then(response => {
+                                console.log(this.userData);
                                 that.userData = response.data[0]
                                 that.picture = response.data[0].picture;
-
                             })
                             .catch(error => {
                                 console.log('There was an error:', error.response)

@@ -320,6 +320,8 @@ import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
 import ApptRequestServices from '@/services/ApptRequestServices.js';
 import SubjectServices from '@/services/SubjectServices.js';
+import NotifyServices from '@/services/NotifyServices.js'
+
   export default {
     data: vm=> ({
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -390,15 +392,17 @@ import SubjectServices from '@/services/SubjectServices.js';
     //  this.$refs.calendar.checkChange()
    // },
     created () {
+
+
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
             this.org = response.data.user.roles[0].org;
             this.role = response.data.user.roles[0].role;
 
-            console.log("This is user", response);
-          
+            
 
+          
         const events = []
         var that = this;
         AppointmentServices.getAppointments(this.org)
@@ -504,7 +508,15 @@ import SubjectServices from '@/services/SubjectServices.js';
       },
       sendRequest()
       {
-         console.log(this.comments);
+        UserServices.getUser(this.user)
+        .then(response => {  
+               NotifyServices.notify("+12242390373", "You have a new Appointment Request from " + response.data[0].fName + " " + response.data[0].lName);
+        })
+        .catch(error => {
+              
+              console.log('There was an error: with phone studd', error.response)
+            });
+        
 
           var today = new Date();
           var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -548,7 +560,7 @@ import SubjectServices from '@/services/SubjectServices.js';
             this.selectedOpen = false;
             
             console.log(response);
-            window.location.reload();
+           // window.location.reload();
           })
           .catch(error => {
             

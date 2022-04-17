@@ -162,8 +162,6 @@
       OrgServices.getOrganizationByName(this.orgName)
         .then(response => {
           this.org = response.data[0];
-          console.log("test")
-          console.log(this.org)
           TutorServices.getTutorsByOrg(this.org.orgID)
             .then(response => {
               console.log(response);

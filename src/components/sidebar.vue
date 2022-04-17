@@ -35,7 +35,7 @@
           </v-list-item>
 
 
-          <v-list-item  :to="'/' + this.orgID + '/inbox'">
+          <v-list-item  v-if= "role === 'tutor' || role === 'supervisor'" :to="'/' + this.orgID + '/inbox'">
             <v-list-item-title>Notifications 
           </v-list-item-title>
           </v-list-item>
@@ -43,17 +43,14 @@
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-            <v-list-item  v-if= "role === 'student'" :to="'/' + this.orgID + '/studentcalendar'">
-            <v-list-item-title>Calendar</v-list-item-title>
+            <v-list-item  v-if= "role === 'student' || role === 'supervisor'" :to="'/' + this.orgID + '/calendars'">
+            <v-list-item-title>Calendars</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  :to="'/' + this.orgID + '/contract'">
-            <v-list-item-title>Contract</v-list-item-title>
-          </v-list-item>
-          
-          <v-list-item  :to="'/' + this.orgID + '/users'">
+          <v-list-item  v-if= "role === 'supervisor'" :to="'/' + this.orgID + '/users'">
             <v-list-item-title>Users</v-list-item-title>
           </v-list-item>
+          
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -66,7 +63,7 @@
   
 import OrgServices from '../services/OrgServices'
 import UserServices from '@/services/UserServices.js';
-  
+
   export default {
 //  components: {LogoutButton },
       props: ['orgID'],
@@ -80,6 +77,7 @@ import UserServices from '@/services/UserServices.js';
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
       console.log(this.orgName)
       this.role = await this.getRole();
+      console.log(this.role);
     },
 
     watch: {

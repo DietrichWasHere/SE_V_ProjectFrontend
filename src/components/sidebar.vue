@@ -30,7 +30,7 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
-          <v-list-item  v-if= "role != 'admin'" :to="'/' + this.orgID + '/profile'">
+          <v-list-item :to="'/' + this.orgID + '/profile'">
             <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 
@@ -76,8 +76,8 @@ import OrgServices from '../services/OrgServices'
 import UserServices from '@/services/UserServices.js';
 
   export default {
-//  components: {LogoutButton },
-      props: ['orgID'],
+    //  components: {LogoutButton },
+    props: ['orgID'],
     data: () => ({
       drawer: false,
       group: null,
@@ -86,9 +86,7 @@ import UserServices from '@/services/UserServices.js';
     }),
     async created() {
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
-      console.log(this.orgName)
       this.role = await this.getRole();
-      console.log(this.role);
     },
 
     watch: {
@@ -99,10 +97,9 @@ import UserServices from '@/services/UserServices.js';
     methods: {
       loggedIn() {return window.localStorage.token || window.localStorage.user;},
       logout() {
-      this.requestUser = window.localStorage.clear('token') 
-
-      this.requestUser = window.localStorage.clear('user')
-      this.$router.push('/' + this.orgID)
+        this.requestUser = window.localStorage.clear('token') 
+        this.requestUser = window.localStorage.clear('user')
+        this.$router.push('/' + this.orgID)
       },
       async getRole(){
         return (await UserServices.getCurrentUser()).data.user.roles[0].role;

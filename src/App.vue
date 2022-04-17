@@ -24,7 +24,9 @@ export default {
       
     }
   },
-  created() {console.log(this.$route)}
+  created() {
+    if (this.$route.query.orgName) this.$router.push('/' + this.$route.query.orgName)
+  }
 }
 
 

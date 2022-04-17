@@ -86,7 +86,6 @@ import UserServices from '@/services/UserServices.js';
     }),
     async created() {
       this.$forceUpdate();
-
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
       this.role = await this.getRole();
     },

@@ -131,17 +131,18 @@ export default {
       picture: "",
       requests:[],
       rawRequests:[],
-      studentName:[]
+      studentName:[],
+      org : "",
     }),
   
     created () {
         var that = this;
         UserServices.getCurrentUser().then(function(result) {
-           console.log(result)
+           console.log("here", result.data.user.roles[0].org)
+           this.org = result.data.user.roles[0].org;
           
           UserServices.getUser(result.data.user.id)
           .then(response => {
-            console.log(response);
             that.picture = response.data[0].picture;
             console.log(this.picture);
           })
@@ -157,9 +158,13 @@ export default {
             this.rawRequests= response.data
             for (let x = 0; x < this.rawRequests.length; x++)
             {
-              console.log( this.rawRequests[x].LName);
+              console.log( "here");
               //  UserServices.getUser(this.rawRequests[x].studentID)
              //   .then(response => {
+               AppointmentServices.getAppointment(this.org, this.rawRequests[x].appointmentID)
+               .then(response => {
+                  console.log("now", response.data[x].endDateTime)
+               })
                 this.requests.push({
                 studentID : this.rawRequests[x].studentID,
                 appointmentID : this.rawRequests[x].appointmentID,

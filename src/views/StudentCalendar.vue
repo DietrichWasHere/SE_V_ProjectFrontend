@@ -8,11 +8,16 @@
             v-model="color"
             :items="colors"
             colors
+            item-text="status"
+            item-value="color"
+            item-color="black"
             label="Status"
             multiple
-          >
-          
-            </v-select>
+          ><template #item="{item}">
+              <span :style="{color: item.color}"> 
+                      {{item.status}}</span>
+           </template>
+           </v-select>
                       <v-select
             v-model="tutor"
             :items="tutors"
@@ -320,6 +325,9 @@ import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
 import ApptRequestServices from '@/services/ApptRequestServices.js';
 import SubjectServices from '@/services/SubjectServices.js';
+import NotifyServices from '@/services/NotifyServices.js'
+
+
   export default {
     data: vm=> ({
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -366,7 +374,7 @@ import SubjectServices from '@/services/SubjectServices.js';
       allevents: [],
       rawEvents: [],
       color: [],
-      colors: ['grey', 'orange', 'green', 'red'],
+      colors: [{status:'Available', color:'grey'}, {status:'Pending', color:'orange'}, {status:'Booked', color:'green'}, {status:'Canceled',color:'red'}],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       tutors: [],
       tutor:[],
@@ -504,6 +512,15 @@ import SubjectServices from '@/services/SubjectServices.js';
       },
       sendRequest()
       {
+         UserServices.getUser(this.user)
+        .then(response => {  
+               NotifyServices.notify("+12242390373", "You have a new Appointment Request from " + response.data[0].fName + " " + response.data[0].lName);
+        })
+        .catch(error => {
+              
+              console.log('There was an error: with phone studd', error.response)
+          });
+        
          console.log(this.comments);
 
           var today = new Date();

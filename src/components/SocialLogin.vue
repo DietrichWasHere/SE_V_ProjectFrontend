@@ -75,7 +75,7 @@ export default {
                 console.log('Unauthorized login');
               }
             }
-            else if (this.user.user.roles[0] == "admin") this.$router.push('/orgs');
+            else if (this.user.user.roles[0] == "admin") this.$router.push('/admin/orgs');
             else {
               console.log(this.user.user);
               if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/calendar');
@@ -89,12 +89,10 @@ export default {
                     //console.log(this.user.user.roles[0]);
                     this.$router.push('/' + this.orgName + '/studentContract');
                   }
-
                   else this.$router.push('/' + this.orgName + '/calendars');
                 })
+              }
             }
-            }
-            
           })
         })
         .catch(error => {

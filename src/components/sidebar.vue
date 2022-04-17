@@ -30,25 +30,36 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
-          <v-list-item  :to="'/' + this.orgID + '/profile'">
+          <v-list-item  v-if= "role != 'admin'" :to="'/' + this.orgID + '/profile'">
             <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 
-
           <v-list-item  v-if= "role === 'tutor' || role === 'supervisor'" :to="'/' + this.orgID + '/inbox'">
-            <v-list-item-title>Notifications 
-          </v-list-item-title>
+            <v-list-item-title>Notifications </v-list-item-title>
           </v-list-item>
+
           <v-list-item   v-if= "role === 'tutor'" :to="'/' + this.orgID + '/calendar'" >
+            <v-list-item-title>Tutor Calendar</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item  v-if= "role === 'tutor'" :to="'/' + this.orgID + '/calendars'">
+            <v-list-item-title>Student Calendar</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item  v-else-if= "role === 'student' || role === 'supervisor'" :to="'/' + this.orgID + '/calendars'">
             <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item>
 
-            <v-list-item  v-if= "role === 'student' || role === 'supervisor'" :to="'/' + this.orgID + '/calendars'">
-            <v-list-item-title>Calendars</v-list-item-title>
+          <v-list-item  v-if= "role === 'supervisor' || role === 'admin'" :to="'/' + this.orgID + '/users'">
+            <v-list-item-title>Users</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  v-if= "role === 'supervisor'" :to="'/' + this.orgID + '/users'">
-            <v-list-item-title>Users</v-list-item-title>
+          <v-list-item  v-if= "role === 'supervisor' || role === 'admin'" :to="'/' + this.orgID + '/tutors'">
+            <v-list-item-title>Tutors</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item  v-if= "role === 'admin'" :to="'/' + this.orgID + '/orgs'">
+            <v-list-item-title>Organizations</v-list-item-title>
           </v-list-item>
           
         </v-list-item-group>

@@ -99,7 +99,7 @@ export default {
         })
         .catch(error => {
           console.log('error', error)
-          this.router.push('/' + this.orgName + '/calendar')
+          this.$router.push('/' + this.orgName + '/calendar')
         })
     }
   }

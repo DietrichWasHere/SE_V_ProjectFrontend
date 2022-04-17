@@ -62,8 +62,8 @@ export default {
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
             if (!this.user.user.roles.length){
               if (this.orgID) {
-                console.log("1.");
-                console.log(this.user);
+                //console.log("1.");
+                //console.log(this.user);
                 var that = this;
                 UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID).then(function() {
                 //console.log("orgID: " + this.orgID)
@@ -76,23 +76,21 @@ export default {
               }
             }
             else if (this.user.user.roles[0] == "admin") this.$router.push('/admin/orgs');
+            else if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/' + this.orgName +'/calendar');
+            else if (this.user.user.roles.filter(a => a.role == 'supervisor').length) this.$router.push('/' + this.orgName +'/calendars');
             else {
-              console.log(this.user.user);
-              if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/calendar');
-              else if (this.user.user.roles.filter(a => a.role == 'supervisor').length) this.$router.push('/calendars');
-              else {
-                StudentServices.getStudentsByUser(this.user.user.id)
-                .then(response => {
-                  this.studentRoles = response.data;
-                  if (!this.studentRoles[0].dateAgreementSigned) {
-                    //console.log("test");
-                    //console.log(this.user.user.roles[0]);
-                    this.$router.push('/' + this.orgName + '/studentContract');
-                  }
-                  else this.$router.push('/' + this.orgName + '/calendars');
-                })
-              }
+              StudentServices.getStudentsByUser(this.user.user.id)
+              .then(response => {
+                this.studentRoles = response.data;
+                if (!this.studentRoles[0].dateAgreementSigned) {
+                  //console.log("test");
+                  //console.log(this.user.user.roles[0]);
+                  this.$router.push('/' + this.orgName + '/studentContract');
+                }
+                else this.$router.push('/' + this.orgName + '/calendars');
+              })
             }
+
           })
         })
         .catch(error => {

@@ -8,11 +8,16 @@
             v-model="color"
             :items="colors"
             colors
+            item-text="status"
+            item-value="color"
+            item-color="black"
             label="Status"
             multiple
-          >
-          
-            </v-select>
+          ><template #item="{item}">
+              <span :style="{color: item.color}"> 
+                      {{item.status}}</span>
+           </template>
+           </v-select>
                       <v-select
             v-model="tutor"
             :items="tutors"
@@ -369,7 +374,7 @@ import NotifyServices from '@/services/NotifyServices.js'
       allevents: [],
       rawEvents: [],
       color: [],
-      colors: ['grey', 'orange', 'green', 'red'],
+      colors: [{status:'Available', color:'grey'}, {status:'Pending', color:'orange'}, {status:'Booked', color:'green'}, {status:'Canceled',color:'red'}],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       tutors: [],
       tutor:[],

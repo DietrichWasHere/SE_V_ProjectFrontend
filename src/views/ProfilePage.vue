@@ -27,24 +27,35 @@
                     <v-text-field
                         v-model="userData.phone"
                         label="Phone Number"></v-text-field>
-                </v-card-text>
+               
+                <div v-if= "this.role === 'tutor'">
+                <v-row align="center">
+                <v-col cols="12" md="10">
+
                         <v-combobox      
                         v-model="selectedItem"
                         :items="items"
                         label="Select Subjects"
                         item-text="name"
-
+                        dense
                         multiple
                         chips
                         >
                         </v-combobox>
-                            <v-btn color="primary" :loading="loading" @click.native="editSubject">
-                          <v-icon
-                            right
-                            >
+                </v-col>
+                <v-col >
+
+                            <v-btn color="primary" @click.native="editSubject">
+                                     <v-icon >
                             mdi-checkbox-marked-circle
                             </v-icon>
                     </v-btn>
+
+                    
+                 </v-col>
+                </v-row>
+                </div>
+                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary" :loading="loading" @click.native="editUser">
                         Save Changes
@@ -81,6 +92,7 @@
                 isStudent: false,
                 // avatar: image
                 tutorSubject : [],
+                role : ""
             }
         },
         created () {
@@ -116,6 +128,7 @@
                             })
                       //  console.log("hi2");
                        // console.log(this.user.roles[0].role);
+                       this.role = this.user.roles[0].role;
                         if (this.user.roles[0].role == 'student') this.isStudent = true;
                     })
                 .catch(error => {

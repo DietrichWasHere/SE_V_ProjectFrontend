@@ -56,14 +56,13 @@ export default {
           UserServices.getCurrentUser()
           .then(response => {
             this.user = response.data;
-            /*console.log(this.user);
-            console.log("1. " + this.user);
-            console.log(this.user.user.roles);*/
+            console.log("test");
+            console.log(this.user.user.roles);
             // https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
             if (!this.user.user.roles.length){
               if (this.orgID) {
-                //console.log("1.");
-                //console.log(this.user);
+                console.log("1.");
+                console.log(this.user);
                 var that = this;
                 UserServices.addUser({fName: this.user.fName, lName: this.user.lName, email: this.user.email}, this.orgID).then(function() {
                 //console.log("orgID: " + this.orgID)
@@ -83,8 +82,6 @@ export default {
               .then(response => {
                 this.studentRoles = response.data;
                 if (!this.studentRoles[0].dateAgreementSigned) {
-                  //console.log("test");
-                  //console.log(this.user.user.roles[0]);
                   this.$router.push('/' + this.orgName + '/studentContract');
                 }
                 else this.$router.push('/' + this.orgName + '/calendars');

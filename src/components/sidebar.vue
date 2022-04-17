@@ -61,7 +61,7 @@
           <v-list-item  v-if= "role === 'admin'" :to="'/' + this.orgID + '/orgs'">
             <v-list-item-title>Organizations</v-list-item-title>
           </v-list-item>
-          
+
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -85,6 +85,8 @@ import UserServices from '@/services/UserServices.js';
       role : ''
     }),
     async created() {
+      this.$forceUpdate();
+
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
       console.log(this.orgName)
       this.role = await this.getRole();

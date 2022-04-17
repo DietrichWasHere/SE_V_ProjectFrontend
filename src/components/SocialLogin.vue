@@ -74,9 +74,9 @@ export default {
                 console.log('Unauthorized login');
               }
             }
-            else if (this.user.user.roles[0] == "admin") this.$router.push('/admin/orgs');
-            else if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/' + this.orgName +'/calendar');
+            else if (this.user.user.roles[0].role == "admin") this.$router.push('/' + this.orgName + '/orgs');
             else if (this.user.user.roles.filter(a => a.role == 'supervisor').length) this.$router.push('/' + this.orgName +'/calendars');
+            else if (this.user.user.roles.filter(a => a.role == 'tutor').length) this.$router.push('/' + this.orgName +'/calendar');
             else {
               StudentServices.getStudentsByUser(this.user.user.id)
               .then(response => {

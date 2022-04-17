@@ -34,7 +34,11 @@
             <v-list-item-title >Profile</v-list-item-title>
           </v-list-item>
 
-          <v-list-item  v-if= "role === 'tutor' || role === 'supervisor'" :to="'/' + this.orgID + '/inbox'">
+          <v-list-item  v-if= "role === 'tutor'" :to="'/' + this.orgID + '/inbox'">
+            <v-list-item-title>Notifications </v-list-item-title>
+          </v-list-item>
+         
+          <v-list-item  v-if= "role === 'supervisor'" :to="'/' + this.orgID + '/inboxtutorrequest'">
             <v-list-item-title>Notifications </v-list-item-title>
           </v-list-item>
 
@@ -85,8 +89,6 @@ import UserServices from '@/services/UserServices.js';
       role : ''
     }),
     async created() {
-      this.$forceUpdate();
-
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
       console.log(this.orgName)
       this.role = await this.getRole();

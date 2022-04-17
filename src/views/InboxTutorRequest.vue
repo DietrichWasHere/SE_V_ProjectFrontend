@@ -196,13 +196,13 @@ export default {
       
         accept(r) {
             TutorServices.updateTutor(r.userID, r.orgID, {verified:'1'})
-            .then(response => {         
-
+            .then(response => {      
+              window.location.reload();   
                 console.log(response);
             })
             .catch(error => {
                 
-                console.log('There was an error: updating', error.response)
+                console.log('There was an error: updating', error)
             });
        },
        deny(r)
@@ -210,6 +210,7 @@ export default {
             
         TutorServices.deleteTutor( r.orgID, r.userID)
             .then(response => {  
+              window.location.reload();
                 console.log('Worked', response)
             })    
                 .catch(error => {

@@ -65,7 +65,7 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-
+    
   
   </div>
 </template>

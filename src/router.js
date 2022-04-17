@@ -78,15 +78,14 @@ const routes = [
     meta: { title: 'User' }
   },
   {
-    path: '/orgs',
+    path: '/:orgName/orgs',
     name: 'organizations',
     component: ListOrgs,
     meta: { title: 'Organizations' }
   },
-  
   {
     path: '/:orgName/inboxtutorrequest',
-    name: 'Notifications',
+    name: 'Tutor Requests',
     component: InboxTutorRequest
   },
   {
@@ -127,32 +126,30 @@ const routes = [
     meta: { title: 'Tutoring Agreement Contract' }
   },*/
   {
-    path: '/:orgID/appointmentrequest',
+    path: '/:orgName/appointmentrequest',
     name: 'appointmentrequest',
     component: AppointmentRequest,
     meta: { title: 'Appointment Request' }
   },
   {
-    path: '/review/:id',
+    path: '/:orgName/review/:id',
     name: 'review',
     props : true,
     component: Review,
     meta: { title: 'Review' }
   },
   {    
-    path: '/dvTest',
+    path: '/:orgName/dvTest',
     name: 'dvTest',
     component: dvTestPage,
   },
-
   {
-    path: '/tutors/:orgID',
+    path: '/:orgName/tutors/',
     name: 'tutorList',
     props: true,
     component: ListTutors,
     meta: { title: 'Tutors' }
-  },
-  
+  }
 ]
 
 

@@ -111,9 +111,10 @@
 
 <script>
   import TutorServices from '@/services/TutorServices.js';
+  import OrgServices from '../services/OrgServices';
 
   export default {
-    props: ['orgID'],
+    props: ['orgName'],
     data: () => ({
       search: '',
       dialogEdit: false,
@@ -158,18 +159,22 @@
       },
     },
     created () {
-      TutorServices.getTutorsByOrg(this.orgID)
+      OrgServices.getOrganizationByName(this.orgName)
         .then(response => {
-          console.log(response);
-          this.tutors = response.data
-          this.tutors.forEach(function setVerifyTxt(tutor) {
-                const [year, month, day] = tutor.dateAgreementSigned.split('-'); 
-                const [days, hours] = day.split('T');
-                hours;
-                tutor.dateAgreementSigned = year + '/' + month + '/' + days;
-              if (tutor.verified) tutor.verifiedTxt = "Confirmed";
-              else tutor.verifiedTxt = "Requested";
-          })
+          this.org = response.data;
+          TutorServices.getTutorsByOrg(this.org.orgID)
+            .then(response => {
+              console.log(response);
+              this.tutors = response.data
+              this.tutors.forEach(function setVerifyTxt(tutor) {
+                    const [year, month, day] = tutor.dateAgreementSigned.split('-'); 
+                    const [days, hours] = day.split('T');
+                    hours;
+                    tutor.dateAgreementSigned = year + '/' + month + '/' + days;
+                  if (tutor.verified) tutor.verifiedTxt = "Confirmed";
+                  else tutor.verifiedTxt = "Requested";
+              })
+            })
         })
         .catch(error => {
           console.log('There was an error:', error.response)

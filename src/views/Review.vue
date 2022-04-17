@@ -40,7 +40,7 @@ import UserServices from '@/services/UserServices.js';
 import AppointmentServices from '@/services/AppointmentServices.js';
 
   export default {
-    props: ['id'],
+    props: ['orgName', 'id'],
     data: () => ({
       rating: 3,
       comment : "",
@@ -78,8 +78,7 @@ import AppointmentServices from '@/services/AppointmentServices.js';
             AppointmentServices.updateAppointment(this.id, {tutorRating: this.tutorRating,tutorComments: this.tutorComment})
             .then(response => {         
               console.log(response);
-              window.location.href = '/calendar'
-
+              window.location.href = '/' + this.orgName + '/calendar'
             })
             .catch(error => {
               
@@ -94,7 +93,7 @@ import AppointmentServices from '@/services/AppointmentServices.js';
             .then(response => {   
       
               console.log(response);
-              window.location.href = '/calendars'
+              window.location.href =  '/' + this.orgName + '/calendars'
 
             })
             .catch(error => {

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-container fluid>
+    <v-container class="setsize">
         <v-layout column>
             <v-card>
                 <v-card-text>
@@ -11,6 +11,9 @@
                                 alt=""> 
                         </v-avatar>
                     </v-flex>
+                    <v-btn v-if='this.isStudent' @click.native="toTutorContract">
+                        Become a Tutor
+                    </v-btn>
                     <v-text-field
                         v-model="userData.fName"
                         label="FirstName"></v-text-field>
@@ -24,7 +27,35 @@
                     <v-text-field
                         v-model="userData.phone"
                         label="Phone Number"></v-text-field>
-                </v-card-text>
+               
+                <div v-if= "this.role === 'tutor'">
+                <v-row align="center">
+                <v-col cols="12" md="10">
+
+                        <v-combobox      
+                        v-model="selectedItem"
+                        :items="items"
+                        label="Select Subjects"
+                        item-text="name"
+                        dense
+                        multiple
+                        chips
+                        >
+                        </v-combobox>
+                </v-col>
+                <v-col >
+
+                            <v-btn color="primary" @click.native="editSubject">
+                                     <v-icon >
+                            mdi-checkbox-marked-circle
+                            </v-icon>
+                    </v-btn>
+
+                    
+                 </v-col>
+                </v-row>
+                </div>
+                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary" :loading="loading" @click.native="editUser">
                         Save Changes
@@ -38,46 +69,93 @@
 
 <script>
     import UserServices from '@/services/UserServices.js';
-    
+    import SubjectServices from '@/services/SubjectServices.js';
+    import TutorSubjectServices from '@/services/TutorSubjectServices.js';
+
     export default {
         pageTitle: 'MyProfile',
+        props: ['orgName'],
         data () {
             return {
+                items: [],
+                itemsID: [],
+                selectedItem: [],
+                ideas: [],
                 loading: false,
                 user: {
                 },
+                student: {},
+                tutor: {},
                 picture : "", 
                 userData: {
-                }
+                },
+                isStudent: false,
                 // avatar: image
+                tutorSubject : [],
+                role : ""
             }
         },
         created () {
             // var userData = window.localStorage.getItem('user').user;
             // console.log(userData);
+            SubjectServices.getSubjects()
+            .then(response => {
+                console.log("here", response.data)
+                for(var x = 0; x < response.data.length; x++)
+                {
+                    this.items.push({name: response.data[x].subjectName, id: response.data[x].subjectID});
+                }
+
+            })
+            .catch(error => {
+                    console.log('There was an error getting subjects:', error.response)
+            })
+            
             var that = this;
             UserServices.getCurrentUser()
                 .then(response => {
                         //console.log("!")
                         //console.log(response);
                         this.user = response.data.user
-                        console.log(this.user); 
+                       // console.log(this.user); 
                         UserServices.getUser(this.user.id)
                             .then(response => {
                                 that.userData = response.data[0]
                                 that.picture = response.data[0].picture;
-
                             })
                             .catch(error => {
                                 console.log('There was an error:', error.response)
                             })
+                      //  console.log("hi2");
+                       // console.log(this.user.roles[0].role);
+                       this.role = this.user.roles[0].role;
+                        if (this.user.roles[0].role == 'student') this.isStudent = true;
                     })
                 .catch(error => {
                     console.log('There was an error:', error.response)
                 })
         },
         methods: {
+
+            editSubject(){
+                for(var x = 0; x < this.selectedItem.length; x++){
+                   
+                    this.tutorSubject.push({
+                        tutorID: this.userData.userID,
+                        subjectID:  this.selectedItem[x].id,
+                        maxLevel: '3'
+                    })
+                    TutorSubjectServices.addSubject(this.tutorSubject[x])
+                    .then(response =>{
+                        console.log(response, "yey")
+                    })
+                }
+            },
+
             editUser() {
+                
+ 
+
                 UserServices.updateUser(this.userData)
                     /*.then(response => {
                         console.log("!")
@@ -88,7 +166,18 @@
                     .catch(error => {
                         console.log('There was an error:', error.response)
                     }) 
-            }         
+            },
+            toTutorContract() {
+                this.$router.push("/"+ this.orgName + "/tutorContract"); 
+            }        
         }
     }
 </script>
+
+<style scoped>
+.setsize{
+  
+  height: 100%;
+  width: 70%;
+}
+</style>

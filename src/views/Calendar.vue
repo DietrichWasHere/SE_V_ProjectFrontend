@@ -15,9 +15,15 @@
             v-model="color"
             :items="colors"
             colors
+            item-text="status"
+            item-value="color"
+            item-color="black"
             label="Status"
             multiple
-          >
+          ><template #item="{item}">
+              <span :style="{color: item.color}"> 
+                      {{item.status}}</span>
+           </template>
            </v-select>
                         <v-btn    
           color="primary"
@@ -118,11 +124,28 @@
         <v-select
           :items="locations" 
           label="Location"
-          v-model="appointment.locationID"                    
+          item-text="name"
+          item-value="id"
+          v-model="locationID"                    
 
         ></v-select>
-      </v-col>
+      <v-text-field             
+            v-model="tutorComments"
+            v-if = "locationID === 6"
+            label="Specify Location:"
+            outlined
+            clearable
 
+          ></v-text-field>
+         <v-text-field 
+            v-if = "locationID === 5"
+            label="Google Meet Link:"
+            outlined
+            clearable
+            v-model="tutorComments"
+
+          ></v-text-field>
+      </v-col>
                  <!--   <v-text-field
                       label="Location" 
                     ></v-text-field>-->
@@ -246,7 +269,6 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-          @change="updateRange"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -263,8 +285,7 @@
               :color="selectedEvent.color"
               dark
             >
-
-                         <v-avatar
+            <v-avatar
             class="mb-4"
             color="grey darken-1"
             size="36">     
@@ -283,14 +304,29 @@
                 <ul>
                   <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
                   </ul>
-
+                <br>
+              Location:&nbsp;
+              <span v-if= "selectedEvent.locationName === 'Online'"  >
+                <a :href="selectedEvent.tutorComments">Virtual Session Link</a>
+              </span>
+              <span v-else>
+                <span v-if= "selectedEvent.locationName === 'Other'">
+                    {{selectedEvent.tutorComments}}
+                </span>
+                <span v-else>
+                  {{selectedEvent.locationName}}
+                </span>
+              </span>
               </p>
 
 
             </v-card-text>
             <v-card-actions>
-              
-              <v-btn text color="red" @click="selectedOpen = false">
+               <v-btn  v-if= "(Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false"
+               >
+               <router-link :to="{ name: 'review', params: { id : selectedEvent.appointmentID } }">Review</router-link> 
+              </v-btn>
+              <v-btn v-if= "selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
                 Cancel Appointment
               </v-btn>
               <v-btn text color="secondary" @click="selectedOpen = false">
@@ -325,8 +361,8 @@ import DownloadButton from '../components/DownloadButton.vue';
       time : "12:30",
       dialog: false,
       focus: '',
-      type: 'month',
-      locations : ['Student Center', 'Writing Center', 'Library', 'Other'],
+      type: 'month', 
+      locations : [{name:'Student Center',id:1}, {name:'Writing Center',id:2}, {name:'Student Success Center',id:3}, {name:'Library',id:4}, {name:'Online',id:5}, {name:'Other: ',id:6}],
       duration: 60,
       typeToLabel: {
         month: 'Month',
@@ -355,10 +391,14 @@ import DownloadButton from '../components/DownloadButton.vue';
       allevents: [],
        subjects: [],
       subject: [],
+      locationID : "", 
+      tutorComments : "", 
 
       color: [], 
-      colors: ['grey', 'orange', 'green', 'red'],
+      colors: [{status:'Available', color:'grey'}, {status:'Pending', color:'orange'}, {status:'Booked', color:'green'}, {status:'Canceled',color:'red'}],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+      org : "",
+      role : ""
     }),
         computed: {
       computedDateFormatted () {
@@ -369,24 +409,22 @@ import DownloadButton from '../components/DownloadButton.vue';
       dialog (val) {
         val || this.close()
        }},
-    mounted () {
-      this.$refs.calendar.checkChange()
-    },
+  //  mounted () {
+   //   this.$refs.calendar.checkChange()
+    //},
     created () {
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
+            this.org = response.data.user.roles[0].org;
+            this.role = response.data.user.roles[0].role;
 
-            //console.log(response);
-          })
-          .catch(error => {
-            console.log('There was an error:', error.response)
-          })
 
         const events = []
                 var that = this;
 
-        AppointmentServices.getAppointments(1)
+
+        AppointmentServices.getAppointments(this.org)
         .then(async response => {
           //console.log(response);
           this.rawEvents = response.data
@@ -407,7 +445,10 @@ import DownloadButton from '../components/DownloadButton.vue';
             await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
                 for (var x in r.data) subjects.push(r.data[x].subjectName);
             });
-                    events.push({
+                
+                if (this.user == this.rawEvents[x].tutorID)
+                {
+                      events.push({
                         name: this.rawEvents[x].title,
                         start: formattedStartDate,
                         end: formattedEndDate,
@@ -420,9 +461,14 @@ import DownloadButton from '../components/DownloadButton.vue';
                         tutorFName: this.rawEvents[x].tutorFName,
                         tutorLName: this.rawEvents[x].tutorLName,
                         subjects: subjects,
-                        picture : this.rawEvents[x].picture
+                        picture : this.rawEvents[x].picture,
+                        locationID : this.rawEvents[x].locationID,
+                        locationName : this.rawEvents[x].locationName,
+                        tutorComments : this.rawEvents[x].tutorComments
+                    
                     })
                     console.log(this.rawEvents[x].picture);
+                }
               }
             await SubjectServices.getSubjects().then(r => {
                 for (var x in r.data) that.subjects.push(r.data[x].subjectName);
@@ -434,6 +480,10 @@ import DownloadButton from '../components/DownloadButton.vue';
           console.log('There was an error:', error.response)
         })
     
+          })
+          .catch(error => {
+            console.log('There was an error: heres', error.response)
+          })
     },
     methods: {
       
@@ -487,27 +537,28 @@ import DownloadButton from '../components/DownloadButton.vue';
         var that = this
        // console.log(newtime)
 
-        UserServices.getCurrentUser().then(function(result) {
-           UserServices.getUser(result.data.user.id) 
+    //    UserServices.getCurrentUser().then(function(result) {
+           UserServices.getUser(this.user) 
                .then(response => {
-          that.appointment.tutorID = result.data.user.id
-          that.appointment.orgID = 10
+          that.appointment.tutorID = this.user
+          that.appointment.orgID = this.org
           that.appointment.startDateTime = concat
           that.appointment.endDateTime = newtime
-          that.appointment.locationID = 5
+          that.appointment.locationID = this.locationID
           that.appointment.color = "grey"
-          that.appointment.title = "Available " + response.data[0].fName + " " + response.data[0].lName;
+          that.appointment.title = response.data[0].fName + " " + response.data[0].lName;
+          that.appointment.tutorComments = this.tutorComments;
           AppointmentServices.addAppointment(that.appointment)
           })
           .then(response => {
             console.log(response);
-           // window.location.reload();
+            window.location.reload();
           })
           .catch(error => {
             console.log('There was an error:', error.response)
           })
 
-        })
+     //   })
             
 
 

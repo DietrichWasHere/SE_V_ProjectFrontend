@@ -47,7 +47,11 @@
                 
             
         </v-btn> 
-    
+
+        <v-btn small  v-if= " role === 'supervisor'">
+         <download-button :orgID="this.org" :month="4" :year="2022" />
+         </v-btn>
+
           <v-dialog v-model="dialog" max-width="500px">
           <v-card>
               <v-container>
@@ -326,9 +330,13 @@ import UserServices from '@/services/UserServices.js';
 import ApptRequestServices from '@/services/ApptRequestServices.js';
 import SubjectServices from '@/services/SubjectServices.js';
 import NotifyServices from '@/services/NotifyServices.js'
+import DownloadButton from '../components/DownloadButton.vue';
+
 
 
   export default {
+      components: { DownloadButton },
+
     data: vm=> ({
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),

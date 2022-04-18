@@ -32,7 +32,6 @@
             @click="filter()">
                 Filter 
         </v-btn> 
-     <download-button :orgID="1" :month="4" :year="2022" />
           <v-dialog v-model="dialog" max-width="500px">
           <v-card>
               <v-container>
@@ -345,12 +344,10 @@
 import AppointmentServices from "@/services/AppointmentServices.js";
 import UserServices from '@/services/UserServices.js';
 import SubjectServices from '@/services/SubjectServices.js';
-import DownloadButton from '../components/DownloadButton.vue';
 
 
 
   export default {
-  components: { DownloadButton },
     data: vm=> ({
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),

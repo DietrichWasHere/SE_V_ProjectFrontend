@@ -196,8 +196,9 @@ export default {
       
         accept(r) {
             TutorServices.updateTutor(r.userID, r.orgID, {verified:'1'})
-            .then(response => {      
-              window.location.reload();   
+            .then(response => { 
+              this.$router.go(0)     
+              //window.location.reload();   
                 console.log(response);
             })
             .catch(error => {
@@ -210,7 +211,8 @@ export default {
             
         TutorServices.deleteTutor( r.orgID, r.userID)
             .then(response => {  
-              window.location.reload();
+              this.$router.go(0) 
+              //window.location.reload();
                 console.log('Worked', response)
             })    
                 .catch(error => {

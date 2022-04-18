@@ -14,7 +14,7 @@ export default {
   methods: {
     async download() {
 		var str = 'Date,Start Time,End Time,Location,Status,Tutor First Name,Tutor Last Name,Tutor Rating,Tutor Comments,' +
-				  'Student First Name,Student Last Name,Student Rating,Student Comments\n';
+				'Student First Name,Student Last Name,Student Rating,Student Comments\n';
 		var result = await AppointmentServices.getAppointments(this.orgID);
 		for (var i in result.data) {
 			var curr = result.data[i];

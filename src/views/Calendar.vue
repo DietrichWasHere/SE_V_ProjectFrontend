@@ -410,6 +410,10 @@ import SubjectServices from '@/services/SubjectServices.js';
    //   this.$refs.calendar.checkChange()
     //},
     created () {
+        this.reload();
+    },
+    methods: {
+      reload(){
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
@@ -436,7 +440,7 @@ import SubjectServices from '@/services/SubjectServices.js';
             var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
             var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
             var endDate = new Date(this.rawEvents[x].endDateTime);
-            hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
+            hrs =  endDate.getHours();
             var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
             var subjects = [];
             await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
@@ -481,8 +485,7 @@ import SubjectServices from '@/services/SubjectServices.js';
           .catch(error => {
             console.log('There was an error: heres', error.response)
           })
-    },
-    methods: {
+      },
       
   filter() {
            this.events = this.allevents.filter(e => !this.color.length || this.color.includes(e.color));
@@ -549,7 +552,7 @@ import SubjectServices from '@/services/SubjectServices.js';
           })
           .then(response => {
             console.log(response);
-            window.location.reload();
+            that.reload();
           })
           .catch(error => {
             console.log('There was an error:', error.response)

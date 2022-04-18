@@ -136,44 +136,50 @@ export default {
     }),
   
     created () {
-        var that = this;
-        UserServices.getCurrentUser().then(function(result) {
+              var that = this;
+
+          UserServices.getCurrentUser().then(function(result) {
            console.log("here", result.data.user.roles[0].org)
-           this.org = result.data.user.roles[0].org;
+           that.org = result.data.user.roles[0].org;
           
           UserServices.getUser(result.data.user.id)
           .then(response => {
             that.picture = response.data[0].picture;
-            console.log(this.picture);
+            console.log(that.picture);
           })
           .catch(error => {
             console.log('There was an error: getting user', error.response)
           })
 
         })
-
+        this.reload();
+      },
+        methods: {
+          reload(){
+            this.requests = []
+          var that = this;
+          
       ApptRequestServices.getRequests()
         .then(response => {
             
-            this.rawRequests= response.data
-            for (let x = 0; x < this.rawRequests.length; x++)
+            that.rawRequests= response.data
+            for (let x = 0; x < that.rawRequests.length; x++)
             {
-              console.log( "here");
               //  UserServices.getUser(this.rawRequests[x].studentID)
              //   .then(response => {
-               AppointmentServices.getAppointment(this.org, this.rawRequests[x].appointmentID)
+               AppointmentServices.getAppointment(that.org, that.rawRequests[x].appointmentID)
                .then(response => {
                   console.log("now", response.data[x].endDateTime)
                })
-                this.requests.push({
-                studentID : this.rawRequests[x].studentID,
-                appointmentID : this.rawRequests[x].appointmentID,
-                subjectID : this.rawRequests[x].subjectID,
-                reqDate: this.rawRequests[x].reqDate, 
-                reqStatus : this.rawRequests[x].reqStatus,
-                name :  this.rawRequests[x].fName + " " + this.rawRequests[x].lName,
-                picture : this.rawRequests[x].picture,
-                comments : this.rawRequests[x].comments
+                that.requests.push({
+                studentID : that.rawRequests[x].studentID,
+                appointmentID : that.rawRequests[x].appointmentID,
+                subjectID : that.rawRequests[x].subjectID,
+                reqDate: that.rawRequests[x].reqDate, 
+                reqStatus : that.rawRequests[x].reqStatus,
+                name :  that.rawRequests[x].fName + " " + that.rawRequests[x].lName,
+                picture : that.rawRequests[x].picture,
+                comments : that.rawRequests[x].comments
               })
                 //  })
           /*         .catch(error => {
@@ -181,25 +187,21 @@ export default {
             console.log('There was an error: in getting user', error.response)
             })*/
             }
-            console.log(this.rawRequests[1].studentID);
-
-        
           })
           .catch(error => {
             
-            console.log('There was an error: in getting request', error.response)
+            console.log('There was an error: in getting request', error)
           })
-        
-      },
-        methods: {
+          },
       
          accept(r) {
+           var that = this;
             AppointmentServices.updateAppointment(r.appointmentID, {color:'green'})
             .then(response => {         
               ApptRequestServices.deleteRequest(r.studentID, r.appointmentID)
                     .then(response => {  
                       console.log('Worked', response)
-                         window.location.href = '/calendar'
+                      that.reload();
                     })    
                       .catch(error => {
           
@@ -219,12 +221,13 @@ export default {
        },
        deny(r)
       {
+            var that = this;
             AppointmentServices.updateAppointment(r.appointmentID, {color:'red'})
             .then(response => {   
                 ApptRequestServices.deleteRequest(r.studentID, r.appointmentID)
                     .then(response => {  
                       console.log('Worked', response)
-                         window.location.href = '/calendar'
+                    that.reload();
                     })    
                       .catch(error => {
           

@@ -92,7 +92,7 @@ import UserServices from '@/services/UserServices.js';
       this.$forceUpdate();
 
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
-      this.role = await this.getRole();
+      this.getRole();
     },
 
     watch: {
@@ -101,14 +101,21 @@ import UserServices from '@/services/UserServices.js';
       },
     },
     methods: {
-      loggedIn() {return window.localStorage.token || window.localStorage.user;},
+      loggedIn() {
+        if (window.localStorage.token || window.localStorage.user) {
+          this.getRole();
+          return true;
+        }
+        return false;
+      },
       logout() {
         this.requestUser = window.localStorage.clear('token') 
         this.requestUser = window.localStorage.clear('user')
+        this.getRole();
         this.$router.push('/' + this.orgID)
       },
       async getRole(){
-        return (await UserServices.getCurrentUser()).data.user.roles[0].role;
+        this.role = (await UserServices.getCurrentUser()).data.user.roles[0].role;
 
       }
     },

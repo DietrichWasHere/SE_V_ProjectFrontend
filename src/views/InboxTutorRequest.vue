@@ -119,7 +119,8 @@ import UserServices from '@/services/UserServices.js';
 export default {
     name: 'mssgInbox',
      props: {
-    msg: String
+    msg: String,
+    orgName: String
   },
 
     data: () => ({
@@ -137,7 +138,13 @@ export default {
     }),
   
     created () {
+      this.load();
 
+ 
+      },
+    methods: {
+      load() {
+        this.requests = []
         var that = this;
         UserServices.getCurrentUser().then(function(result) {
             UserServices.getUser(result.data.user.id).then(function(response) {
@@ -188,17 +195,13 @@ export default {
             console.log('There was an error: in getting tutpr', error.response)
           })
 
-        })
-
- 
+        });
       },
-        methods: {
-      
         accept(r) {
+            var that = this;
             TutorServices.updateTutor(r.userID, r.orgID, {verified:'1'})
             .then(response => { 
-              this.$router.go(0)     
-              //window.location.reload();   
+              that.load();              //window.location.reload();   
                 console.log(response);
             })
             .catch(error => {
@@ -208,16 +211,16 @@ export default {
        },
        deny(r)
       {
-            
+            var that = this;
         TutorServices.deleteTutor( r.orgID, r.userID)
             .then(response => {  
-              this.$router.go(0) 
+               that.load();//this.$router.push("/" + this.orgName + "/inboxtutorrequest")     
               //window.location.reload();
                 console.log('Worked', response)
             })    
                 .catch(error => {
     
-            console.log('There was an error: updating', error.response)
+            console.log('There was an error: updating', error)
             });
        },
     }

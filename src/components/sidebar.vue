@@ -90,9 +90,10 @@ import UserServices from '@/services/UserServices.js';
     }),
     async created() {
       this.$forceUpdate();
-
       this.orgName = (await OrgServices.getOrganizationByName(this.orgID)).data[0].orgName;
       this.role = await this.getRole();
+      // https://thewebdev.info/2022/03/12/how-to-reload-a-page-with-vue-router/
+      this.$router.go();
     },
 
     watch: {

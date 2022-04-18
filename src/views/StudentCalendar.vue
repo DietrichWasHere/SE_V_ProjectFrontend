@@ -406,6 +406,10 @@ import DownloadButton from '../components/DownloadButton.vue';
     //  this.$refs.calendar.checkChange()
    // },
     created () {
+        this.reload();
+    },
+    methods: {
+        reload(){
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
@@ -433,7 +437,7 @@ import DownloadButton from '../components/DownloadButton.vue';
             var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
             var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
             var endDate = new Date(this.rawEvents[x].endDateTime);
-            hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
+            hrs = endDate.getHours();
             var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
             var subjects = [];
             await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
@@ -477,9 +481,7 @@ import DownloadButton from '../components/DownloadButton.vue';
             console.log('There was an error:', error.response)
           })
     
-    },
-    methods: {
-      
+        },
        filter() {
           this.events = this.allevents.filter(e => !this.color.length || this.color.includes(e.color));
           this.events = this.events.filter(e => !this.tutor.length || this.tutor.includes(e.tutorFName + " " + e.tutorLName));
@@ -567,13 +569,13 @@ import DownloadButton from '../components/DownloadButton.vue';
             console.log('There was an error: getting appointmer', error.response)
           })
 
-
+          var that = this;
           ApptRequestServices.addRequest(this.request)
                  .then(response => {
             this.selectedOpen = false;
             
             console.log(response);
-            window.location.reload();
+            that.reload();
           })
           .catch(error => {
             

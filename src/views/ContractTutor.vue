@@ -2,10 +2,8 @@
 <v-container class = "setsize"> 
     <h2>{{this.org.orgName}} Tutor Sign Up</h2>
     
-    
-    <p>
-      {{this.org.tutorAgreement}}
-    </p>
+    <!--https://stackoverflow.com/questions/55614875/how-to-parse-br-in-a-string-to-html-tag-in-vue-js-->
+    <p><span v-html="this.org.tutorAgreement"></span>
 
     <p>
         I certify that I have read the information contained in this contract.

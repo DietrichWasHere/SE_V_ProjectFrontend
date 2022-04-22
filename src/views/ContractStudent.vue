@@ -2,9 +2,8 @@
 <v-container class = "setsize"> 
     <h2>{{this.org.orgName}} Student Sign Up</h2>
     
-    
-    <p>
-      {{this.org.studentAgreement}}
+    <!--https://stackoverflow.com/questions/55614875/how-to-parse-br-in-a-string-to-html-tag-in-vue-js-->
+    <p><span v-html="this.org.studentAgreement"></span>
     </p>
 
     <p>

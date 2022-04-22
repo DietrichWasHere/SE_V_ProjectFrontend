@@ -49,9 +49,13 @@
                     ></v-text-field>
                   </v-col> -->
                   
-                  <v-col cols="12" sm="6" md="4">
-                    <v-container fill-width fluid>
-                      <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
+                 
+                 
+                 <!-- <v-col cols="12" sm="6" md="4"> -->
+                   <!-- <v-container fill-width fluid>-->
+                 
+                 
+                 <!--     <v-menu ref="menu2" v-model="menu2" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field v-model="date"  hint="MM/DD/YYYY format" persistent-hint prepend-icon="mdi-calendar" 
                           v-bind="attrs" @blur="date = parseDate(appointment.startDateTime)" v-on="on" >
@@ -60,9 +64,70 @@
                         </template>
                           <v-date-picker v-model="date" no-title  @input="menu2 = false" >
                         </v-date-picker>
+                      </v-menu>-->
+                     <v-col
+                        cols="12"
+                        m = "12"
+                        sm="12"
+                      >
+                         <v-date-picker
+                              v-model="dates"
+                              multiple
+                            ></v-date-picker>
+                      </v-col>
+                          <v-col
+                            cols="12"
+                            sm="6"
+                        >
+                    <v-menu
+                      ref="menu"
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      :return-value.sync="dates"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                    >
+                    <!-- <template v-slot:activator="{ on, attrs }">
+                         <v-combobox
+                          v-model="dates"
+                          multiple
+                          chips
+                          small-chips
+                          label="Multiple picker in menu"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-combobox>
+                      </template>-->
+                      <v-date-picker
+                        v-model="dates"
+                        multiple
+                        no-title
+                        scrollable
+                      >
+                <!--        <v-spacer></v-spacer>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="menu = false"
+                        >
+                          Cancel
+                        </v-btn>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="$refs.menu.save(dates)"
+                        >
+                          OK
+                        </v-btn>-->
+                      </v-date-picker>
                       </v-menu>
-                    </v-container>
-                  </v-col>
+                      </v-col>
+
+                  <!--  </v-container> -->
+      <!--</v-col>-->
     <v-col
       cols="11"
       sm="5"
@@ -351,11 +416,13 @@ import SubjectServices from '@/services/SubjectServices.js';
 
   export default {
     data: vm=> ({
+      dates: [],
+      menu: false,
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
       menu1: false,
       menu2: false,
-            user: 0,
+      user: 0,
       timepicker: false,
       time : "12:30",
       dialog: false,
@@ -422,7 +489,7 @@ import SubjectServices from '@/services/SubjectServices.js';
             this.role = response.data.user.roles[0].role;
 
         const events = []
-                var that = this;
+          var that = this;
 
         AppointmentServices.getAppointments(this.org)
         .then(async response => {
@@ -432,8 +499,6 @@ import SubjectServices from '@/services/SubjectServices.js';
 
           for (let x = 0; x < this.rawEvents.length; x++)
          {             
-            
-
             //console.log(this.rawEvents[x]);
             var startDate = new Date(this.rawEvents[x].startDateTime);
             var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
@@ -529,41 +594,41 @@ import SubjectServices from '@/services/SubjectServices.js';
     
       add (){
 
-        //DO CALCULATIONS AND INSERT INTO BACK END
-        //I need a get current org
-        var concat = "";
-        concat = new Date(this.date + " " + this.time);
-        
-        var newtime = new Date(new Date(concat).getTime() + this.duration*60000);
-        //newtime = this.date  + " " +  newtime;
-        var that = this
-       // console.log(newtime)
-       
-           UserServices.getUser(this.user) 
-               .then(response => {
-          that.appointment.tutorID = this.user
-          that.appointment.orgID = this.org
-          that.appointment.startDateTime = that.sqlDate(concat)
-          that.appointment.endDateTime = that.sqlDate(newtime)
-          that.appointment.locationID = this.locationID
-          that.appointment.color = "grey"
-          that.appointment.title = response.data[0].fName + " " + response.data[0].lName;
-          that.appointment.tutorComments = this.tutorComments;
-          AppointmentServices.addAppointment(that.appointment)
-          })
-          .then(response => {
-            console.log(response);
-            that.reload();
-          })
-          .catch(error => {
-            console.log('There was an error:', error.response)
-          })
-
-     //   })
-            
+            UserServices.getUser(this.user) 
+                .then(async (response) =>{
+        for(var x = 0; x < this.dates.length ; x++)
+        {
+          var concat = "";
+          
+          console.log(this.dates[x]);
+          concat = new Date(this.dates[x] + " " + this.time);
+          
+          var newtime = new Date(new Date(concat).getTime() + this.duration*60000);
+          //newtime = this.date  + " " +  newtime;
+          var that = this
+          console.log("new time ", newtime)
 
 
-
+      //    UserServices.getCurrentUser().then(function(result) {
+            that.appointment.tutorID = this.user
+            that.appointment.orgID = this.org
+            that.appointment.startDateTime = concat
+            that.appointment.endDateTime = newtime
+            that.appointment.locationID = this.locationID
+            that.appointment.color = "grey"
+            that.appointment.title = response.data[0].fName + " " + response.data[0].lName;
+            that.appointment.tutorComments = this.tutorComments;
+            await AppointmentServices.addAppointment(that.appointment)
+           }
+                that.reload();
+            })
+            .then(response => {
+              console.log(response);
+              
+            })
+            .catch(error => {
+              console.log('There was an error:', error.response)
+            })
         this.dialog = false
   
       },
@@ -586,37 +651,7 @@ import SubjectServices from '@/services/SubjectServices.js';
         } else {
           open()
         }
-
-      //  nativeEvent.stopPropagation()
       },
-      /*updateRange () {
-        const events = []
-
-        //const min = new Date(`${start.date}T00:00:00`)
-       // const max = new Date(`${end.date}T23:59:59`)
-      //  const days = (max.getTime() - min.getTime()) / 86400000
-       // const eventCount = this.rnd(days, days + 20)
-
-        for (let i = 0; i < 1; i++) {
-          const allDay = this.rnd(0, 3) === 0
-         // const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-          const first = '2022-03-02 14:30:00';
-         // const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-          const second = '2022-03-02 15:30:00';
-
-          events.push({
-            name: 'Appointment  Calculus 1  Eddie Gomez',
-            start: first,
-            end: second,
-            color: 'orange',
-            timed: !allDay,
-          })
-        }
-        this.events = events
-      },
-      rnd (a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a
-     },*/
     },
   }
 </script>

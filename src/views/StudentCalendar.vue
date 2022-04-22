@@ -438,7 +438,9 @@ import DownloadButton from '../components/DownloadButton.vue';
             await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
                 for (var x in r.data) subjects.push(r.data[x].subjectName);
             });
-                    events.push({
+                    if((this.role != "supervisor" && (this.rawEvents[x].studentID == null || this.user == this.rawEvents[x].studentID)) || this.role == "supervisor" )
+                    {
+                      events.push({
                         name: this.rawEvents[x].title,
                         start: formattedStartDate,
                         end: formattedEndDate,
@@ -456,7 +458,8 @@ import DownloadButton from '../components/DownloadButton.vue';
                         email : this.rawEvents[x].tutorEmail,
                         locationID : this.rawEvents[x].locationID,
                         tutorComments : this.rawEvents[x].tutorComments
-                    })
+                     })
+                    }
                    // console.log(this.rawEvents[x].picture);
               }
             await SubjectServices.getSubjects().then(r => {

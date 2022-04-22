@@ -4,6 +4,9 @@ import settings from "./config"
 const apiClient = axios.create(settings);
 
 export default {
+  isTutor() {
+    return apiClient.get("/tutors/");
+  },
   getTutors(orgID) {
     return apiClient.get("/tutors/" + orgID);
   },

@@ -194,7 +194,7 @@
 
         ></v-select>
       <v-text-field             
-            v-model="tutorComments"
+            v-model="locationDetails"
             v-if = "locationID === 6"
             label="Specify Location:"
             outlined
@@ -206,7 +206,7 @@
             label="Google Meet Link:"
             outlined
             clearable
-            v-model="tutorComments"
+            v-model="locationDetails"
 
           ></v-text-field>
       </v-col>
@@ -373,11 +373,11 @@
                 <br>
               Location:&nbsp;
               <span v-if= "selectedEvent.locationName === 'Online'"  >
-                <a :href="selectedEvent.tutorComments">Virtual Session Link</a>
+                <a :href="selectedEvent.locationDetails">Virtual Session Link</a>
               </span>
               <span v-else>
                 <span v-if= "selectedEvent.locationName === 'Other'">
-                    {{selectedEvent.tutorComments}}
+                    {{selectedEvent.locationDetails}}
                 </span>
                 <span v-else>
                   {{selectedEvent.locationName}}
@@ -458,7 +458,7 @@ import SubjectServices from '@/services/SubjectServices.js';
        subjects: [],
       subject: [],
       locationID : "", 
-      tutorComments : "", 
+      locationDetails: "", 
       color: [], 
       colors: [{status:'Available', color:'grey'}, {status:'Pending', color:'orange'}, {status:'Booked', color:'green'}, {status:'Canceled',color:'red'}],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
@@ -529,7 +529,7 @@ import SubjectServices from '@/services/SubjectServices.js';
                         picture : this.rawEvents[x].picture,
                         locationID : this.rawEvents[x].locationID,
                         locationName : this.rawEvents[x].locationName,
-                        tutorComments : this.rawEvents[x].tutorComments
+                        locationDetails : this.rawEvents[x].locationDetails
                     
                     })
                     console.log(this.rawEvents[x].picture);
@@ -612,12 +612,12 @@ import SubjectServices from '@/services/SubjectServices.js';
       //    UserServices.getCurrentUser().then(function(result) {
             that.appointment.tutorID = this.user
             that.appointment.orgID = this.org
-            that.appointment.startDateTime = concat
-            that.appointment.endDateTime = newtime
+            that.appointment.startDateTime = that.sqlDate(concat)
+            that.appointment.endDateTime = that.sqlDate(newtime)
             that.appointment.locationID = this.locationID
             that.appointment.color = "grey"
             that.appointment.title = response.data[0].fName + " " + response.data[0].lName;
-            that.appointment.tutorComments = this.tutorComments;
+            that.appointment.locationDetails= this.locationDetails;
             await AppointmentServices.addAppointment(that.appointment)
            }
                 that.reload();

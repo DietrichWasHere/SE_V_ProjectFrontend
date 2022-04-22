@@ -14,7 +14,7 @@ export default {
     return apiClient.delete("/tutorSubjects/" + tutorID + "/" + subjectID);
   },
   addSubject(tutorSubject) {
-    return apiClient.post("/tutorSubjects/", tutorSubject);
+    return apiClient.post("/subjects/", tutorSubject);
   },
   updateSubject(tutorID, subjectID, tutorSubject) {
     return apiClient.put("/tutorSubjects/" + tutorID + "/" + subjectID, tutorSubject);

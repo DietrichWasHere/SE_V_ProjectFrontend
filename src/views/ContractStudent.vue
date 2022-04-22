@@ -21,9 +21,10 @@
         
         <v-col lg="3">Date:
                 <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition" offset-y max-width="290px" min-width="auto">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-text-field v-model="dateFormatted"  hint="MM/DD/YYYY format" persistent-hint prepend-icon="mdi-calendar" 
-                        v-bind="attrs" @blur="date = parseDate(dateFormatted)" v-on="off">
+                    <template v-slot:activator="{ attrs }">
+                      <!--https://stackoverflow.com/questions/57524110/what-does-v-on-syntax-mean-in-vuejs-->
+                        <v-text-field v-model="dateFormatted" persistent-hint prepend-icon="mdi-calendar" 
+                        v-bind="attrs" @blur="date = parseDate(dateFormatted)">
                         </v-text-field>
                     </template>
                     <v-date-picker v-model="date" no-title  @input="menu1 = false" >
@@ -43,10 +44,12 @@
   import OrgServices from '@/services/OrgServices.js'
   import UserServices from '@/services/UserServices.js';
   import StudentServices from '@/services/StudentServices.js';
+  import NotifyServices from '@/services/NotifyServices.js';
+
 
 
   export default {
-    props: ['orgID'],
+    props: ['orgName'],
     data: vm => ({
       org: '',
       studentName: '',
@@ -59,7 +62,7 @@
       menu2: false,
     }),
     created () {
-      OrgServices.getOrganization(this.orgID)
+      OrgServices.getOrganizationByName(this.orgName)
         .then(response => {
           //console.log(response.data)
           this.org = response.data[0];
@@ -108,7 +111,8 @@
           StudentServices.updateStudent(this.userData.userID, this.org.orgID, student)
             .then(response => {
               console.log(response.data);
-              this.$router.push('/calendar');
+              if (this.userData.phone) NotifyServices.notify(this.userData.phone, "Successfully Registered!");
+              this.$router.push('/' + this.orgName + '/calendars');
             })
             .catch(error => {
                 console.log('There was an error:', error.response)

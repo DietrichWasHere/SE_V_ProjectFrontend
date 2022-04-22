@@ -1,6 +1,6 @@
 <template>
   <v-app class="grey lighten-4">
-    <SideBar>
+    <SideBar :orgID="this.$route.params.orgName">
 
     </Sidebar>
 
@@ -19,13 +19,13 @@ export default {
   masterTitle: 'Title',
   components: { SideBar },
   name: 'App',
-    props: {
-  
-  },
   data () {
     return {
       
     }
+  },
+  created() {
+    if (this.$route.query.orgName) this.$router.push('/' + this.$route.query.orgName)
   }
 }
 

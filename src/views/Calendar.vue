@@ -15,9 +15,15 @@
             v-model="color"
             :items="colors"
             colors
+            item-text="status"
+            item-value="color"
+            item-color="black"
             label="Status"
             multiple
-          >
+          ><template #item="{item}">
+              <span :style="{color: item.color}"> 
+                      {{item.status}}</span>
+           </template>
            </v-select>
                         <v-btn    
           color="primary"
@@ -26,7 +32,6 @@
             @click="filter()">
                 Filter 
         </v-btn> 
-     
           <v-dialog v-model="dialog" max-width="500px">
           <v-card>
               <v-container>
@@ -118,11 +123,28 @@
         <v-select
           :items="locations" 
           label="Location"
-          v-model="appointment.locationID"                    
+          item-text="name"
+          item-value="id"
+          v-model="locationID"                    
 
         ></v-select>
-      </v-col>
+      <v-text-field             
+            v-model="tutorComments"
+            v-if = "locationID === 6"
+            label="Specify Location:"
+            outlined
+            clearable
 
+          ></v-text-field>
+         <v-text-field 
+            v-if = "locationID === 5"
+            label="Google Meet Link:"
+            outlined
+            clearable
+            v-model="tutorComments"
+
+          ></v-text-field>
+      </v-col>
                  <!--   <v-text-field
                       label="Location" 
                     ></v-text-field>-->
@@ -246,7 +268,6 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-          @change="updateRange"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -264,7 +285,7 @@
               dark
             >
 
-                         <v-avatar
+            <v-avatar
             class="mb-4"
             color="grey darken-1"
             size="36">     
@@ -284,13 +305,29 @@
                   <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
                   </ul>
 
+                <br>
+              Location:&nbsp;
+              <span v-if= "selectedEvent.locationName === 'Online'"  >
+                <a :href="selectedEvent.tutorComments">Virtual Session Link</a>
+              </span>
+              <span v-else>
+                <span v-if= "selectedEvent.locationName === 'Other'">
+                    {{selectedEvent.tutorComments}}
+                </span>
+                <span v-else>
+                  {{selectedEvent.locationName}}
+                </span>
+              </span>
               </p>
 
 
             </v-card-text>
             <v-card-actions>
-              
-              <v-btn text color="red" @click="selectedOpen = false">
+               <v-btn  v-if= "(Date.now() > new Date(selectedEvent.end)) && selectedEvent.color === 'green'" text color="green" @click="selectedOpen = false"
+               >
+               <router-link :to="{ name: 'review', params: { id : selectedEvent.appointmentID } }">Review</router-link> 
+              </v-btn>
+              <v-btn v-if= "selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
                 Cancel Appointment
               </v-btn>
               <v-btn text color="secondary" @click="selectedOpen = false">
@@ -323,8 +360,8 @@ import SubjectServices from '@/services/SubjectServices.js';
       time : "12:30",
       dialog: false,
       focus: '',
-      type: 'month',
-      locations : ['Student Center', 'Writing Center', 'Library', 'Other'],
+      type: 'month', 
+      locations : [{name:'Student Center',id:1}, {name:'Writing Center',id:2}, {name:'Student Success Center',id:3}, {name:'Library',id:4}, {name:'Online',id:5}, {name:'Other: ',id:6}],
       duration: 60,
       typeToLabel: {
         month: 'Month',
@@ -353,10 +390,13 @@ import SubjectServices from '@/services/SubjectServices.js';
       allevents: [],
        subjects: [],
       subject: [],
-
+      locationID : "", 
+      tutorComments : "", 
       color: [], 
-      colors: ['grey', 'orange', 'green', 'red'],
+      colors: [{status:'Available', color:'grey'}, {status:'Pending', color:'orange'}, {status:'Booked', color:'green'}, {status:'Canceled',color:'red'}],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+      org : "",
+      role : ""
     }),
         computed: {
       computedDateFormatted () {
@@ -367,24 +407,24 @@ import SubjectServices from '@/services/SubjectServices.js';
       dialog (val) {
         val || this.close()
        }},
-    mounted () {
-      this.$refs.calendar.checkChange()
-    },
+  //  mounted () {
+   //   this.$refs.calendar.checkChange()
+    //},
     created () {
+        this.reload();
+    },
+    methods: {
+      reload(){
            UserServices.getCurrentUser() 
               .then(response => {
             this.user =  response.data.user.id;
-
-            //console.log(response);
-          })
-          .catch(error => {
-            console.log('There was an error:', error.response)
-          })
+            this.org = response.data.user.roles[0].org;
+            this.role = response.data.user.roles[0].role;
 
         const events = []
                 var that = this;
 
-        AppointmentServices.getAppointments(1)
+        AppointmentServices.getAppointments(this.org)
         .then(async response => {
           //console.log(response);
           this.rawEvents = response.data
@@ -399,13 +439,16 @@ import SubjectServices from '@/services/SubjectServices.js';
             var hrs =  startDate.getHours(); //? startDate.getHours()-12 > 12)
             var formattedStartDate = (startDate.getFullYear()   + "-" + (startDate.getMonth() +1) + "-" + startDate.getDate()  +  " " + hrs +  ":" + startDate.getMinutes() + ":" + "00");
             var endDate = new Date(this.rawEvents[x].endDateTime);
-            hrs = ((endDate.getHours() > 12) ? endDate.getHours()-12 : endDate.getHours());
+            hrs =  endDate.getHours();
             var formattedEndDate = (endDate.getFullYear()  + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() +  " " + hrs +  ":" + endDate.getMinutes()  + ":" + "00");
             var subjects = [];
             await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
                 for (var x in r.data) subjects.push(r.data[x].subjectName);
             });
-                    events.push({
+              
+                if (this.user == this.rawEvents[x].tutorID)
+                {
+                      events.push({
                         name: this.rawEvents[x].title,
                         start: formattedStartDate,
                         end: formattedEndDate,
@@ -418,9 +461,14 @@ import SubjectServices from '@/services/SubjectServices.js';
                         tutorFName: this.rawEvents[x].tutorFName,
                         tutorLName: this.rawEvents[x].tutorLName,
                         subjects: subjects,
-                        picture : this.rawEvents[x].picture
+                        picture : this.rawEvents[x].picture,
+                        locationID : this.rawEvents[x].locationID,
+                        locationName : this.rawEvents[x].locationName,
+                        tutorComments : this.rawEvents[x].tutorComments
+                    
                     })
                     console.log(this.rawEvents[x].picture);
+                }
               }
             await SubjectServices.getSubjects().then(r => {
                 for (var x in r.data) that.subjects.push(r.data[x].subjectName);
@@ -432,8 +480,11 @@ import SubjectServices from '@/services/SubjectServices.js';
           console.log('There was an error:', error.response)
         })
     
-    },
-    methods: {
+          })
+          .catch(error => {
+            console.log('There was an error: heres', error.response)
+          })
+      },
       
   filter() {
            this.events = this.allevents.filter(e => !this.color.length || this.color.includes(e.color));
@@ -487,28 +538,28 @@ import SubjectServices from '@/services/SubjectServices.js';
         //newtime = this.date  + " " +  newtime;
         var that = this
        // console.log(newtime)
-
-        UserServices.getCurrentUser().then(function(result) {
-           UserServices.getUser(result.data.user.id) 
+       
+           UserServices.getUser(this.user) 
                .then(response => {
-          that.appointment.tutorID = result.data.user.id
-          that.appointment.orgID = 1
+          that.appointment.tutorID = this.user
+          that.appointment.orgID = this.org
           that.appointment.startDateTime = that.sqlDate(concat)
           that.appointment.endDateTime = that.sqlDate(newtime)
-          that.appointment.locationID = 1
+          that.appointment.locationID = this.locationID
           that.appointment.color = "grey"
-          that.appointment.title = "Available " + response.data[0].fName + " " + response.data[0].lName;
+          that.appointment.title = response.data[0].fName + " " + response.data[0].lName;
+          that.appointment.tutorComments = this.tutorComments;
           AppointmentServices.addAppointment(that.appointment)
           })
           .then(response => {
             console.log(response);
-           // window.location.reload();
+            that.reload();
           })
           .catch(error => {
             console.log('There was an error:', error.response)
           })
 
-        })
+     //   })
             
 
 

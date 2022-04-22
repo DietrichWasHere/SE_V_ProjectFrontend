@@ -158,7 +158,7 @@ const routes = [
 
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   base:
     process.env.NODE_ENV === 'development'
       ? '/'

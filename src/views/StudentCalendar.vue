@@ -252,8 +252,7 @@
               Subjects Available:
                 <ul>
                   <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
-                  </ul>
-                  
+                  </ul>                  
               <br>
                Location:&nbsp;&nbsp; 
                 <span v-if= "selectedEvent.locationName === 'Online'"  >
@@ -279,7 +278,6 @@
                 Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectedEvent.email }}
                 </span>
               </p>
-             
             </v-card-text>
 
 
@@ -291,13 +289,11 @@
                       sm="5"
                       md="10"
                     >
-
               <v-text-field v-model="comments" v-if= " role != 'supervisor' &&  (Date.now() < new Date(selectedEvent.end)) && selectedEvent.color === 'grey'" text color="blue"
                 label="Notes for appointment:"
                 outlined
                 persistent-hint
               ></v-text-field>
-
               </v-col>
               <v-btn  v-if= "role != 'supervisor' && (Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'grey'" text color="blue" @click="sendRequest()">
                Request Appointment
@@ -391,7 +387,6 @@ import DownloadButton from '../components/DownloadButton.vue';
       comments : "",
       org : "",
       role : "",
-
     }),
         computed: {
       computedDateFormatted () {
@@ -461,8 +456,6 @@ import DownloadButton from '../components/DownloadButton.vue';
                         email : this.rawEvents[x].tutorEmail,
                         locationID : this.rawEvents[x].locationID,
                         tutorComments : this.rawEvents[x].tutorComments
-
-
                     })
                    // console.log(this.rawEvents[x].picture);
               }
@@ -530,7 +523,6 @@ import DownloadButton from '../components/DownloadButton.vue';
               
               console.log('There was an error: with phone studd', error.response)
           });
-        
          console.log(this.comments);
 
           var today = new Date();

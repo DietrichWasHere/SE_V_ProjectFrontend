@@ -284,6 +284,7 @@
               :color="selectedEvent.color"
               dark
             >
+
             <v-avatar
             class="mb-4"
             color="grey darken-1"
@@ -303,6 +304,7 @@
                 <ul>
                   <li v-for="subject in selectedEvent.subjects" :key="subject">{{subject}}</li>
                   </ul>
+
                 <br>
               Location:&nbsp;
               <span v-if= "selectedEvent.locationName === 'Online'"  >
@@ -390,7 +392,6 @@ import SubjectServices from '@/services/SubjectServices.js';
       subject: [],
       locationID : "", 
       tutorComments : "", 
-
       color: [], 
       colors: [{status:'Available', color:'grey'}, {status:'Pending', color:'orange'}, {status:'Booked', color:'green'}, {status:'Canceled',color:'red'}],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
@@ -420,10 +421,8 @@ import SubjectServices from '@/services/SubjectServices.js';
             this.org = response.data.user.roles[0].org;
             this.role = response.data.user.roles[0].role;
 
-
         const events = []
                 var that = this;
-
 
         AppointmentServices.getAppointments(this.org)
         .then(async response => {
@@ -446,7 +445,7 @@ import SubjectServices from '@/services/SubjectServices.js';
             await SubjectServices.getSubjectsByTutor(this.rawEvents[x].tutorID).then(r => {
                 for (var x in r.data) subjects.push(r.data[x].subjectName);
             });
-                
+              
                 if (this.user == this.rawEvents[x].tutorID)
                 {
                       events.push({
@@ -496,6 +495,9 @@ import SubjectServices from '@/services/SubjectServices.js';
         const [year, month, day] = date.split('-')
         return `${month}/${day}/${year}`
       },
+      sqlDate(date) {
+        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + String(date.getMinutes()).padStart(2, "0");
+      },
       parseDate (date) {
         if (!date) return null
         const [month, day, year] = date.split('/')
@@ -536,14 +538,13 @@ import SubjectServices from '@/services/SubjectServices.js';
         //newtime = this.date  + " " +  newtime;
         var that = this
        // console.log(newtime)
-
-    //    UserServices.getCurrentUser().then(function(result) {
+       
            UserServices.getUser(this.user) 
                .then(response => {
           that.appointment.tutorID = this.user
           that.appointment.orgID = this.org
-          that.appointment.startDateTime = concat
-          that.appointment.endDateTime = newtime
+          that.appointment.startDateTime = that.sqlDate(concat)
+          that.appointment.endDateTime = that.sqlDate(newtime)
           that.appointment.locationID = this.locationID
           that.appointment.color = "grey"
           that.appointment.title = response.data[0].fName + " " + response.data[0].lName;

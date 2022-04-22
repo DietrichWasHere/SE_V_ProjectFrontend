@@ -131,6 +131,7 @@ export default {
       picture: "",
       requests:[],
       rawRequests:[],
+
       studentName:[],
       org : "",
     }),
@@ -158,7 +159,7 @@ export default {
           reload(){
             this.requests = []
           var that = this;
-          
+
       ApptRequestServices.getRequests()
         .then(response => {
             

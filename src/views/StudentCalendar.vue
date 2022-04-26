@@ -136,7 +136,7 @@
               </v-container>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">
+              <v-btn color="blue darken-1" text @click="close" >
                 Cancel
               </v-btn>
               <v-btn color="blue darken-1" text @click="save">
@@ -302,7 +302,7 @@
                >
                <router-link :to="{ name: 'review', params: { id : selectedEvent.appointmentID } }">Review</router-link> 
               </v-btn>
-              <v-btn  v-if= "(Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
+              <v-btn  v-if= "(Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'green'" text color="red" @click="cancelAppt()">
               Cancel Appointment
               </v-btn>
               <v-btn text color="secondary" @click="selectedOpen = false">
@@ -515,6 +515,25 @@ import DownloadButton from '../components/DownloadButton.vue';
       },
       save () {
         this.add ()
+      },
+      cancelAppt(){
+        var that = this;
+            AppointmentServices.getAppointment(this.selectedEvent.orgID, this.selectedEvent.appointmentID) 
+          .then(response => {      
+            var currentAppointment = response.data[0];
+            currentAppointment.color = 'red';  
+            console.log(response);
+            AppointmentServices.updateAppointment(this.selectedEvent.appointmentID, currentAppointment)
+            this.selectedOpen = false;
+            
+            that.reload();
+          })
+            .catch(error => {
+              
+              console.log('There was an error: updating', error.response)
+              this.selectedOpen = false;
+              that.reload();
+            });
       },
       sendRequest()
       {

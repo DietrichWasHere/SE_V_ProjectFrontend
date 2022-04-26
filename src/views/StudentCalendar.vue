@@ -539,7 +539,7 @@ import DownloadButton from '../components/DownloadButton.vue';
       {
          UserServices.getUser(this.user)
         .then(response => {  
-               NotifyServices.notify("+12242390373", "You have a new Appointment Request from " + response.data[0].fName + " " + response.data[0].lName);
+               NotifyServices.notify("+13143035887", "You have a new Appointment Request from " + response.data[0].fName + " " + response.data[0].lName);
         })
         .catch(error => {
               

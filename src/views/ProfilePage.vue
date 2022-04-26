@@ -14,9 +14,9 @@
                     <v-btn v-if='this.isStudent' @click.native="toTutorContract">
                         Become a Tutor
                     </v-btn>
-                <v-row>
+                <v-row v-if='!this.isStudent'>
               <v-col cols="12" md="10">
-
+                    <br>
                 <v-combobox      
                         v-model="selectedItem"
                         :items="items"

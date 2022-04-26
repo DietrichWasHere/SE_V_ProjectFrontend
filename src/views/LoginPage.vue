@@ -1,14 +1,17 @@
 <template>
-   <v-app>
+   <v-app background-color = "grey" >
+
     <v-container>
     </v-container>
-
- 
-        <v-card width="400" height="300" class="mx-auto mt-5"   elevation="15"
-    outlined
-    shaped
-    >
+    <v-row >
+        <v-col align="center"
+      justify="center">
+        <v-card width="400" height="250" class="mx-auto mt-5"   elevation="20"
+            outlined
+            shaped
+            >
             <v-card-title>
+                
                  <h1>Login To Your Account </h1>
             </v-card-title>
             
@@ -36,6 +39,10 @@
                      </v-btn>
                 </v-card-actions>
         </v-card>
+            <img width="153" height="46" src= "../assets/christian.png" alt=""  >
+            </v-col>
+    </v-row>
+
     </v-app>
 </template>
 <script>
@@ -67,10 +74,11 @@ h1{
      font-size: 150%;
     font-style: sans-serif;
     font-weight: normal;
+    color : rgb(80, 80, 80);
    
 }
 p{
     color: white;
-     font-weight: normal;
+    font-weight: normal;
 }
 </style>

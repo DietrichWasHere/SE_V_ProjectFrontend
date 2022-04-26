@@ -1,5 +1,5 @@
 <template>
-   <v-app background-color = "grey" >
+   <v-app>
 
     <v-container>
     </v-container>
@@ -19,24 +19,14 @@
             </v-divider>
             <br><br>
                 <v-card-actions>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    
+                         <social-login :orgID.sync = 'this.orgID' :orgName="this.orgName" btncolor="primary" btntext="Log In" />
+                  
                     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                     <v-btn
-                      color="primary"
-                        elevation="8"
-                        x-large>
-                        <p>
-                        Log In</p>
-                         <social-login :orgID.sync = 'this.orgID' :orgName="this.orgName"/>
-                     </v-btn>
-                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                     <v-btn
-                        color="grey"
-                        elevation="8"
-                        x-large>
-                        <p>
-                        Sign Up</p>
-                        <social-login :orgID.sync = 'this.orgID' :orgName="this.orgName"/>
-                     </v-btn>
+                    
+                        <social-login :orgID.sync = 'this.orgID' :orgName="this.orgName" btncolor="grey" btntext="Sign Up"/>
+                    
                 </v-card-actions>
         </v-card>
             <img width="153" height="46" src= "../assets/christian.png" alt=""  >

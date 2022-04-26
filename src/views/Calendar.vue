@@ -392,7 +392,7 @@
                >
                <router-link :to="{ name: 'review', params: { id : selectedEvent.appointmentID } }">Review</router-link> 
               </v-btn>
-              <v-btn v-if= "selectedEvent.color === 'green'" text color="red" @click="selectedOpen = false">
+              <v-btn v-if= "(Date.now() < new Date(selectedEvent.end)) &&selectedEvent.color === 'green'" text color="red" @click="cancelAppt()">
                 Cancel Appointment
               </v-btn>
               <v-btn text color="secondary" @click="selectedOpen = false">
@@ -550,7 +550,25 @@ import SubjectServices from '@/services/SubjectServices.js';
             console.log('There was an error: heres', error.response)
           })
       },
-      
+      cancelAppt(){
+        var that = this;
+            AppointmentServices.getAppointment(this.selectedEvent.orgID, this.selectedEvent.appointmentID) 
+          .then(response => {      
+            var currentAppointment = response.data[0];
+            currentAppointment.color = 'red';  
+            console.log(response);
+            AppointmentServices.updateAppointment(this.selectedEvent.appointmentID, currentAppointment)
+            this.selectedOpen = false;
+            
+            that.reload();
+          })
+            .catch(error => {
+              
+              console.log('There was an error: updating', error.response)
+              this.selectedOpen = false;
+              that.reload();
+            });
+      },
   filter() {
            this.events = this.allevents.filter(e => !this.color.length || this.color.includes(e.color));
            //console.log(this.events);

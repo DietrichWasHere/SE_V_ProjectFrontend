@@ -454,6 +454,7 @@ import DownloadButton from '../components/DownloadButton.vue';
                         subjects: subjects,
                         picture : this.rawEvents[x].picture,
                         locationName : this.rawEvents[x].locationName,
+                        locationDetails : this.rawEvents[x].locationDetails,
                         email : this.rawEvents[x].tutorEmail,
                         locationID : this.rawEvents[x].locationID,
                         tutorComments : this.rawEvents[x].tutorComments

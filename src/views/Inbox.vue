@@ -37,6 +37,7 @@
                       <v-list-item-title>Accept Tutor Request with {{ request.name }}?</v-list-item-title>
 
                       <v-list-item-subtitle>
+                        {{request.start}}<br>
                         {{ request.comments }}
                       </v-list-item-subtitle>
                           <div>
@@ -141,7 +142,9 @@ export default {
                 reqStatus : that.rawRequests[x].reqStatus,
                 name :  that.rawRequests[x].fName + " " + that.rawRequests[x].lName,
                 picture : that.rawRequests[x].picture,
-                comments : that.rawRequests[x].comments
+                comments : that.rawRequests[x].comments,
+                start : that.sqlDate(new Date(that.rawRequests[x].startDateTime)), 
+
               })
                 //  })
           /*         .catch(error => {
@@ -207,7 +210,10 @@ export default {
          
        },
 
-  
+        sqlDate(date) {
+        return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()] + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()] + ' ' + date.getDate() + ' ' + date.toLocaleTimeString();
+      },
+
       }
     }
     

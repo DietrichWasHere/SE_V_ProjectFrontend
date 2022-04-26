@@ -42,7 +42,7 @@ import AppointmentServices from '@/services/AppointmentServices.js';
   export default {
     props: ['orgName', 'id'],
     data: () => ({
-      rating: 3,
+      rating: 0,
       comment : "",
       user : "",
       tutorComment: "", 

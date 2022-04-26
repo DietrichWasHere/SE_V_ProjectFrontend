@@ -14,7 +14,7 @@
     </p>
 
     <br>
-    <p v-if='this.nameCheck'>The name typed in was not correct!</p>
+    <p v-if='this.nameCheck' style="color: red;">The name typed in was not correct!</p>
     <v-container fill-width fluid>
         <v-row justify="center"><v-col lg="3" >Student Signature<v-text-field v-model="studentName" :rules="nameRules" :counter="30" label="First name Last Name" required></v-text-field> </v-col>
         

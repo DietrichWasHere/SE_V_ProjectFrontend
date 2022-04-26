@@ -14,6 +14,23 @@
                     <v-btn v-if='this.isStudent' @click.native="toTutorContract">
                         Become a Tutor
                     </v-btn>
+
+              <v-col cols="12" md="10">
+
+                <v-combobox      
+                        v-model="selectedItem"
+                        :items="items"
+                        label="Select Subjects"
+                        item-text="name"
+                        dense
+                        multiple
+                        chips
+                        >
+                </v-combobox>
+                
+                </v-col>
+
+
                     <v-text-field
                         v-model="userData.fName"
                         label="FirstName"></v-text-field>
@@ -30,19 +47,6 @@
                
                 <div v-if= "this.role === 'tutor'">
                 <v-row align="center">
-                <v-col cols="12" md="10">
-
-                        <v-combobox      
-                        v-model="selectedItem"
-                        :items="items"
-                        label="Select Subjects"
-                        item-text="name"
-                        dense
-                        multiple
-                        chips
-                        >
-                        </v-combobox>
-                </v-col>
                 <v-col >
 
                             <v-btn color="primary" @click.native="editSubject">
@@ -167,7 +171,9 @@
                         console.log('There was an error:', error.response)
                     }) 
             },
+
             toTutorContract() {
+                
                 this.$router.push("/"+ this.orgName + "/tutorContract"); 
             }        
         }

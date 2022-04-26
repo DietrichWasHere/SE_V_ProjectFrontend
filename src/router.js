@@ -40,7 +40,7 @@ const routes = [
     name: 'loginpage',
     props: true,
     component: LoginPage,
-  //  meta: { title: 'Log In' }
+  //  meta: { title: '' }
   },
   /*{
     // https://stackoverflow.com/questions/37937262/passing-props-to-vue-js-components-instantiated-by-vue-router

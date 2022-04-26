@@ -612,8 +612,8 @@ import SubjectServices from '@/services/SubjectServices.js';
       //    UserServices.getCurrentUser().then(function(result) {
             that.appointment.tutorID = this.user
             that.appointment.orgID = this.org
-            that.appointment.startDateTime = that.sqlDate(concat)
-            that.appointment.endDateTime = that.sqlDate(newtime)
+            that.appointment.startDateTime = concat
+            that.appointment.endDateTime = newtime
             that.appointment.locationID = this.locationID
             that.appointment.color = "grey"
             that.appointment.title = response.data[0].fName + " " + response.data[0].lName;

@@ -257,7 +257,7 @@
                Location:&nbsp;&nbsp; 
                 <span v-if= "selectedEvent.locationName === 'Online'"  >
                     <span v-if= "(Date.now() < new Date(selectedEvent.end)) && selectedEvent.color === 'green'" >
-                    <a :href="selectedEvent.tutorComments">Virtual Session Link</a>
+                    <a :href="selectedEvent.locationDetails">Virtual Session Link</a>
                      </span>
                      <span v-else>
                           {{selectedEvent.locationName}}
@@ -265,11 +265,10 @@
               </span>
               <span v-else>
                 <span v-if= "selectedEvent.locationName === 'Other'">
-                    {{selectedEvent.tutorComments}}
+                    {{selectedEvent.locationDetails}}
                 </span>
                 <span v-else>
                   {{selectedEvent.locationName}}
-                  {{selectedEvent.tutorComments}}
                 </span>
               </span>
 

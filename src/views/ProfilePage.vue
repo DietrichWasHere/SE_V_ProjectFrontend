@@ -14,7 +14,7 @@
                     <v-btn v-if='this.isStudent' @click.native="toTutorContract">
                         Become a Tutor
                     </v-btn>
-
+                <v-row>
               <v-col cols="12" md="10">
 
                 <v-combobox      
@@ -27,8 +27,15 @@
                         chips
                         >
                 </v-combobox>
-                
+              </v-col>
+                <v-col>
+                <v-btn color="primary" @click.native="editSubject">
+                    <v-icon >
+                            mdi-checkbox-marked-circle
+                    </v-icon>
+                    </v-btn>
                 </v-col>
+                </v-row>
 
 
                     <v-text-field
@@ -47,16 +54,6 @@
                
                 <div v-if= "this.role === 'tutor'">
                 <v-row align="center">
-                <v-col >
-
-                            <v-btn color="primary" @click.native="editSubject">
-                                     <v-icon >
-                            mdi-checkbox-marked-circle
-                            </v-icon>
-                    </v-btn>
-
-                    
-                 </v-col>
                 </v-row>
                 </div>
                  </v-card-text>

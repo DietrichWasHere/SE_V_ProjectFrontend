@@ -110,7 +110,8 @@
 </template>
 
 <script>
-  import UserServices from '@/services/UserServices.js';
+  import StudentServices from '@/services/StudentServices';
+  import UserServices from '@/services/UserServices';
 
   export default {
     data: () => ({
@@ -152,8 +153,8 @@
         val || this.closeDelete()
       },
     },
-    created () {
-      UserServices.getUsers()
+    async created () {
+      StudentServices.getStudentsByOrg((await UserServices.getCurrentUser()).data.user.roles[0].org)
         .then(response => {
           console.log(response);
           this.users = response.data
@@ -181,7 +182,7 @@
         this.dialogDelete = true
       },
       deleteItemConfirm() {
-        UserServices.deleteUser(this.editedItem.userID)
+        /*UserServices.deleteUser(this.editedItem.userID)
           .then(() => {
             this.users.splice(this.editedIndex, 1)
             this.closeDelete()
@@ -189,7 +190,7 @@
           .catch(error => {
             console.log("ERR: " + error.message);
             //this.message = error.message;
-          })
+          })*/
       },
       closeDelete () {
         this.dialogDelete = false

@@ -10,8 +10,11 @@ export default {
   getSubject(tutorID, subjectID) {
     return apiClient.get("/tutorSubjects/" + tutorID + "/" + subjectID);
   },
-  deleteSubject(tutorID, subjectID) {
-    return apiClient.delete("/tutorSubjects/" + tutorID + "/" + subjectID);
+  deleteSubjects() {
+    return apiClient.delete("/subjects/");
+  },
+  deleteSubject(subjectID) {
+    return apiClient.delete("/subjects/" + subjectID);
   },
   addSubject(tutorSubject) {
     return apiClient.post("/subjects/", tutorSubject);

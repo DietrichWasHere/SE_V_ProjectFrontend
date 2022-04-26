@@ -1,32 +1,42 @@
 <template>
-   <!-- <v-app>
-        <v-card width="400" class="mx-auto mt-5">
+   <v-app>
+    <v-container>
+    </v-container>
+
+ 
+        <v-card width="400" height="300" class="mx-auto mt-5"   elevation="15"
+    outlined
+    shaped
+    >
             <v-card-title>
-                 <h1 class="display-1">Login</h1>
+                 <h1>Login To Your Account </h1>
             </v-card-title>
-            <v-card-text>
-                <v-form>
-                    <v-text-field label="Username"
-                    prepend-icon="mdi-account-circle" />
-                    <v-text-field type="showPassword ? 'text' : 'password'" 
-                    label="Password" 
-                    prepend-icon="mdi-lock"
-                    append-icon="showPassword ? 'mdi-eye': mdi-eye-off'"
-                    @click:append="showPassword = !showPassword"/>
-                </v-form>
-            </v-card-text>
+            
             <v-divider>
             </v-divider>
+            <br><br>
                 <v-card-actions>
-                     <v-btn color="success">Register</v-btn>
-                     <v-spacer></v-spacer>
-                     <v-btn color="info">Login</v-btn>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                     <v-btn
+                      color="primary"
+                        elevation="8"
+                        x-large>
+                        <p>
+                        Log In</p>
+                         <social-login :orgID.sync = 'this.orgID' :orgName="this.orgName"/>
+                     </v-btn>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                     <v-btn
+                        color="grey"
+                        elevation="8"
+                        x-large>
+                        <p>
+                        Sign Up</p>
+                        <social-login :orgID.sync = 'this.orgID' :orgName="this.orgName"/>
+                     </v-btn>
                 </v-card-actions>
         </v-card>
-    </v-app>-->
-    <v-container>
-<social-login :orgID.sync = 'this.orgID' :orgName="this.orgName"/>
-    </v-container>
+    </v-app>
 </template>
 <script>
 import SocialLogin from '../components/SocialLogin'
@@ -37,11 +47,30 @@ export default {
     components: { SocialLogin},
     props: ['orgName'],
     data: () => ({
-        orgID: 0
+        orgID: 0,
+        orgName: ''
     }),
     async created() {
+            
+        this.$forceUpdate();
+
         this.orgID = (await OrgServices.getOrganizationByName(this.orgName)).data[0].orgID;
-        console.log(this.orgID);
+
+
+        console.log(this.orgName);
     }
 }
 </script>
+
+<style scoped>
+h1{
+     font-size: 150%;
+    font-style: sans-serif;
+    font-weight: normal;
+   
+}
+p{
+    color: white;
+     font-weight: normal;
+}
+</style>

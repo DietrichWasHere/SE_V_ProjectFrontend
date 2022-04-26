@@ -1,50 +1,11 @@
 <template>
-  <v-app id="inspire">
+  <v-app >
 
 
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-    >
-      <v-sheet
-        color="deep-purple darken-3"
-        class="pa-4"
-      >
-        <v-avatar
-          class="mb-4"
-          color="grey darken-1"
-          size="64">     
-          <img 
-         :src="`${picture}`"
-          alt="">
-        </v-avatar>
-
-        <div><p style="color:white; font-size:30px;">
-             Notifications</p></div>
-      </v-sheet>
-
-      <v-divider></v-divider>
-
-      <v-list>
-        <v-list-item
-          v-for="[icon, text] in links"
-          :key="icon"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
 
     <v-main>
       <v-container
-        class="py-8 px-6"
+        class = "apples"
         fluid
       >
         <v-row>
@@ -255,3 +216,8 @@ export default {
 
 // wireframe credit : https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wireframes/inbox.vue
 </script>
+<style scoped>
+.apples{
+  width: 70%;
+}
+</style>
